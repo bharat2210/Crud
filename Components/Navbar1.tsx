@@ -72,7 +72,7 @@ function Navbar1() {
               textDecoration: 'none',
             }}
           >
-            GIThub
+            Crud
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',padding:8 } }}>
