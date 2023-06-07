@@ -25,7 +25,7 @@ const allregister = () => {
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showupdate, setshowupdate] = useState<boolean>(false);
-  const [id, setId] = useState<number>();
+  const [id, setId] = useState();
 
   const { rusers, isloading } = useSelector<any, any>(
     (state: any) => state.grand
