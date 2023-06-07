@@ -14,3 +14,11 @@ a {
 * {
   box-sizing: border-box;
 }
+.lighttheme{
+  background-color: white;
+  color:black;
+}
+.darktheme{
+  background-color: black;
+  color: white;
+}

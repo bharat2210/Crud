@@ -1,0 +1,9 @@
+.edit{
+    background-color:#04AA6D;
+    color: white;
+    padding: 8px;
+    border-radius: 10px;
+    transition: .5s;
+    border: none;
+    font-weight: 900;
+}

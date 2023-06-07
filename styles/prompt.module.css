@@ -1,0 +1,53 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+  
+  .modalContent {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    animation: fade 0.3s;
+  }
+  
+  .modalButtons {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    gap:5px;
+    color: dodgerblue;
+  }
+  .modalButtons button{
+    border-radius: 8px;
+    padding: 4px 8px 4px 8px;
+    width: 50px;
+    background-color: black;
+    color: white;
+    transition: .5s;
+  }
+  .modalButtons button:hover{
+    border-radius: 8px;
+    border: 2px solid black;
+   
+    background-color:white;
+    color: black;
+  }
+  
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
