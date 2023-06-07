@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "name": "Bharat",
+      "email": "bharat@123",
+      "password": "123",
+      "id": 4
+    },
+    {
+      "name": "Wiznox",
+      "email": "wiznox@123",
+      "password": "123",
+      "id": 5
+    },
+    {
+      "name": "Manish",
+      "email": "manish@123",
+      "password": "123",
+      
+      "id": 6
+    },
+    {
+      "name": "Rohit",
+      "email": "rohit@123",
+      "password": "123",
+      "id": 7
+    }
+  ]
+}
