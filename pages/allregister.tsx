@@ -20,8 +20,10 @@ import prompt from "../styles/prompt.module.css";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import Update1 from "../Components/Update1";
+import { useRouter } from "next/router";
 
 const allregister = () => {
+  const router = useRouter();
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showupdate, setshowupdate] = useState<boolean>(false);
@@ -47,7 +49,9 @@ const allregister = () => {
   if (isloading) {
     return <Loader />;
   }
-
+  const goback = () => {
+    router.back();
+  };
   return (
     <>
       <Navbar1 />
@@ -121,7 +125,22 @@ const allregister = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </div>
+      </div><br /><br />
+      <button
+        onClick={goback}
+        style={{
+          padding: "12px",
+          fontSize: "13px",
+          fontWeight:"bold",
+          backgroundColor: "black",
+          color: "white",
+          border: "none",
+          borderRadius: "100px",
+          marginLeft:"242px"
+        }}
+      >
+        Back to prev page
+      </button>
     </>
   );
 };
