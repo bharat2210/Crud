@@ -41,7 +41,7 @@ function Navbar1() {
 
   const handleLogout = () => {
     localStorage.clear();
-    router.push('/Login');
+    router.push('/');
   };
 
   const handleregister = () => {

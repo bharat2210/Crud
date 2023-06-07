@@ -21,7 +21,7 @@ const error = () => {
   useEffect(()=>{
     if(second===0){
      
-      router.push("/")
+      router.push("/allpost")
          
       
     }
@@ -72,7 +72,7 @@ const error = () => {
       <Navbar />
       <div className="image">
         <Image
-          src="https://ouch-cdn2.icons8.com/fgJKMaVTkdnsgrRX516Zcuib9wOWMHQWsdgrJBOzm4s/rs:fit:477:456/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTQy/L2I4MjEyNGIyLTM2/OGItNDcwMy1hY2U3/LWMyOTc0YTk2OGI3/Mi5wbmc.png"
+          src="https://github.githubassets.com/images/modules/notifications/inbox-zero.svg"
           alt=""
           height={400}
           width={450}
@@ -85,7 +85,7 @@ const error = () => {
       <h2 style={{textAlign:"center",color:"red"}}>404 Page not Found</h2>
      <Link href="/"> <button className="back" >Back to Home
 </button></Link>
-<h4 style={{textAlign:"center",color:"green"}} >Redirecting to Home page in {second} seconds</h4>
+<h4 style={{textAlign:"center",color:"green"}} >Redirecting to Previous page in {second} seconds</h4>
 
 
     </div>
@@ -93,3 +93,6 @@ const error = () => {
 };
 
 export default error;
+
+
+// https://ouch-cdn2.icons8.com/fgJKMaVTkdnsgrRX516Zcuib9wOWMHQWsdgrJBOzm4s/rs:fit:477:456/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTQy/L2I4MjEyNGIyLTM2/OGItNDcwMy1hY2U3/LWMyOTc0YTk2OGI3/Mi5wbmc.png

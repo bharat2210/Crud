@@ -10,6 +10,7 @@ import { registerUser } from "../Features/demo";
 import { useRouter } from "next/router";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+import Link from "next/link";
 const validateschema=Yup.object().shape({
     name:Yup.string().required("Name is required").min(3,"At least 3 characters"),
     email:Yup.string().email("Invalid email").required("email is required"),
@@ -45,7 +46,7 @@ const Signup=()=>{
      
       }}>
 
-     <Box sx={{ width:"auto",padding:12,border:1,height:"auto",borderRadius:12  }}>
+     <Box sx={{ width:"auto",padding:12,border:1,height:"auto",borderRadius:12,boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)"  }}>
     <Formik 
     initialValues={{name:"",email:"",password:""}}
     validationSchema={validateschema}
@@ -91,6 +92,7 @@ const Signup=()=>{
               </Button>
              
             </Stack>
+            <h5><Link href="/Login" style={{color:"dodgerblue",textDecoration:"underline"}}>Already have an Account ?</Link></h5>
 
 
 
