@@ -275,7 +275,10 @@ const Loader = () => {
             strokeLinecap="round"
           ></circle>
         </svg>
+       
       </div>
+      <h3 style={{color:"black",textAlign:"center",marginTop:"30%"}}>One Moment Please</h3>
+     
     </div>
   );
 };
