@@ -72,14 +72,14 @@ function Navbar1() {
               textDecoration: 'none',
             }}
           >
-            CRUD
+            GIThub
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',padding:8 } }}>
             <Button
               onClick={handleregister}
               sx={{
-                fontSize:15,
+                fontSize:14,
                 my: 2,
                 color: router.pathname === '/allregister' ? 'white' : 'white',
                 borderBottom:router.pathname==='/allregister'? "3px solid white ":"none",
