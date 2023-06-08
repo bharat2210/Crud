@@ -4,40 +4,42 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import {useSelector,useDispatch} from 'react-redux'
-import {useState,useEffect} from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 import { updateuser } from "../Features/userdetail";
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
-const Update = ({id,setshowpopup}:any) => {
-  const dispatch:ThunkDispatch<any, void, AnyAction> =useDispatch();
-    const allusers=useSelector((state:any)=>state.app.users)
-    const singleuser=allusers.filter((ele:any)=>{ele.id===id
-    return ele.id===id
-    })[0];
+const Update = ({ id, setshowpopup }: any) => {
+  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const allusers = useSelector((state: any) => state.app.users);
+  const singleuser = allusers.filter((ele: any) => {
+    ele.id === id;
+    return ele.id === id;
+  })[0];
 
-    const[updatedata,setupdatedata]=useState({E_name:"",E_age:"",E_email:""});
-  useEffect(()=>{
+  const [updatedata, setupdatedata] = useState({
+    E_name: "",
+    E_age: "",
+    E_email: "",
+  });
+  useEffect(() => {
     setupdatedata(singleuser);
-  },[singleuser])
+  }, [singleuser]);
 
-  const handleupdate=(e:any)=>{
+  const handleupdate = (e: any) => {
     e.preventDefault();
     setshowpopup(false);
-    dispatch(updateuser({id:singleuser.id, ...updatedata}));
+    dispatch(updateuser({ id: singleuser.id, ...updatedata }));
+  };
 
-  }
-  
-    console.log("allusers", allusers)
-    console.log("singleuse",singleuser)
- 
-  
+  console.log("allusers", allusers);
+  console.log("singleuse", singleuser);
+
   return (
-   <>
-
-   <style>
-{`
+    <>
+      <style>
+        {`
 .overlay {
     position: fixed;
       margin-right:auto;
@@ -68,98 +70,83 @@ const Update = ({id,setshowpopup}:any) => {
 
 
 `}
+      </style>
+      <div className="overlay">
+        <Box
+          sx={{
+            height: 450,
+            padding: 8,
+            backgroundColor: "white",
+            borderRadius: 12,
+          }}
+          className="animation"
+        >
+          <h3
+            style={{ textAlign: "center", color: "dodgerblue", marginTop: 1 }}
+          >
+            Edit Record
+          </h3>
+          <form action="" onSubmit={handleupdate}>
+            <TextField
+              id="outlined-basic"
+              label="Name"
+              variant="outlined"
+              name="E_name"
+              type="text"
+              value={updatedata.E_name}
+              onChange={(e) =>
+                setupdatedata((prevstate) => ({
+                  ...prevstate,
+                  E_name: e.target.value,
+                }))
+              }
+            />
+            <br />
+            <br />
+            <TextField
+              id="outlined-basic"
+              label="Age"
+              variant="outlined"
+              name="E_age"
+              type="number"
+              value={updatedata.E_age}
+              onChange={(e) =>
+                setupdatedata((prevstate) => ({
+                  ...prevstate,
+                  E_age: e.target.value,
+                }))
+              }
+            />
+            <br />
+            <br />
+            <TextField
+              id="outlined-basic"
+              label="Email"
+              variant="outlined"
+              name="E_email"
+              type="email"
+              value={updatedata.E_email}
+              onChange={(e) =>
+                setupdatedata((prevstate) => ({
+                  ...prevstate,
+                  E_email: e.target.value,
+                }))
+              }
+            />
+            <br />
+            <br />
 
+            <Stack spacing={2} direction="column">
+              <Button variant="contained" type="submit">
+                Update
+              </Button>
+              <Button onClick={() => setshowpopup(false)}>Cancel</Button>
+            </Stack>
+          </form>
+        </Box>
+      </div>
+    </>
+  );
+};
 
-   </style>
-    <div className="overlay">
-   
-
-    <Box sx={{height:450,padding:12 ,backgroundColor:"white",borderRadius:12}} className="animation">
-    <h3 style={{textAlign:"center",color:"dodgerblue",marginTop:1}}>Edit Record</h3>
-<form action="" onSubmit={handleupdate}>
-<TextField 
-id="outlined-basic" 
-label="Name" 
-variant="outlined"
- name="E_name" 
- type="text" 
- value={updatedata.E_name}
- onChange={(e)=>setupdatedata((prevstate)=>({
-    ...prevstate,
-    E_name:e.target.value
- }))
-}
- />
- <br /><br />
-<TextField 
-id="outlined-basic"
- label="Age"
-  variant="outlined"
-   name="E_age"
-    type="number" 
-     value={updatedata.E_age}
-     onChange={(e)=>setupdatedata((prevstate)=>({
-        ...prevstate,
-        E_age:e.target.value
-     }))
-    }
-     />
-     <br /><br />
-<TextField 
-id="outlined-basic"
- label="Email"
-  variant="outlined"
-   name="E_email" 
-   type="email"
-     value={updatedata.E_email}
-     onChange={(e)=>setupdatedata((prevstate)=>({
-        ...prevstate,
-        E_email:e.target.value
-     }))
-    }
-      />
-     <br /><br />
-
-<Stack spacing={2} direction="row">
-         <Button variant="contained" type="submit" >
-           Update
-         </Button>
-         <Button onClick={()=>setshowpopup(false)}>Cancel</Button>
-       </Stack>
-
-
-
-
-</form>
-
-
-
-
-
-
-
-
-
-
- </Box>
-
-
-
- 
-
-
-
-
-
-    </div>
-   
-   
-   
-   
-   
-
-   </>
-  )
-}
-
-export default Update
+export default Update;

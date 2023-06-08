@@ -81,8 +81,8 @@ const error = () => {
          className="img"/>
         
       </div>
-      <h2 style={{textAlign:"center"}}>Error !!!</h2>
-      <h2 style={{textAlign:"center",color:"red"}}>404 Page not Found</h2>
+     
+      <h2 style={{textAlign:"center",color:"red"}}>404 Error !!!</h2>
      <Link href="/"> <button className="back" >Back to Home
 </button></Link>
 <h4 style={{textAlign:"center",color:"green"}} >Redirecting to Previous page in {second} seconds</h4>

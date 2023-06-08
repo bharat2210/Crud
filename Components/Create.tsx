@@ -79,7 +79,7 @@ return(
 <div className="overlay">
 
       <br />
-      <Box sx={{ border:1,height:"auto",padding:12 ,backgroundColor:"white",borderRadius:12}} className="animation">
+      <Box sx={{height:"auto",padding:8 ,backgroundColor:"white",borderRadius:12}} className="animation">
         <Formik
           initialValues={{ E_name: "", E_age: "", E_email: "" }}
           validationSchema={validationSchema}
@@ -120,7 +120,7 @@ return(
             <ErrorMessage name="E_email" component="div"  className={styles.error}/>
             <br />
             <br />
-            <Stack spacing={2} direction="row">
+            <Stack spacing={2} direction="column">
               <Button variant="contained" type="submit">
                 Submit
               </Button>

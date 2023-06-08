@@ -217,7 +217,7 @@ const Loader = () => {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgb(235, 99, 99, 0.24); /* Add a semi-transparent background color for overlay effect */
+      background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background color for overlay effect */
       z-index: 9999; 
     }
    

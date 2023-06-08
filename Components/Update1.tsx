@@ -70,16 +70,16 @@ const Update1 = ({ id, setshowupdate }: any) => {
         <Box
           sx={{
             height: 450,
-            padding: 12,
+           padding:8,
             backgroundColor: "white",
             borderRadius: 12,
           }}
           className="animation"
         >
           <h3
-            style={{ textAlign: "center", color: "dodgerblue", marginTop: 1 }}
+            style={{ textAlign: "left", color: "dodgerblue" }}
           >
-            Edit Record
+            Edit Records
           </h3>
           <form action="" onSubmit={handleupdate}>
             <TextField
@@ -131,7 +131,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
             <br />
             <br />
 
-            <Stack spacing={2} direction="row">
+            <Stack spacing={2} direction="column">
               <Button variant="contained" type="submit">
                 Update
               </Button>
