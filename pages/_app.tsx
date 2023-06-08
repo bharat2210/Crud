@@ -3,6 +3,14 @@ import type { AppProps } from 'next/app'
 import { store } from '../store'
 import {Provider} from 'react-redux'
 import Layout from '../Components/Layout'
+import 'aos/dist/aos.css';
+import AOS from 'aos';
+
+// Initialize AOS on client-side only
+if (typeof window !== 'undefined') {
+  AOS.init({ duration: 2000 });
+}
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
