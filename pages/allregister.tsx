@@ -17,20 +17,20 @@ import { useEffect, useState } from "react";
 import { deleteuser, readuser } from "../Features/register";
 import Loader from "../Components/Loader";
 import prompt from "../styles/prompt.module.css";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
+
 import Update1 from "../Components/Update1";
 import { useRouter } from "next/router";
+import { AppDispatch, RootState } from "../store";
 
 const allregister = () => {
   const router = useRouter();
-  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showupdate, setshowupdate] = useState<boolean>(false);
   const [id, setId] = useState();
 
   const { rusers, isloading } = useSelector<any, any>(
-    (state: any) => state.grand
+    (state:RootState) => state.grand
   );
   useEffect(() => {
     dispatch(readuser());

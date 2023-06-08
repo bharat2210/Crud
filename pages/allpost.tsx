@@ -19,21 +19,20 @@ import Loader from "../Components/Loader";
 import prompt from "../styles/prompt.module.css";
 import Update from "../Components/Update";
 import Create from "../Components/Create";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
 import Navbar1 from "../Components/Navbar1";
 import moment from "moment";
 import { useRouter } from "next/router";
+import { AppDispatch, RootState } from "../store";
 
 const Allpost = () => {
   const router = useRouter();
 
-  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [id, setId] = useState<number>();
 
   const [showconfirm, setshowconfirm] = useState(false);
   const { users, isloading, searchdata } = useSelector(
-    (state: any) => state.app
+    (state:RootState) => state.app
   );
 
   const [showpopup, setshowpopup] = useState(false);
