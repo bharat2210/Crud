@@ -8,7 +8,7 @@ import AOS from 'aos';
 
 // Initialize AOS on client-side only
 if (typeof window !== 'undefined') {
-  AOS.init({ duration: 2000 });
+  AOS.init({ duration: 1000 });
 }
 
 

@@ -28,7 +28,7 @@ const validateschema = Yup.object().shape({
 
 const Signup = () => {
   useEffect(() => {
-    Aos.refresh(); 
+    Aos.init(); 
   }, []);
   const router = useRouter();
   const [showpassword, setshowpassword] = useState(false);

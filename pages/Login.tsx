@@ -22,7 +22,7 @@ const validateschema = Yup.object().shape({
 
 const Login = () => {
   useEffect(()=>{
-    Aos.refresh();
+    Aos.init();
   },[]);
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const router = useRouter();

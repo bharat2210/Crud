@@ -74,7 +74,7 @@ const Update = ({id,setshowpopup}:any) => {
     <div className="overlay">
    
 
-    <Box sx={{ border:1,height:450,padding:12 ,backgroundColor:"white",borderRadius:12}} className="animation">
+    <Box sx={{height:450,padding:12 ,backgroundColor:"white",borderRadius:12}} className="animation">
     <h3 style={{textAlign:"center",color:"dodgerblue",marginTop:1}}>Edit Record</h3>
 <form action="" onSubmit={handleupdate}>
 <TextField 
