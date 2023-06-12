@@ -193,7 +193,9 @@ const Allpost = () => {
                     </TableRow>
                   ))}
             </TableBody>
+           
           </Table>
+      
         </TableContainer>
       </div>
       <br />

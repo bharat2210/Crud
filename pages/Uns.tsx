@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Navbar1 from "../Components/Navbar1";
 
 const Uns = () => {
   const [image, setImage] = useState([]);
@@ -18,7 +19,7 @@ const Uns = () => {
         setpage(page + 1)
       });
   };
-  const category=(e)=>{
+  const category=(e:React.ChangeEvent<HTMLInputElement>)=>{
     setquery(e.target.value)
   }
 
@@ -54,17 +55,59 @@ const Uns = () => {
             width: 100%;
             object-fit: cover;
           }
+          .show{
+            display:flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 5px;
+
+          }
+          .getbutton button{
+            padding:8px;
+            border-radius:50px;
+            background-color:black;
+            color:white;
+            font-weight:700;
+          }
+           #categories{
+            padding:8px;
+            border-radius:50px;
+            background-color:black;
+            color:white;
+            font-weight:700;
+
+          }
+          p{
+            text-align:center;
+            font-size:22px;
+
+
+          }
       `}
-      </style><br /><br />
+      </style>
+      <Navbar1/>
+      <br/>
+      
   
-      <button onClick={getImg}>Get image</button><br /><br />
-      <select name="cate" id="" onChange={category}>
+     <div className="show">
+
+     <div className="category">
+      {/* <select name="cate" id="categories" onChange={category}>
         <option value="mountains">Mountains</option>
         <option value="cars">Cars</option>
         <option value="jeep">Jeep</option>
         <option value="coding">Coding</option>
         <option value="trucks">Trucks</option>
-      </select>
+      </select> */}
+      <input type="text" value={query} onChange={category}  id="categories"/>
+      </div>
+     <div className="getbutton">
+     <button onClick={getImg}>Get image</button><br /><br />
+
+
+     </div>
+     
+     </div>
       <div className="container">
         <div className="row">
           {image.slice(0,9).map((value) => (
@@ -75,6 +118,7 @@ const Uns = () => {
             </div>
           ))}
         </div>
+        {image.length === 0 && <p className="no-images"> Oops !!! No images found. <br/><p>Try another keyword</p></p>}
       </div>
     </>
   );

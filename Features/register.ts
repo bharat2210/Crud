@@ -24,15 +24,11 @@ interface Createuserresponse {
   email: string;
   password: string;
 }
-interface UpdateUserRejectedPayload {
-    message: string;
-    // Other properties if applicable
-  }
 
 // Read action
 export const readuser = createAsyncThunk<Createuserresponse>(
   "readuser",
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await axios.get("http://localhost:3001/users", {
         headers: {

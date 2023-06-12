@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
@@ -28,7 +28,7 @@ const validateschema = Yup.object().shape({
 
 const Signup = () => {
   useEffect(() => {
-    Aos.init(); 
+    Aos.init();
   }, []);
   const router = useRouter();
   const [showpassword, setshowpassword] = useState(false);
@@ -52,7 +52,8 @@ const Signup = () => {
     <>
       <br />
       <br />
-      <br /><br />
+      <br />
+      <br />
 
       <style>
         {`
@@ -172,15 +173,17 @@ const Signup = () => {
                     Submit
                   </Button>
                   <h5>
-                  <Link
-                    href="/Login"
-                    style={{ color: "dodgerblue", textDecoration: "underline" }}
-                  >
-                    Already have an Account ?
-                  </Link>
-                </h5>
+                    <Link
+                      href="/Login"
+                      style={{
+                        color: "dodgerblue",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Already have an Account ?
+                    </Link>
+                  </h5>
                 </Stack>
-                
               </Form>
             </Formik>
           </Box>
