@@ -17,7 +17,7 @@ const validateschema = Yup.object().shape({
   name: Yup.string()
     .required("Name is required")
     .min(3, "At least 3 characters"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
+  email: Yup.string().email("Invalid email").required("Email is required "),
   password: Yup.string()
     .matches(
       /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,

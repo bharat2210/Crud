@@ -21,9 +21,9 @@ const validateschema = Yup.object().shape({
 });
 
 const Login = () => {
-  useEffect(()=>{
+  useEffect(() => {
     Aos.init();
-  },[]);
+  }, []);
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const router = useRouter();
   const handlelogin = async (Loginvalues: any) => {
@@ -70,9 +70,7 @@ const Login = () => {
             sx={{
               width: "600px",
               padding: 12,
-              
               height: "550px",
-             
             }}
           >
             <Formik
@@ -133,15 +131,17 @@ const Login = () => {
                     Submit
                   </Button>
                   <h5>
-                  <Link
-                    href="/"
-                    style={{ color: "dodgerblue", textDecoration: "underline" }}
-                  >
-                    Don&apos;t Have an Account?
-                  </Link>
-                </h5>
+                    <Link
+                      href="/"
+                      style={{
+                        color: "dodgerblue",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Don&apos;t Have an Account?
+                    </Link>
+                  </h5>
                 </Stack>
-                
               </Form>
             </Formik>
           </Box>

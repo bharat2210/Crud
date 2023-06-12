@@ -1,28 +1,36 @@
-import * as React from 'react';
-import { useRouter } from 'next/router';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import Link from 'next/link';
+import * as React from "react";
+import { useRouter } from "next/router";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import AdbIcon from "@mui/icons-material/Adb";
+import Link from "next/link";
 
 function Navbar1() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const router = useRouter();
+  const [loggedInUser, setLoggedInUser] = React.useState();
 
-  const handleOpenNavMenu = (event:any) => {
+  React.useEffect(() => {
+    const name = JSON.parse(localStorage.getItem("user"));
+    if (name) {
+      setLoggedInUser(name.name);
+    }
+  });
+
+  const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleOpenUserMenu = (event:any) => {
+  const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -34,29 +42,32 @@ function Navbar1() {
     setAnchorElUser(null);
   };
 
-  const handlePageNavigation = (path:any) => {
+  const handlePageNavigation = (path: any) => {
     handleCloseNavMenu();
     router.push(path);
   };
 
   const handleLogout = () => {
     localStorage.clear();
-    router.push('/');
+    router.push("/");
   };
 
   const handleregister = () => {
-    router.push('/allregister');
+    router.push("/allregister");
   };
 
   const handlepost = () => {
-    router.push('/allpost');
+    router.push("/allpost");
+  };
+  const handleimages = () => {
+    router.push("/Uns");
   };
 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -64,27 +75,36 @@ function Navbar1() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Crud
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex',padding:8 } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex", padding: 8 },
+            }}
+          >
             <Button
               onClick={handleregister}
               sx={{
-                fontSize:14,
+                fontSize: 14,
                 my: 2,
-                color: router.pathname === '/allregister' ? 'white' : 'white',
-                borderBottom:router.pathname==='/allregister'? "3px solid white ":"none",
-                borderRadius:router.pathname==='/allregister'? "12px" :"none",
-                display: 'block',
+                color: router.pathname === "/allregister" ? "white" : "white",
+                borderBottom:
+                  router.pathname === "/allregister"
+                    ? "3px solid white "
+                    : "none",
+                borderRadius:
+                  router.pathname === "/allregister" ? "12px" : "none",
+                display: "block",
               }}
             >
               Users
@@ -93,18 +113,37 @@ function Navbar1() {
               onClick={handlepost}
               sx={{
                 my: 2,
-                fontSize:15,
-                color: router.pathname === '/allpost' ? 'white' : 'white',
-                borderBottom:router.pathname==='/allpost'? "3px solid white ":"none",
-                borderRadius:router.pathname==='/allpost'? "12px" :"none",
-                display: 'block',
+                fontSize: 15,
+                color: router.pathname === "/allpost" ? "white" : "white",
+                borderBottom:
+                  router.pathname === "/allpost" ? "3px solid white " : "none",
+                borderRadius: router.pathname === "/allpost" ? "12px" : "none",
+                display: "block",
               }}
             >
               Records
             </Button>
-            <Button onClick={handleLogout} sx={{ my: 2,  fontSize:15,color: 'white', display: 'block' }}>
-              Logout
+            <Button
+              onClick={handleimages}
+              sx={{
+                my: 2,
+                fontSize: 15,
+                color: router.pathname === "/Uns" ? "white" : "white",
+                borderBottom:
+                  router.pathname === "/Uns" ? "3px solid white " : "none",
+                borderRadius: router.pathname === "/Uns" ? "12px" : "none",
+                display: "block",
+              }}
+            >
+              Images
             </Button>
+            <Button 
+              onClick={handleLogout}
+              sx={{ my: 2, fontSize: 12, color: "white", marginLeft: "960px",backgroundColor:"black" }}
+            >
+              Logout     <i className="fa-solid fa-right-from-bracket"></i>
+            </Button>
+          
           </Box>
         </Toolbar>
       </Container>

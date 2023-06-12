@@ -28,6 +28,7 @@ const allregister = () => {
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showupdate, setshowupdate] = useState<boolean>(false);
   const [id, setId] = useState();
+  const[username, setusername] = useState();
 
   const { rusers, isloading } = useSelector<any, any>(
     (state:RootState) => state.grand
@@ -37,9 +38,10 @@ const allregister = () => {
     console.log("read users are", rusers);
   }, []);
 
-  const handledelete = (userId: number) => {
+  const handledelete = (userId,username) => {
     setshowdelete(true);
     setId(userId);
+    setusername(username)
   };
   const confirmhandledelete = () => {
     dispatch(deleteuser(id));
@@ -62,7 +64,7 @@ const allregister = () => {
       {showdelete && (
         <div className={prompt.modal}>
           <div className={prompt.modalContent}>
-            <p>Are you sure you want to delete this user?</p>
+            <p>Are you sure you want to delete "{username}" ?</p>
             <div className={prompt.modalButtons}>
               <button onClick={confirmhandledelete}>Yes</button>
               <button onClick={() => setshowdelete(false)}>No</button>
@@ -115,7 +117,7 @@ const allregister = () => {
 
                       <button
                         className={styles.delete}
-                        onClick={() => handledelete(element.id)}
+                        onClick={() => handledelete(element.id,element.name)}
                       >
                         Delete <i className="fa-solid fa-trash"></i>
                       </button>

@@ -29,6 +29,7 @@ const Allpost = () => {
 
   const dispatch: AppDispatch = useDispatch();
   const [id, setId] = useState<number>();
+  const[username,setusername]=useState<string>();
 
   const [showconfirm, setshowconfirm] = useState(false);
   const { users, isloading, searchdata } = useSelector(
@@ -38,6 +39,7 @@ const Allpost = () => {
   const [showpopup, setshowpopup] = useState(false);
   const [showcreate, setshowcreate] = useState(false);
   const [search, setsearch] = useState("");
+  const[loggedInUser,setLoggedInUser] =useState();
 
   useEffect(() => {
     dispatch(showuser());
@@ -46,10 +48,18 @@ const Allpost = () => {
   useEffect(() => {
     dispatch(searchuserata(search));
   }, [search]);
+  useEffect(()=>{
+    const name=JSON.parse(localStorage.getItem("user"))
+    if(name){
+      setLoggedInUser(name.name)
+    }
+  
+  })
 
-  const handledelete = (userId: any) => {
+  const handledelete = (userId: any,username:string) => {
     setshowconfirm(true);
     setId(userId);
+    setusername(username)
   };
   const confirmhandledelete = () => {
     dispatch(deleteuser(id));
@@ -96,11 +106,12 @@ const Allpost = () => {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
+      <h2 style={{textAlign:"center"}}>Welcome "{loggedInUser}" <i className="fa-solid fa-door-open"></i></h2>
 
       {showconfirm && (
         <div className={prompt.modal}>
           <div className={prompt.modalContent}>
-            <p>Are you sure you want to delete this user?</p>
+            <p>Are you sure you want to delete "{username}" ?</p>
             <div className={prompt.modalButtons}>
               <button onClick={confirmhandledelete}>Yes</button>
               <button onClick={() => setshowconfirm(false)}>No</button>
@@ -185,7 +196,7 @@ const Allpost = () => {
 
                         <button
                           className={styles.delete}
-                          onClick={() => handledelete(details.id)}
+                          onClick={() => handledelete(details.id,details.E_name)}
                         >
                           Delete <i className="fa-solid fa-trash"></i>
                         </button>
