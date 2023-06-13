@@ -5,6 +5,7 @@ import {Provider} from 'react-redux'
 import Layout from '../Components/Layout'
 import 'aos/dist/aos.css';
 import AOS from 'aos';
+ 
 
 // Initialize AOS on client-side only
 if (typeof window !== 'undefined') {

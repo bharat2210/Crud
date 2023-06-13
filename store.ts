@@ -2,13 +2,17 @@ import { configureStore } from '@reduxjs/toolkit'
 import userdetail from './Features/userdetail'
 import authSlice from './Features/demo'
 import ruserdetail from './Features/register'
+import productsslice from './Features/productsslice'
+
 
 
 export const store = configureStore({
   reducer: {
     app:userdetail,
     auth: authSlice,
-    grand:ruserdetail
+    grand:ruserdetail,
+    allcarts:productsslice
+
 
   },
 })

@@ -23,6 +23,7 @@ import Navbar1 from "../Components/Navbar1";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { AppDispatch, RootState } from "../store";
+import { string } from "yup";
 
 const Allpost = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const Allpost = () => {
   const [showpopup, setshowpopup] = useState(false);
   const [showcreate, setshowcreate] = useState(false);
   const [search, setsearch] = useState("");
-  const[loggedInUser,setLoggedInUser] =useState();
+  const[loggedInUser,setLoggedInUser] =useState("");
 
   useEffect(() => {
     dispatch(showuser());
@@ -49,7 +50,7 @@ const Allpost = () => {
     dispatch(searchuserata(search));
   }, [search]);
   useEffect(()=>{
-    const name=JSON.parse(localStorage.getItem("user"))
+    const name=JSON.parse(localStorage.getItem("user"));
     if(name){
       setLoggedInUser(name.name)
     }
@@ -106,7 +107,7 @@ const Allpost = () => {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
-      <h2 style={{textAlign:"center"}}>Welcome "{loggedInUser}" <i className="fa-solid fa-door-open"></i></h2>
+      <h2 style={{textAlign:"center"}}>Welcome "{loggedInUser}"👋</h2>
 
       {showconfirm && (
         <div className={prompt.modal}>

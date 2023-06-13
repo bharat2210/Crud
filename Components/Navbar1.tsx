@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
+
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -12,12 +12,27 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+import Badge, { BadgeProps } from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
+const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
 
 function Navbar1() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = React.useState();
+  const { cart } = useSelector((state) => state.allcarts);
 
   React.useEffect(() => {
     const name = JSON.parse(localStorage.getItem("user"));
@@ -62,8 +77,20 @@ function Navbar1() {
   const handleimages = () => {
     router.push("/Uns");
   };
+  const handleproduct = () => {
+    router.push("/Products");
+  };
+  const handlecart = () => {
+    router.push("/Cart");
+  };
 
   return (
+    
+ <>
+   <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -137,17 +164,72 @@ function Navbar1() {
             >
               Images
             </Button>
-            <Button 
-              onClick={handleLogout}
-              sx={{ my: 2, fontSize: 12, color: "white", marginLeft: "960px",backgroundColor:"black" }}
+            <Button
+              onClick={handleproduct}
+              sx={{
+                my: 2,
+                fontSize: 15,
+                color: router.pathname === "/Products" ? "white" : "white",
+                borderBottom:
+                  router.pathname === "/Products" ? "3px solid white " : "none",
+                borderRadius: router.pathname === "/Products" ? "12px" : "none",
+                display: "block",
+              }}
             >
-              Logout     <i className="fa-solid fa-right-from-bracket"></i>
+              Products
             </Button>
-          
+            <div
+              className="flex"
+              style={{ display: "flex", flexDirection: "row", gap: "2px" }}
+            >
+              <Button
+                className="cart"
+                sx={{ my: 2, fontSize: 15, color: "white" }}
+                onClick={handlecart}
+              >
+                <IconButton aria-label="cart" sx={{}}>
+                  <Badge color="secondary" 
+                    badgeContent={cart.length}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    sx={{color:"white"}}
+                  >
+                    <ShoppingCartIcon sx={{ color: "white", fontSize: 30 }} />
+                  </Badge>
+                </IconButton>
+              </Button>
+              <Button
+                onClick={handleLogout}
+                sx={{
+                  my: 2,
+                  fontSize: 12,
+                  color: "white",
+                  marginLeft: "960px",
+                  backgroundColor: "black",
+                  borderRadius: 30,
+                  width:80
+                }}
+               
+              >
+                Logout <i className="fa-solid fa-right-from-bracket"></i>
+              </Button>
+            </div>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </>
   );
 }
 

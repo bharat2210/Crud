@@ -83,7 +83,7 @@ const error = () => {
       </div>
      
       <h2 style={{textAlign:"center",color:"red"}}>404 Error !!!</h2>
-     <Link href="/"> <button className="back" >Back to Home
+     <Link href="/allpost"> <button className="back" >Back to Home
 </button></Link>
 <h4 style={{textAlign:"center",color:"green"}} >Redirecting to Previous page in {second} seconds</h4>
 
