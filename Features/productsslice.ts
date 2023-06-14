@@ -27,6 +27,7 @@ const initialState: CartState = {
   items: productData,
   totalQuantity: 0,
   totalPrice: 0,
+
 };
 
 const productsslice = createSlice({
@@ -65,9 +66,28 @@ const productsslice = createSlice({
     removeitem:(state,action)=>{
         state.cart=state.cart.filter((item)=> item.id!== action.payload)
     },
+    increaseitem:(state,action)=>{
+      state.cart=state.cart.map((item)=>{
+        if(item.id=== action.payload){
+          return {...item ,quantity:item.quantity + 1}
+        }
+        return item;
+      })
+    },
+    decreaseitem:(state,action)=>{
+      state.cart=state.cart.map((item)=>{
+        if(item.id=== action.payload){
+          return {...item ,quantity:item.quantity - 1}
+        }
+        return item;
+      })
+    },
+    deleteallitems:(state)=>{
+      state.cart=[]
+    }
   },
 });
 
 
 export default productsslice.reducer;
-export const {addtocart,removeitem,getCartTotal}=productsslice.actions
+export const {addtocart,removeitem,getCartTotal,increaseitem,decreaseitem,deleteallitems}=productsslice.actions

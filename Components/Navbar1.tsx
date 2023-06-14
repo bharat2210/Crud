@@ -182,12 +182,9 @@ function Navbar1() {
               className="flex"
               style={{ display: "flex", flexDirection: "row", gap: "2px" }}
             >
-              <Button
-                className="cart"
-                sx={{ my: 2, fontSize: 15, color: "white" }}
-                onClick={handlecart}
-              >
-                <IconButton aria-label="cart" sx={{}}>
+              
+                <IconButton aria-label="cart" sx={{ my: 2, fontSize: 15, color: "white" }}
+                  onClick={handlecart}>
                   <Badge color="secondary" 
                     badgeContent={cart.length}
                     anchorOrigin={{
@@ -199,7 +196,7 @@ function Navbar1() {
                     <ShoppingCartIcon sx={{ color: "white", fontSize: 30 }} />
                   </Badge>
                 </IconButton>
-              </Button>
+             
               <Button
                 onClick={handleLogout}
                 sx={{
