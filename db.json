@@ -29,6 +29,24 @@
       "email": "bharat@123",
       "password": "bhart",
       "id": 8
+    },
+    {
+      "name": "Suhana",
+      "email": "suhana@123",
+      "password": "123",
+      "id": 9
+    },
+    {
+      "name": "Shefali",
+      "email": "shefali@123",
+      "password": "123",
+      "id": 10
+    },
+    {
+      "name": "Shreya",
+      "email": "shreya@123",
+      "password": "Shreya2022*",
+      "id": 12
     }
   ]
 }
