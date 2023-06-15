@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import Head from 'next/head'
 
 
-const Description = ({ setshowdescription, id }) => {
-  const items = useSelector((state) => state.allcarts.items);
-  const singleitem = items.filter((elm) => {
+const Description = ({ setshowdescription, id }:any) => {
+  const items = useSelector((state:any) => state.allcarts.items);
+  const singleitem = items.filter((elm:any) => {
     elm.id === id;
     return elm.id === id;
   })[0];
@@ -33,7 +33,7 @@ const Description = ({ setshowdescription, id }) => {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.7);
       z-index: 9999;
    
     }
@@ -54,6 +54,8 @@ const Description = ({ setshowdescription, id }) => {
     .desc img{
         border-radius:50px;
     }
+    
+  
  
  
    
@@ -69,7 +71,7 @@ const Description = ({ setshowdescription, id }) => {
           sx={{
             height: "auto",
             width: "70%",
-            backgroundColor: "white",
+            backgroundColor: "rgba(236, 241, 216, 0.932)",
             borderRadius: 12,
             padding: 6,
           }}
@@ -77,18 +79,18 @@ const Description = ({ setshowdescription, id }) => {
         >
           <div className="desc">
             <img src={singleitem.img} alt="" height="400" width="750" style={{marginLeft:"140px"}}/>
-            <h4>
+            <h3>
               <b>Name:</b>
-            </h4>{" "}
-            <p>{singleitem.title}</p>
-            <h4>
+            </h3>
+            <h4>{singleitem.title}</h4>
+            <h3>
               <b>Screen size:</b>
-            </h4>{" "}
-            <p>{singleitem.size}</p>
-            <h4>
+            </h3>
+            <h4>{singleitem.size}</h4>
+            <h3>
               <b>Features</b>
-            </h4>{" "}
-            <p>{singleitem.full}</p>
+            </h3>
+            <h4>{singleitem.full}</h4>
           </div>
           <Button
             variant="contained"

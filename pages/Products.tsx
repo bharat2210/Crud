@@ -16,13 +16,18 @@ import { addtocart } from "../Features/productsslice";
 import Head from "next/head";
 import Aos from "aos";
 import { useRef } from "react";
+import styles from '../styles/confirm.module.css'
 
 const Products = () => {
   const items = useSelector((state: any) => state.allcarts.items);
   const [showdescription, setshowdescription] = useState(false);
   const [id, setId] = useState();
   const [visibleItems, setVisibleItems] = useState(4);
+  const[full,setfull]=useState(false);
+  const[alreadyAdded,setalreadyAdded] = useState(false);
   const dispatch = useDispatch();
+  const {cart}=useSelector((state:any)=>(state.allcarts))
+ 
   
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null)
   const [showpopup, setshowpopup] = useState(false);
@@ -40,9 +45,20 @@ const Products = () => {
            inline: "nearest",
         });
       }
-    }, 200);
+    }, 100);
   };
   const handleaddtocart = (values:any) => {
+    const existingItem = cart.find((item:any) => item.id === values.id);
+
+    if (existingItem) {
+      setalreadyAdded(true)
+      return;
+    }
+    if (cart.length >= 5) {
+      setfull(true)
+      return;
+    }
+  
     dispatch(addtocart(values));
     setshowpopup(true);
     setTimeout(() => {
@@ -60,17 +76,18 @@ const Products = () => {
         top: 10%;
         left: 50%;
         transform: translateX(-50%);
-        background-color: #fff;
-        padding: 20px;
+        background-image: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+        padding: 22px;
         border-radius: 4px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         z-index: 9999;
       }
       
-      .popup p {
+       p{
         margin: 0;
         font-size: 22px;
-        color: #333;
+        font-weight: 500;
+        color:white;
       }
       
       
@@ -90,7 +107,22 @@ const Products = () => {
       <br />
       <br />
 
-      {showpopup && <div className="popup">Item has been added to Cart</div>}
+      {showpopup && <div className="popup"><p>Item has been added to Cart</p></div>}
+      {full && (<div className={styles.prompt}>
+          <p className={styles.message}>Can't exceed more then 5 items !!!</p>
+          <button className={styles.okButton} onClick={() => setfull(false)}>
+            OK
+          </button>
+        </div>)}
+        {alreadyAdded && (
+          <div className={styles.prompt}>
+          <p className={styles.message}>Item is already in cart!!!</p>
+          <button className={styles.okButton} onClick={() => setalreadyAdded(false)}>
+            OK
+          </button>
+        </div>)
+
+        }
       <Container
         maxWidth="xl"
         sx={{

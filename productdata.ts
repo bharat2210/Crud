@@ -32,7 +32,7 @@ const productData: Product[] = [
   },
   {
     id: 2,
-    title: "iphone SE",
+    title: "iphone SE ",
     price: 39990,
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-product-red_AV1?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316262622",
     quantity: 1,
