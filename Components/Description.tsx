@@ -54,6 +54,10 @@ const Description = ({ setshowdescription, id }:any) => {
     .desc img{
         border-radius:50px;
     }
+    p{
+      color:black;
+      font-size:16px;
+    }
     
   
  
@@ -71,7 +75,7 @@ const Description = ({ setshowdescription, id }:any) => {
           sx={{
             height: "auto",
             width: "70%",
-            backgroundColor: "rgba(236, 241, 216, 0.932)",
+            backgroundColor: "white",
             borderRadius: 12,
             padding: 6,
           }}
@@ -79,19 +83,19 @@ const Description = ({ setshowdescription, id }:any) => {
         >
           <div className="desc">
             <img src={singleitem.img} alt="" height="400" width="750" style={{marginLeft:"140px"}}/>
-            <h3>
+            <h4>
               <b>Name:</b>
-            </h3>
-            <h4>{singleitem.title}</h4>
-            <h3>
+            </h4>
+            <p>{singleitem.title}</p>
+            <h4>
               <b>Screen size:</b>
-            </h3>
-            <h4>{singleitem.size}</h4>
-            <h3>
+            </h4>
+            <p>{singleitem.size}</p>
+            <h4>
               <b>Features</b>
-            </h3>
-            <h4>{singleitem.full}</h4>
-          </div>
+            </h4>
+            <p>{singleitem.full}</p>
+          </div><br />
           <Button
             variant="contained"
             onClick={() => {

@@ -19,7 +19,7 @@ const productData: Product[] = [
     id: 1,
     title: "iphone 14 (Purple)",
     price: 79900.00,
-    img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-purple_AV1_GEO_EMEA?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027154618",
+    img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-purple?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027205808",
     quantity: 1,
     description:"lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
     rating:5,
@@ -32,9 +32,9 @@ const productData: Product[] = [
   },
   {
     id: 2,
-    title: "iphone SE ",
+    title: "iphone SE",
     price: 39990,
-    img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-product-red_AV1?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316262622",
+    img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-product-red?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316263304",
     quantity: 1,
     description:
       "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
@@ -251,7 +251,7 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MU862?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1591824860000",
     quantity: 1,
     description:
-      "Apple 20W USB-C Power Adapter USB-C",
+      "Apple 20W USB-C Power Adapter USB-C Optimal Charging Performance",
       rating:5,
       size:"NA",
       full:" The Apple 20W USB‑C Power Adapter offers fast, efficient charging at home, in the office or on the go. Pair it with iPhone 8 or later for fast charging — 50 per cent battery in around 35 minutes.¹ Or pair it with the iPad Pro and iPad Air for optimal charging performance. Compatible with any USB-C enabled device." ,
@@ -265,7 +265,7 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MM0A3?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1632956386000",
     quantity: 1,
     description:
-      "Apple USB-C to Lightning Cable (1m)",
+      "Apple USB-C to Lightning Cable One Meter Compatible with 18W,20W,29W,36W",
       rating:3,
       size:"NA",
       full:" Connect your iPhone, iPad or iPod with Lightning connector to your USB-C– or Thunderbolt 3 (USB-C)–enabled Mac for syncing and charging, or to your USB-C–enabled iPad for charging.You can also use this cable with your Apple 18W, 20W, 29W, 30W, 61W, 87W or 96W USB‑C Power Adapter to charge your iOS device and even take advantage of the fast-charging feature on selected iPhone and iPad models." ,
@@ -279,7 +279,7 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MHXH3?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1661269793559",
     quantity: 1,
     description:
-      " MagSafe Charger USB-C integrated cable (1 m)",
+      " MagSafe Charger USB-C integrated Lightning Cable One Meter",
       rating:4,
       size:"NA",
       full:" The MagSafe Charger makes wireless charging snappy. The perfectly aligned magnets attach to your iPhone 14, iPhone 14 Pro, iPhone 13, iPhone 13 Pro, iPhone 12 and iPhone 12 Pro, and provide faster wireless charging up to 15W." ,
@@ -293,7 +293,7 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MHXF3_AV2?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1602179321000",
     quantity: 1,
     description:
-      "MagSafe Duo Charger USB-C to Lightning Cable (1m)",
+      "MagSafe Duo Charger USB-C to Lightning Cable One Meter",
       rating:3.77,
       size:"NA",
       full:" The MagSafe Duo Charger conveniently charges your compatible iPhone, Apple Watch, Wireless Charging Case for AirPods, and other Qi-certified devices. Just place your devices on the charger and a steady, efficient charge begins on contact. The charger folds together neatly so you can easily take it with you wherever you go." ,

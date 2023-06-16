@@ -24,6 +24,7 @@ const New = () => {
             border-radius: 3px;
         }
       
+      
   
         
         
@@ -58,9 +59,12 @@ const New = () => {
                 cart.map((data:any) => (
                   <li className="list-group-item d-flex justify-content-between lh-condensed">
                     <div>
-                      <h6 className="my-0">{data.title}</h6>
-                      <small className="text-muted">{data.storage}</small>
+                      <h6 className="my-0"><strong>Name: </strong>{data.title} </h6>
+                      <small className="text-muted"><strong>Storage: </strong> {data.storage}</small><br />
+                      <small className="text-muted"><strong>Quantity: </strong> {data.quantity}</small><br />
+                     
                     </div>
+            
                     <span className="text-muted">₹ {data.price}</span>
                   </li>
                 ))}
