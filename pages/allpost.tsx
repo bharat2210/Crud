@@ -166,7 +166,7 @@ const Allpost = () => {
                 <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">
                   Email
                 </TableCell>
-                <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">
+                <TableCell sx={{ fontSize: 18, fontWeight: 800 }} colSpan={2} align="left">
                   Actions
                 </TableCell>
               </TableRow>
@@ -187,12 +187,12 @@ const Allpost = () => {
                   .map((details: any) => (
                     <TableRow key={details.id}>
                       <TableCell align="left" sx={{ fontWeight: 800 }}>
-                        {details.id}
+                        {details.id}.
                       </TableCell>
                       <TableCell align="left">{details.E_name}</TableCell>
                       <TableCell align="left">{details.E_age}</TableCell>
                       <TableCell align="left">{details.E_email}</TableCell>
-                      <TableCell sx={{ display: "flex", gap: 2 }} align="left">
+                      <TableCell colSpan={2} sx={{ display: "flex", gap: 2 }} align="left">
                         <button
                           className={edit.edit}
                           onClick={() => {

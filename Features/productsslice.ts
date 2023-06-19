@@ -13,6 +13,7 @@ interface Product {
   full: string | number;
   color: string;
   storage: string | number;
+  ribbon:boolean;
 }
 
 interface CartState {

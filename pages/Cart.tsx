@@ -24,7 +24,6 @@ const Cart = () => {
   );
   const [showdelete, setshowdelete] = useState(false);
   const [empty, setempty] = useState(false);
-  const[showcheckout,setshowcheckout]=useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   useEffect(() => {

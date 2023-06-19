@@ -19,15 +19,10 @@ import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import {PoweroffOutlined} from '@ant-design/icons'
+import { Tooltip,Avatar } from "antd";
 
-const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
-  "& .MuiBadge-badge": {
-    right: -3,
-    top: 13,
-    border: `2px solid ${theme.palette.background.paper}`,
-    padding: "0 4px",
-  },
-}));
+
 
 function Navbar1() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -100,6 +95,18 @@ function Navbar1() {
 
   return (
     <>
+    <style>
+      {`
+      #logout:hover{
+        background-color: black;
+        color: white;
+      }
+      
+      
+      
+      
+      `}
+    </style>
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -234,19 +241,27 @@ function Navbar1() {
                     <ShoppingCartIcon sx={{ color: "white", fontSize: 30 }} />
                   </Badge>
                 </IconButton>
-                <Button
+               
+              
+               <Tooltip title="Logout" color="red">
+               <Button
                   onClick={handleLogout}
+                  id="logout"
                   sx={{
                     my: 2,
-                    fontSize: 12,
-                    color: "white",
-                    backgroundColor: "black",
-                    borderRadius: 30,
-                    width: 80,
+                  
+                
+                    position: "absolute",
+                    right: 1
                   }}
                 >
-                  Logout <i className="fa-solid fa-right-from-bracket"></i>
-                </Button>
+                 <Avatar src={<img src="Bharat.jpeg" alt="avatar"/>} size="large" />
+               </Button>
+
+               </Tooltip>
+               
+              
+              
               </div>
             </Box>
           </Toolbar>

@@ -8,6 +8,7 @@ import * as React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import Head from 'next/head'
+import { Empty } from "antd";
 
 
 const Uns = () => {
@@ -15,9 +16,7 @@ const Uns = () => {
   const [image, setImage] = useState([]);
   const [page, setpage] = useState(1);
   const [query, setquery] = useState("nature");
-  // const [options]=useState(["Mountain","Land","Cars"]);
   const[Tagtitles,setTagtitles]=useState<string[]>([]);
-  const[description,setdescription]=useState<string[]>([]);
 
   const getImg = () => {
    
@@ -207,9 +206,9 @@ const Uns = () => {
             style={{ textAlign: "center", fontSize: "22px" }}
           >
            
-            Oops !!! No images found. <br />
-            <p>Try another keyword </p>
-            <br />
+            <Empty description="No images found"/> <br />
+           
+          
             <Image
               src="https://github.githubassets.com/images/modules/notifications/inbox-zero.svg"
               alt=""
