@@ -70,7 +70,7 @@ const New = () => {
                 ))}
 
               <li className="list-group-item d-flex justify-content-between">
-                <span>Total (₹ )</span>
+                <span>Total :(₹ )</span>
                 <strong>{totalPrice}</strong>
               </li>
             </ul>
@@ -111,24 +111,7 @@ const New = () => {
                 </div>
               </div>
 
-              <div className="mb-3">
-                <label htmlFor="username">Username</label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">@</span>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="username"
-                    placeholder="Username"
-                    required
-                  />
-                  <div className="invalid-feedback">
-                    Your username is required.
-                  </div>
-                </div>
-              </div>
+             
 
               <div className="mb-3">
                 <label htmlFor="email">
@@ -179,8 +162,13 @@ const New = () => {
                     id="country"
                     required
                   >
-                    <option value="">Choose...</option>
+                    <option value="">India</option>
+                    <option>Japan</option>
                     <option>United States</option>
+                    <option>China</option>
+                    <option>Pakistan</option>
+                    <option>Australia</option>
+                 
                   </select>
                   <div className="invalid-feedback">
                     Please select a valid country.
@@ -283,7 +271,7 @@ const New = () => {
                     type="text"
                     className="form-control"
                     id="cc-name"
-                    placeholder=""
+                    placeholder="Name on card"
                     required
                   />
                   <small className="text-muted">
@@ -301,7 +289,7 @@ const New = () => {
                     id="cc-number"
                     pattern="[0-9]{16}"
                     maxLength={Number("16")}
-                    placeholder=""
+                    placeholder="Enter Card Number"
                     required
                   />
                   <div className="invalid-feedback">
@@ -316,7 +304,7 @@ const New = () => {
                     type="month"
                     className="form-control"
                     id="cc-expiration"
-                    placeholder=""
+                    placeholder="MM"
                     required
                   />
                   <div className="invalid-feedback">
@@ -331,7 +319,7 @@ const New = () => {
                     id="cc-cvv"
                     pattern="[0-9]{3}"
                     maxLength={Number("3")}
-                    placeholder=""
+                    placeholder="3 Digits CVV"
                     required
                   />
                   <div className="invalid-feedback">Security code required</div>

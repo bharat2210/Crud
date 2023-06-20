@@ -14,6 +14,7 @@ interface Product {
   color: string;
   storage: string | number;
   ribbon:boolean;
+  stock:number
 }
 
 interface CartState {
@@ -86,6 +87,15 @@ const productsslice = createSlice({
         return item;
       });
     },
+    decreasestock: (state, action) => {
+      state.items=state.items.map((valuestock)=>{
+        if(valuestock.id===action.payload){
+          return {...valuestock, stock:valuestock.stock -1}
+        }
+        return valuestock
+      })
+    },
+   
     deleteallitems: (state) => {
       state.cart = [];
     },
@@ -111,4 +121,5 @@ export const {
   addtowishlist,
   removewishcart,
   deletewishcart,
+  decreasestock
 } = productsslice.actions;

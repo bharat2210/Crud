@@ -16,7 +16,8 @@ import {
   addtocart,
 } from "../Features/productsslice";
 import styles from "../styles/confirm.module.css";
-import { Empty } from "antd";
+import { Tooltip } from "antd";
+import { DeleteFilled, InfoCircleOutlined } from "@ant-design/icons";
 
 const Wishlist = () => {
   React.useEffect(() => {
@@ -80,9 +81,9 @@ const Wishlist = () => {
             align-items:center; 
 
         }
-        .card{
-            box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-        }
+        // .card{
+        //     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+        // }
         h1{
           color: #444;
           text-shadow: 
@@ -124,30 +125,36 @@ const Wishlist = () => {
       <Navbar1 />
       <div className="container">
         <div className="heading">
-          <h1> Wishlist - {wishlist.length} items</h1>
+          <h1> Wishlist - {wishlist.length} {wishlist.length===1 ? "item" :"items"}</h1>
         </div>
       </div>
       <br />
       {showwishlist && (
         <div className={styles.prompt}>
-          <p className={styles.message}>Wishlist is already empty !!!</p>
+       <div className={styles.main}>
+       <InfoCircleOutlined style={{fontSize:"22px",fontWeight:"900",color:"green"}}/>
+       <p className={styles.message}>Wishlist is already empty !</p>
           <button
             className={styles.okButton}
             onClick={() => setshowwishlist(false)}
           >
             OK
           </button>
+       </div>
         </div>
       )}
       {alreadyAdded && (
         <div className={styles.prompt}>
-          <p className={styles.message}>Item is already in cart!!!</p>
+          <div className={styles.main}>
+          <InfoCircleOutlined style={{fontSize:"22px",fontWeight:"900",color:"green"}}/>
+          <p className={styles.message}>Item is already in cart!</p>
           <button
             className={styles.okButton}
             onClick={() => setalreadyAdded(false)}
           >
             OK
           </button>
+          </div>
         </div>
       )}
       {showdelete && (
@@ -208,7 +215,8 @@ const Wishlist = () => {
               <Button variant="contained" size="small">
                 Buy
               </Button>
-              <Button
+             <Tooltip title="Add to Cart" color="black">
+             <Button
                 variant="contained"
                 size="small"
                 onClick={() => handleaddtocart(data)}
@@ -216,16 +224,16 @@ const Wishlist = () => {
              
                 <i className="fa-solid fa-cart-shopping"></i> +
               </Button>
-              <Button
+             </Tooltip>
+             <Tooltip title="Remove item" color="red">
+             <Button
                 variant="outlined"
                 size="small"
                 onClick={() => wishremove(data.id)}
               >
-                <i
-                  className="fa-solid fa-trash"
-                  style={{ fontSize: "18px" }}
-                ></i>
+                <DeleteFilled  style={{ fontSize: "18px" }}/>
               </Button>
+             </Tooltip>
             </Stack>
           </Card>
         ))}

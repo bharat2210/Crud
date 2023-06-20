@@ -88,7 +88,7 @@ const Description = ({ setshowdescription, id }:any) => {
         <Box
           sx={{
             height: "auto",
-            width: "44%",
+            width: "50%",
             backgroundColor: "white",
             borderRadius: 12,
             padding: 6,

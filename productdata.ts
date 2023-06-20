@@ -11,6 +11,7 @@ interface Product {
   color:string 
   storage:string | number;
   ribbon:boolean;
+  stock:number
   
 
 }
@@ -22,30 +23,32 @@ const productData: Product[] = [
     price: 79900.00,
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-purple?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027205808",
     quantity: 1,
-    description:"lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
+    description:"Super Retina XDR display footnote¹ Photonic Engine for incredible detail and colour Autofocus on TrueDepth front camera",
     rating:5,
     size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
     full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera" ,
     color:"Purple",
     storage:"128gb",
-    ribbon:true
+    ribbon:true,
+    stock:5
    
      
   },
   {
     id: 2,
-    title: "iphone SE",
+    title: "iphone SE (Product ᴿᵉᵈ)",
     price: 39990,
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-product-red?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316263304",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
+      "Retina HD display footnote¹ Advanced camera Up to 15 hours video playback footnote³ A15 Bionic chip with 4-core GPU",
       rating:4.7,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera" ,
-      color:"Red",
+      color:"(Product ᴿᵉᵈ)",
       storage:"128gb",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 3,
@@ -54,13 +57,14 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-starlight?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316263356",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
-      rating:3.5,
+      "Retina HD display footnote¹ Advanced camera Up to 15 hours video playback footnote³ A15 Bionic chip with 4-core GPU",
+      rating:4,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera",
       color:"White",
       storage:"128gb",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 4,
@@ -69,13 +73,14 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-finish-select-202207-5-4inch-blue?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1656713272198",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
-      rating:3.9,
+      "Super Retina XDR display footnote¹ Dual-camera system 12MP Main | Ultra Wide TrueDepth front camera Up to 19 hours video playback footnote³ A15 Bionic chip with 4-core GPU",
+      rating:5,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera",
       color:"Blue",
       storage:"128gb",
-      ribbon:false 
+      ribbon:false,
+      stock:5
   },
 
   {
@@ -85,13 +90,14 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-yellow?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1676505836714",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
+      "Super Retina XDR display footnote¹ Photonic Engine for incredible detail and colour Autofocus on TrueDepth front camera",
       rating:4.1,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera",
       color:"Yellow",
       storage:"128gb" ,
-      ribbon:true
+      ribbon:true,
+      stock:5
    
    
       
@@ -103,13 +109,14 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-12-finish-select-202207-green?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1662150005626",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
+      "Super Retina XDR display footnote¹ Dual-camera system 12MP Main | Ultra Wide TrueDepth front camera Up to 19 hours video playback footnote³ A15 Bionic chip with 4-core GPU",
       rating:4.9,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera" ,
       color:"Green",
       storage:"128gb",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 7,
@@ -118,13 +125,14 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-gold?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1663703841907",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
+      "Super Retina XDR display footnote¹ Photonic Engine for incredible detail and colour Autofocus on TrueDepth front camera",
       rating:4.69,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera" ,
       color:"Gold",
       storage:"512gb",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 8,
@@ -133,13 +141,14 @@ const productData: Product[] = [
     img: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-pink?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1657641867367",
     quantity: 1,
     description:
-      "lorem ipsum dolor sit amet, con lorem ipsum dolor sit am LOREME. Lorem ipsum dolor sit am",
+      "Super Retina XDR display footnote¹ Dual-camera system 12MP Main | Ultra Wide TrueDepth front camera Up to 19 hours video playback footnote³ A15 Bionic chip with 4-core GPU",
       rating:5,
       size:"17.00 cm or 15.54 cm Super Retina XDR display footnote¹ ProMotion technology Always-On display",
       full:" 48MP Main | Ultra Wide Telephoto Photonic Engine for incredibledetail and colour Autofocus on TrueDepth front camera   Photonic Engine for incredible detail and colour Autofocus on   TrueDepth front camera" ,
       color:"Pink",
       storage:"128gb",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 9,
@@ -154,7 +163,8 @@ const productData: Product[] = [
       full:" The Sport Band is made from a durable yet surprisingly soft high-performance fluoroelastomer, with an innovative pin-and-tuck closure." ,
       color:"White",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 10,
@@ -169,7 +179,8 @@ const productData: Product[] = [
       full:" The Sport Band is made from a durable yet surprisingly soft high-performance fluoroelastomer, with an innovative pin-and-tuck closure." ,
       color:"Starlight",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 11,
@@ -184,7 +195,8 @@ const productData: Product[] = [
       full:" The Milanese Loop is made from a smooth stainless steel mesh that’s fully magnetic, so it’s infinitely adjustable for a perfect fit." ,
       color:"Graphite",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 12,
@@ -199,7 +211,8 @@ const productData: Product[] = [
       full:" The rugged Alpine Loop is made from two textile layers woven together into one continuous piece without stitching, with a titanium G-hook to ensure a secure fit." ,
       color:"Orange",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 13,
@@ -214,7 +227,8 @@ const productData: Product[] = [
       full:" AirPods Pro (2nd generation) have been re-engineered to deliver up to 2x more Active Noise Cancellation. Adaptive Transparency reduces external noise, while Personalised Spatial Audio immerses you in sound. A single charge delivers up to 6 hours of battery life.⁷" ,
       color:"White",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 14,
@@ -229,7 +243,8 @@ const productData: Product[] = [
       full:" AirPods Pro (2nd generation) have been re-engineered to deliver up to 2x more Active Noise Cancellation. Adaptive Transparency reduces external noise, while Personalised Spatial Audio immerses you in sound. A single charge delivers up to 6 hours of battery life.⁷" ,
       color:"White",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 15,
@@ -244,7 +259,8 @@ const productData: Product[] = [
       full:" AirPods deliver 5 hours of listening time¹ and 3 hours of talk time on a single charge.² And they’re made to keep up with you, thanks to a Lightning Charging Case that holds multiple charges for more than 24 hours of listening time.³ Need a quick charge? Just 15 minutes in the case gives you 3 hours of listening time⁴ or 2 hours of talk time.⁵" ,
       color:"White",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 16,
@@ -259,7 +275,8 @@ const productData: Product[] = [
       full:" Compatible hardware and software required. Works with compatible content in supported apps. Not all content available in Dolby Atmos. iPhone with TrueDepth camera required to create a personal profile for Spatial Audio, which will sync across Apple devices running the latest operating system software, including iOS, iPadOS, macOS and tvOS." ,
       color:"Black",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 17,
@@ -274,7 +291,8 @@ const productData: Product[] = [
       full:" The Apple 20W USB‑C Power Adapter offers fast, efficient charging at home, in the office or on the go. Pair it with iPhone 8 or later for fast charging — 50 per cent battery in around 35 minutes.¹ Or pair it with the iPad Pro and iPad Air for optimal charging performance. Compatible with any USB-C enabled device." ,
       color:"White",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 18,
@@ -289,7 +307,8 @@ const productData: Product[] = [
       full:" Connect your iPhone, iPad or iPod with Lightning connector to your USB-C– or Thunderbolt 3 (USB-C)–enabled Mac for syncing and charging, or to your USB-C–enabled iPad for charging.You can also use this cable with your Apple 18W, 20W, 29W, 30W, 61W, 87W or 96W USB‑C Power Adapter to charge your iOS device and even take advantage of the fast-charging feature on selected iPhone and iPad models." ,
       color:"White",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 19,
@@ -304,7 +323,8 @@ const productData: Product[] = [
       full:" The MagSafe Charger makes wireless charging snappy. The perfectly aligned magnets attach to your iPhone 14, iPhone 14 Pro, iPhone 13, iPhone 13 Pro, iPhone 12 and iPhone 12 Pro, and provide faster wireless charging up to 15W." ,
       color:"White",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 20,
@@ -319,7 +339,8 @@ const productData: Product[] = [
       full:" The MagSafe Duo Charger conveniently charges your compatible iPhone, Apple Watch, Wireless Charging Case for AirPods, and other Qi-certified devices. Just place your devices on the charger and a steady, efficient charge begins on contact. The charger folds together neatly so you can easily take it with you wherever you go." ,
       color:"White",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 21,
@@ -334,7 +355,8 @@ const productData: Product[] = [
       full:"Dual force-cancelling passive radiators,Sound Recognition footnote,Temperature and humidity sensor footnote⁶,Intelligent assistant,Voice recognition " ,
       color:"Blue",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 22,
@@ -348,7 +370,8 @@ const productData: Product[] = [
       full:"Beamforming array of five tweeters,Sound Recognition footnote,Temperature and humidity sensor footnote⁶,Intelligent assistant,Voice recognition " ,
       color:"Midnight",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
   {
     id: 23,
@@ -363,7 +386,8 @@ const productData: Product[] = [
       full:" Apple TV 4K (3rd generation) brings the best of TV together with your favourite Apple devices and services. With 4K Dolby Vision, HDR10+ and Dolby Atmos, it delivers a truly cinematic experience to your screen. " ,
       color:"Black and Silver",
       storage:"NA",
-      ribbon:false
+      ribbon:false,
+      stock:5
   },
   {
     id: 24,
@@ -378,8 +402,25 @@ const productData: Product[] = [
       full:"Magic Mouse is wireless and rechargeable, with an optimised foot design that lets it glide smoothly across your desk. The Multi-Touch surface allows you to perform simple gestures such as swiping between web pages and scrolling through documents " ,
       color:"White",
       storage:"NA",
-      ribbon:true
+      ribbon:true,
+      stock:5
   },
+  {
+    id:25,
+    title:"Magic Cloth",
+    price:1900,
+    img:"https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MM6F3_AV2?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1632956483000",
+    quantity:1,
+    description:"Made with soft, non-abrasive material, the Polishing Cloth cleans any Apple display, including nano-texture glass, safely and effectively.",
+    rating:3.5,
+    size:"NA",
+    full:"Made with soft, non-abrasive material, the Polishing Cloth cleans any Apple display, including nano-texture glass, safely and effectively. Made with soft, non-abrasive material, the Polishing Cloth cleans any Apple display, including nano-texture glass, safely and effectively. Made with soft, non-abrasive material, the Polishing Cloth cleans any Apple display, including nano-texture glass, safely and effectively.",
+    color:"White",
+    storage:"NA",
+    ribbon:true,
+    stock:5
+  },
+ 
 
   
  
