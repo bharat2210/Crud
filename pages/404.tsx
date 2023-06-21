@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from 'next/head'
+import { Button, Result } from 'antd';
 
 const error = () => {
   const router=useRouter();
@@ -27,6 +28,9 @@ const error = () => {
       
     }
   },[second])
+  const handlehome = () =>{
+    router.push("/allpost")
+  }
     // const router=useRouter()
    
     // useEffect(()=>{
@@ -75,8 +79,8 @@ const error = () => {
     
     `}
       </style>
-      <Navbar />
-      <div className="image">
+      <Navbar /><br />
+      {/* <div className="image">
         <Image
           src="https://github.githubassets.com/images/modules/notifications/inbox-zero.svg"
           alt=""
@@ -90,7 +94,13 @@ const error = () => {
      
       <h2 style={{textAlign:"center",color:"red"}}>404 Error !!!</h2>
      <Link href="/allpost"> <button className="back" >Back to Home
-</button></Link>
+</button></Link> */}
+   <Result
+    status="404"
+    title="404"
+    subTitle="Sorry, the page you visited does not exist."
+    extra={<Button type="primary" onClick={handlehome}>Back Home</Button>}
+  />
 <h4 style={{textAlign:"center",color:"green"}} >Redirecting to Previous page in {second} seconds</h4>
 
 

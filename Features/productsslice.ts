@@ -14,7 +14,8 @@ interface Product {
   color: string;
   storage: string | number;
   ribbon:boolean;
-  stock:number
+  stock:number;
+  category:string;
 }
 
 interface CartState {
@@ -23,6 +24,7 @@ interface CartState {
   items: Product[];
   totalQuantity: number;
   totalPrice: number;
+  searchdata:string
 }
 
 const initialState: CartState = {
@@ -31,6 +33,7 @@ const initialState: CartState = {
   items: productData,
   totalQuantity: 0,
   totalPrice: 0,
+  searchdata:""
 };
 
 const productsslice = createSlice({
@@ -67,6 +70,10 @@ const productsslice = createSlice({
       );
       state.totalPrice = parseInt(totalPrice.toFixed(2));
       state.totalQuantity = totalQuantity;
+    },
+    searchproductdata:(state,action)=>{
+      console.log("searchdata",action.payload)
+      state.searchdata=action.payload;
     },
     removeitem: (state, action) => {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
@@ -107,6 +114,7 @@ const productsslice = createSlice({
     deletewishcart: (state, action) => {
       state.wishlist = [];
     },
+   
   },
 });
 
@@ -121,5 +129,6 @@ export const {
   addtowishlist,
   removewishcart,
   deletewishcart,
-  decreasestock
+  decreasestock,
+  searchproductdata,
 } = productsslice.actions;

@@ -118,6 +118,8 @@ const Cart = () => {
     .close-btn:hover{
        background-color: #aaa;
       }
+   
+
 
     
     
@@ -188,7 +190,7 @@ const Cart = () => {
                           <img
                             src={data.img}
                             className="w-100"
-                            alt="Blue Jeans Jacket"
+                            alt="Images"
                           />
                           <a href="#!">
                             <div className="mask"></div>
@@ -202,6 +204,7 @@ const Cart = () => {
                         </p>
                         <p>Color: {data.color}</p>
                         <p>Capacity: {data.storage}</p>
+                      
                         <button
                           type="button"
                           className="btn btn-primary btn-sm me-1 mb-2"

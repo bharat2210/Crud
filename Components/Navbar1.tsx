@@ -111,7 +111,7 @@ function Navbar1() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
@@ -154,6 +154,23 @@ function Navbar1() {
               }}
             >
               <Button
+                onClick={handlepost}
+                sx={{
+                  my: 2,
+                  fontSize: 15,
+                  color: router.pathname === "/allpost" ? "white" : "white",
+                  borderBottom:
+                    router.pathname === "/allpost"
+                      ? "3px solid white "
+                      : "none",
+                  borderRadius:
+                    router.pathname === "/allpost" ? "12px" : "none",
+                  display: "block",
+                }}
+              >
+                Home
+              </Button>
+              <Button
                 onClick={handleregister}
                 sx={{
                   fontSize: 14,
@@ -170,23 +187,6 @@ function Navbar1() {
                 }}
               >
                 Users
-              </Button>
-              <Button
-                onClick={handlepost}
-                sx={{
-                  my: 2,
-                  fontSize: 15,
-                  color: router.pathname === "/allpost" ? "white" : "white",
-                  borderBottom:
-                    router.pathname === "/allpost"
-                      ? "3px solid white "
-                      : "none",
-                  borderRadius:
-                    router.pathname === "/allpost" ? "12px" : "none",
-                  display: "block",
-                }}
-              >
-                Records
               </Button>
               <Button
                 onClick={handleimages}
@@ -266,7 +266,7 @@ function Navbar1() {
             </Box>
           </Toolbar>
         </Container>
-      </AppBar>
+      </AppBar><br /><br /><br /><br />
 
       {/* Mobile Menu */}
       <Drawer
