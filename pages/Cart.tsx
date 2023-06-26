@@ -263,7 +263,7 @@ const Cart = () => {
                     </Button>
                     <Button
                       variant="contained"
-                      onClick={() => router.push("/Products")}
+                      onClick={() => router.push("/Apiproducts")}
                       sx={{ backgroundColor: "#3b71ca" }}
                     >
                       Add Items

@@ -193,13 +193,13 @@ const Wishlist = () => {
       >
         {wishlist.map((data: any) =>(
           <Card
-            sx={{ height: 390, width: 420 }}
+            sx={{ height: 390, width: 300 }}
             className="card"
             data-aos="fade-up"
             key={data.id}
           >
             <CardMedia>
-              <img src={data.img} alt="Image" height={250} width={418} />
+              <img src={data.img} alt="Image" height={250} width={300} />
             </CardMedia>
             <CardContent>
               <Typography

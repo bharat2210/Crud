@@ -657,6 +657,7 @@ const productData: Product[] = [
     stock: 5,
     category: "Displays",
   },
+  
 ];
 
 export default productData;

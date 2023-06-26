@@ -162,6 +162,7 @@ export const updateuser=createAsyncThunk("updateuser",async(data:any)=>{
       .addCase(deleteuser.fulfilled,(state,action)=>{
         state.isloading=false;
         const {id}=action.payload
+        console.log("action ", id)
      
         if(id){
             state.users=state.users.filter((details)=>details.id!==id)
