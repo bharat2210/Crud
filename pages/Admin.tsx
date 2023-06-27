@@ -70,23 +70,15 @@ const Admin = () => {
   const [imageview, setimageview] = useState(false);
   const [displaybutton, setdisplaybutton] = useState(false);
   const [itemadded, setitemadded] = useState(false);
-  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     dispatch(getproducts());
   }, []);
 
   useEffect(() => {
-    if (search) {
-      setLoading(true);
-      const timer = setTimeout(() => {
-        dispatch(searchproductdata(search));
-        setLoading(false);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [search, dispatch]);
+    dispatch(searchproductdata(search));
+  }, [search]);
 
   // Admin actions
   const handledelete = (userId: any) => {
@@ -132,10 +124,9 @@ const Admin = () => {
   const onFinish = (values: any) => {
     dispatch(addproducts(values));
     setitemadded(true);
-    setOpen(false)
+    setOpen(false);
     setTimeout(() => {
-      setitemadded(false)
-      
+      setitemadded(false);
     }, 2000);
     console.log("values", values);
   };
@@ -274,20 +265,11 @@ const Admin = () => {
         renderInput={(params: any) => (
           <TextField {...params} placeholder="Search By Category" />
         )}
-        onChange={(event,value: any) => {
+        onChange={(event, value: any) => {
           setsearch(value);
         }}
       />
-      {loading && (
-        <Spin
-          style={{
-            position: "absolute",
-            left: "392px",
-            top: "142px",
-          }}
-         
-        />
-      )}
+   
       <br />
       <br />
       <br />
@@ -581,7 +563,6 @@ const Admin = () => {
                 name="ribbon"
                 label="Ribbon"
                 valuePropName="checked"
-               
               >
                 <Switch />
               </AntForm.Item>

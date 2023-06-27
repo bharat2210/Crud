@@ -1,7 +1,12 @@
-import React from 'react'
-import { useEffect,useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addtocart, addtowishlist, getproducts, searchproductdata } from "../Features/productsslice";
+import {
+  addtocart,
+  addtowishlist,
+  getproducts,
+  searchproductdata,
+} from "../Features/productsslice";
 import { AppDispatch, RootState } from "../store";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -12,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Badge as AntBadge, Image, Tooltip, Rate, AutoComplete } from "antd";
 import { FloatButton } from "antd";
-import styles from '../styles/confirm.module.css'
+import styles from "../styles/confirm.module.css";
 import { Spin } from "antd";
 import {
   CheckCircleOutlined,
@@ -24,91 +29,63 @@ import { Autocomplete, Stack, TextField } from "@mui/material";
 import Navbar1 from "../Components/Navbar1";
 import Details from "../Componentsapi/Details";
 import { Input, Space, Select } from "antd";
-import { useRouter } from 'next/router';
-
-
+import { useRouter } from "next/router";
 
 const Apiproducts = () => {
- 
   const { Option } = Select;
-  const router =useRouter()
+  const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const[id,setid]=useState();
-  const[showdetails,setshowdetails]=useState(false);
+  const [id, setid] = useState();
+  const [showdetails, setshowdetails] = useState(false);
   const [alreadyAdded, setalreadyAdded] = useState(false);
   const [full, setfull] = useState(false);
   const [itemoutofstock, setitemoutofstock] = useState(false);
-  const[showpopup,setshowpopup] = useState(false);
-  const[search,setsearch] = useState();
-  const[showwish,setshowwish]=useState(false);
+  const [showpopup, setshowpopup] = useState(false);
+  const [search, setsearch] = useState();
+  const [showwish, setshowwish] = useState(false);
   const [alreadywishlist, setalreadywishlist] = useState(false);
   const [visibleItems, setVisibleItems] = useState(4);
   const [loading, setLoading] = useState(false);
- 
+
   const apiproducts = useSelector(
-    (state:RootState) => state.allcarts.apiproducts
+    (state: RootState) => state.allcarts.apiproducts
   );
-  
-  const{cart,wishlist,searchdata}=useSelector((state:any)=>state.allcarts);
+
+  const { cart, wishlist, searchdata } = useSelector(
+    (state: any) => state.allcarts
+  );
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
 
   // console.log("api", apiproducts);
-
-
-
-
-
-
 
   useEffect(() => {
     dispatch(getproducts());
   }, []);
 
-
-
   useEffect(() => {
-    if (search) {
-      setLoading(true);
-      const timer = setTimeout(() => {
-        dispatch(searchproductdata(search));
-        setLoading(false);
+    dispatch(searchproductdata(search));
+  }, [search]);
+
+  const handleaddtocart = (values: any) => {
+    const existingitem = cart.find((item:any) => item.id === values.id);
+    if (existingitem) {
+      setalreadyAdded(true);
+      return;
+    }
+    if (cart.length > 5) {
+      setfull(true);
+      return;
+    }
+    if (values.stock > 0) {
+      dispatch(addtocart(values));
+      setshowpopup(true);
+      setTimeout(() => {
+        setshowpopup(false);
       }, 1000);
-
-      return () => clearTimeout(timer);
+    } else {
+      setitemoutofstock(true);
     }
-  }, [search, dispatch]);
-
-
-
-
-  const handleaddtocart=(values:any)=>{
-    const existingitem= cart.find((item:any)=> item.id=== values.id)
-    if(existingitem){
-        setalreadyAdded(true);
-        return;
-
-    }
-    if(cart.length>5){
-       setfull(true);
-       return;
-    }
-    if(values.stock >0){
-        dispatch(addtocart(values))
-        setshowpopup(true);
-        setTimeout(() => {
-            setshowpopup(false)
-            
-        }, 1000);
-
-    }
-    else{
-        setitemoutofstock(true)
-    }
-  
-  }
-
-
-  
+  };
 
   const handleaddtowish = (wish: any) => {
     const existing = wishlist.find((item: any) => item.id === wish.id);
@@ -122,7 +99,6 @@ const Apiproducts = () => {
       setshowwish(false);
     }, 1000);
   };
-
 
   const handleLoadMore = () => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
@@ -139,7 +115,7 @@ const Apiproducts = () => {
 
   return (
     <>
-    <style>
+      <style>
         {`
         
         .popup {
@@ -179,20 +155,16 @@ const Apiproducts = () => {
          
         
         `}
-    </style>
-       {showdetails && (
-      <Details setshowdetails={setshowdetails} id={id}/>
-      )}
+      </style>
+      {showdetails && <Details setshowdetails={setshowdetails} id={id} />}
 
-      
-{showpopup && (
+      {showpopup && (
         <div className="popup">
           <p>Item has been added to Cart 😀 </p>
         </div>
       )}
 
-
-       {alreadyAdded && (
+      {alreadyAdded && (
         <div className={styles.prompt}>
           <div className={styles.main}>
             <InfoCircleOutlined
@@ -209,7 +181,7 @@ const Apiproducts = () => {
         </div>
       )}
 
-     {full && (
+      {full && (
         <div className={styles.prompt}>
           <div className={styles.main}>
             <ExclamationCircleOutlined
@@ -224,7 +196,7 @@ const Apiproducts = () => {
         </div>
       )}
 
-{itemoutofstock && (
+      {itemoutofstock && (
         <div className={styles.prompt}>
           <div className={styles.main}>
             <ExclamationCircleOutlined
@@ -242,12 +214,12 @@ const Apiproducts = () => {
           </div>
         </div>
       )}
-       {showwish && (
+      {showwish && (
         <div className="popup">
           <p>Item has been added to Wishlist</p>
         </div>
       )}
-         {alreadywishlist && (
+      {alreadywishlist && (
         <div className={styles.prompt}>
           <div className={styles.main}>
             <p className={styles.message}>
@@ -263,7 +235,6 @@ const Apiproducts = () => {
         </div>
       )}
 
- 
       <Navbar1 />
       <br />
       <br />
@@ -291,52 +262,42 @@ const Apiproducts = () => {
         <Option value="Macs">Macs</Option>
         <Option value="Displays">Displays</Option>
       </Select> <br /><br /> */}
-        <Autocomplete
-         style={{
-          
+      <Autocomplete
+        style={{
           position: "absolute",
           left: "144px",
           border: "2px solid black",
           borderRadius: "8px",
         }}
-        size='small'
-      disablePortal
-      id="combo-box-demo"
-      options={apiproducts && Array.from(new Set(apiproducts.map((data) => data.category)))}
-      sx={{ width: 250}}
-      renderInput={(params) => <TextField {...params}  placeholder='Search By Category'/>}
-      onChange={(event,value:any) => {setsearch(value)}}
-    />
-     {loading && (
-        <Spin
-          style={{
-            position: "absolute",
-            left: "310px",
-            top:"144px"
-         
-          }}
-          tip="Loading"
-        
-        />
-     
-      )}
-       
-         <br /><br /><br />
+        size="small"
+        disablePortal
+        id="combo-box-demo"
+        options={
+          apiproducts &&
+          Array.from(new Set(apiproducts.map((data) => data.category)))
+        }
+        sx={{ width: 250 }}
+        renderInput={(params) => (
+          <TextField {...params} placeholder="Search By Category" />
+        )}
+        onChange={(event, value: any) => {
+          setsearch(value);
+        }}
+      />
 
-      
+      <br />
+      <br />
+      <br />
 
-
-     
       <Tooltip title="See Wishlist" color="dodgerblue" placement="left">
         <FloatButton
           badge={{ count: wishlist.length, color: "blue" }}
           icon={<HeartOutlined />}
-          onClick={()=>router.push("/Wishlist")}
-         
-          style={{ float:"right",top: "111px" }}
+          onClick={() => router.push("/Wishlist")}
+          style={{ float: "right", top: "111px" }}
         />
       </Tooltip>
-   
+
       <Container
         maxWidth="xl"
         sx={{
@@ -348,140 +309,164 @@ const Apiproducts = () => {
           alignItems: "center",
         }}
       >
-        {apiproducts && 
-        apiproducts
-        .filter((item: any) => {
-          if (typeof searchdata !== "string" || searchdata.length === 0) {
-            return item;
-          } else {
-            return item.category
-              .toLowerCase()
-              .includes(searchdata.toLowerCase());
-          }
-        })
-        
-        .slice(0,visibleItems).map((product:any) => (
-          <Card
-            sx={{ height: 568, width: 320 }}
-            key={product.id}
-            data-aos="fade-up"
-            className="card"
-          >
-            <CardMedia
-              sx={{ height: 300, width: 320 }}
-              image={product.img}
-              title={product.title}
-            />
+        {apiproducts &&
+          apiproducts
+            .filter((item: any) => {
+              if (typeof searchdata !== "string" || searchdata.length === 0) {
+                return item;
+              } else {
+                return item.category
+                  .toLowerCase()
+                  .includes(searchdata.toLowerCase());
+              }
+            })
 
-            <CardContent>
-              {product.ribbon && (
-                <AntBadge.Ribbon text="New" color='Green'>
-                  <div>
-                  <Typography  variant="h6" component="div">
-                {product.title.length > 30
-                  ? `${product.title.slice(0, 20)}...`
-                  : product.title}
-              </Typography>
-
-              <Typography variant="body2" color="text.secondary">
-                {product.description.length > 50
-                  ? `${product.description.slice(0, 30)}...`
-                  : product.description}
-              </Typography>
-
-              <Typography variant="h6" color="text.secondary">
-                ₹ {product.price}
-              </Typography>
-
-              <Rate disabled defaultValue={product.rating} />
-              <Typography
-                variant="body2"
-                component="div"
-                sx={{
-                  color: product.stock > 0 ? "green" : "red",
-                }}
+            .slice(0, visibleItems)
+            .map((product: any) => (
+              <Card
+                sx={{ height: 568, width: 320 }}
+                key={product.id}
+                data-aos="fade-up"
+                className="card"
               >
-                {product.stock > 0 ? (
-                  product.stock === 1 ? (
-                    <span style={{ color: "red" }}>Only 1 left in Stock</span>
-                  ) : (
-                    "In stock"
-                  )
-                ) : (
-                  "Currently unavailable"
-                )}
-              </Typography>
+                <CardMedia
+                  sx={{ height: 300, width: 320 }}
+                  image={product.img}
+                  title={product.title}
+                />
 
-                  </div>
-                </AntBadge.Ribbon>
-              )}
-              {!product.ribbon && (
-                <div>
-                   <Typography  variant="h6" component="div">
-                {product.title.length > 30
-                  ? `${product.title.slice(0, 20)}...`
-                  : product.title}
-              </Typography>
+                <CardContent>
+                  {product.ribbon && (
+                    <AntBadge.Ribbon text="New" color="Green">
+                      <div>
+                        <Typography variant="h6" component="div">
+                          {product.title.length > 30
+                            ? `${product.title.slice(0, 20)}...`
+                            : product.title}
+                        </Typography>
 
-              <Typography variant="body2" color="text.secondary">
-                {product.description.length > 50
-                  ? `${product.description.slice(0, 30)}...`
-                  : product.description}
-              </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          {product.description.length > 50
+                            ? `${product.description.slice(0, 30)}...`
+                            : product.description}
+                        </Typography>
 
-              <Typography variant="h6" color="text.secondary">
-                ₹ {product.price}
-              </Typography>
+                        <Typography variant="h6" color="text.secondary">
+                          ₹ {product.price}
+                        </Typography>
 
-              <Rate disabled defaultValue={product.rating} />
-              <Typography
-                variant="body2"
-                component="div"
-                sx={{
-                  color: product.stock > 0 ? "green" : "red",
-                }}
-              >
-                {product.stock > 0 ? (
-                  product.stock === 1 ? (
-                    <span style={{ color: "red" }}>Only 1 left in Stock</span>
-                  ) : (
-                    "In stock"
-                  )
-                ) : (
-                  "Currently unavailable"
-                )}
-              </Typography>
+                        <Rate disabled defaultValue={product.rating} />
+                        <Typography
+                          variant="body2"
+                          component="div"
+                          sx={{
+                            color: product.stock > 0 ? "green" : "red",
+                          }}
+                        >
+                          {product.stock > 0 ? (
+                            product.stock === 1 ? (
+                              <span style={{ color: "red" }}>
+                                Only 1 left in Stock
+                              </span>
+                            ) : (
+                              "In stock"
+                            )
+                          ) : (
+                            "Currently unavailable"
+                          )}
+                        </Typography>
+                      </div>
+                    </AntBadge.Ribbon>
+                  )}
+                  {!product.ribbon && (
+                    <div>
+                      <Typography variant="h6" component="div">
+                        {product.title.length > 30
+                          ? `${product.title.slice(0, 20)}...`
+                          : product.title}
+                      </Typography>
 
-                </div>
+                      <Typography variant="body2" color="text.secondary">
+                        {product.description.length > 50
+                          ? `${product.description.slice(0, 30)}...`
+                          : product.description}
+                      </Typography>
 
+                      <Typography variant="h6" color="text.secondary">
+                        ₹ {product.price}
+                      </Typography>
 
-              )}
-             
-            </CardContent>
-            <CardActions>
-              <Stack spacing={2} direction="row">
-                <Button size="small" variant="contained" onClick={()=>handlebuy(product)}>
-                  Buy
-                </Button>
+                      <Rate disabled defaultValue={product.rating} />
+                      <Typography
+                        variant="body2"
+                        component="div"
+                        sx={{
+                          color: product.stock > 0 ? "green" : "red",
+                        }}
+                      >
+                        {product.stock > 0 ? (
+                          product.stock === 1 ? (
+                            <span style={{ color: "red" }}>
+                              Only 1 left in Stock
+                            </span>
+                          ) : (
+                            "In stock"
+                          )
+                        ) : (
+                          "Currently unavailable"
+                        )}
+                      </Typography>
+                    </div>
+                  )}
+                </CardContent>
+                <CardActions>
+                  <Stack spacing={2} direction="row">
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={() => handlebuy(product)}
+                    >
+                      Buy
+                    </Button>
 
-                <Tooltip title="Add to Wishlist" color="green" placement="top">
-                  <Button size="small" variant="outlined" onClick={()=>handleaddtowish(product)}>
-                    &#10084;
+                    <Tooltip
+                      title="Add to Wishlist"
+                      color="green"
+                      placement="top"
+                    >
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        onClick={() => handleaddtowish(product)}
+                      >
+                        &#10084;
+                      </Button>
+                    </Tooltip>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={() => {
+                        setid(product.id);
+                        setshowdetails(true);
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </Stack>
+                </CardActions>
+                <Stack spacing={2} direction="column">
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleaddtocart(product)}
+                  >
+                    Add to Cart
                   </Button>
-                </Tooltip>
-                <Button size="small" variant="outlined" onClick={()=>{setid(product.id); setshowdetails(true)}}>
-                  Details
-                </Button>
-              </Stack>
-            </CardActions>
-            <Stack spacing={2} direction="column">
-              <Button size="small" variant="contained" onClick={()=>handleaddtocart(product)}>
-                Add to Cart
-              </Button>
-            </Stack>
-          </Card>
-        ))}
-      </Container><br />
+                </Stack>
+              </Card>
+            ))}
+      </Container>
+      <br />
       <div ref={loadMoreButtonRef}></div>
       {visibleItems < apiproducts.length && (
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -490,7 +475,7 @@ const Apiproducts = () => {
           </Button>
         </div>
       )}
-        <Tooltip title="Go to Top" color="black" placement="top">
+      <Tooltip title="Go to Top" color="black" placement="top">
         <FloatButton.BackTop type="primary" />
       </Tooltip>
     </>
