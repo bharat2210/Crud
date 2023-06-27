@@ -1,5 +1,10 @@
 "use client";
 import React from "react";
+import { Col, Row } from "antd";
+import { Switch } from "antd";
+
+import { DatePicker, Drawer } from "antd";
+import { Button as AntButton, Form as AntForm } from "antd";
 
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,6 +42,7 @@ import Updateproduct from "../Componentsapi/Updateproduct";
 import { HeartOutlined, PlusOutlined } from "@ant-design/icons";
 import Addproduct from "../Componentsapi/Addproduct";
 import Loader from "../Components/Loader";
+import { addproducts } from "../Features/productsslice";
 
 const Admin = () => {
   const { Option } = Select;
@@ -50,15 +56,16 @@ const Admin = () => {
   const { isloading, searchdata } = useSelector(
     (state: RootState) => state.allcarts
   );
+  const [open, setOpen] = useState(false);
   const [showupdate, setshowupdate] = useState(false);
   const [deleteproduct, setdeleteproduct] = useState(false);
-  const [addproducts, setaddproducts] = useState(false);
+  const [additem, setaddproducts] = useState(false);
   const [search, setsearch] = useState();
   const [shownavbar, setshownavbar] = useState(true);
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
   const [imageview, setimageview] = useState(false);
   const [displaybutton, setdisplaybutton] = useState(false);
-  const[itemadded,setitemadded] = useState(false);
+  const [itemadded, setitemadded] = useState(false);
 
   useEffect(() => {
     dispatch(getproducts());
@@ -100,15 +107,19 @@ const Admin = () => {
 
   // New
 
-  // const handleImageClick = () => {
-  //   setImageView(true);
-  //   setshownavbar(false);
-  // };
+  const onClose = () => {
+    setOpen(false);
+    setshownavbar(true);
+  };
 
-  // const handleCancelClick = () => {
-  //   setImageView(false);
-  //   setshownavbar(true);
-  // };
+  const showDrawer = () => {
+    setshownavbar(false);
+    setOpen(true);
+  };
+  const onFinish = (values:any) => {
+    dispatch(addproducts(values));
+    console.log("values", values);
+  };
 
   return (
     <>
@@ -162,10 +173,11 @@ const Admin = () => {
         
         `}
       </style>
-      {itemadded &&  <div className="popup">
+      {itemadded && (
+        <div className="popup">
           <p>Item has been added 😀 </p>
-        </div>}
-
+        </div>
+      )}
       {shownavbar && <Navbar1 />}
       <br />
       {displaybutton && (
@@ -194,14 +206,16 @@ const Admin = () => {
           <h3>Are you sure want to delete this Product ? ☹️</h3>
         </Modal>
       )}
-      <Tooltip title="Add product" placement="left" color="green">
-        <FloatButton
-          icon={<PlusOutlined />}
-          onClick={() => setaddproducts(true)}
-          style={{ float: "right", right: "25px", top: "111px" }}
-        />
-      </Tooltip>
-      {addproducts && <Addproduct setaddproducts={setaddproducts} setitemadded={setitemadded} />}
+      <AntButton
+        type="primary"
+        onClick={showDrawer}
+        icon={<PlusOutlined />}
+        style={{ float: "right", right: "25px" }}
+      >
+        Add New Product
+      </AntButton>
+     
+ 
       <br />
       <Select
         style={{
@@ -372,6 +386,185 @@ const Admin = () => {
           </Button>
         </div>
       )}
+      <Drawer
+        
+        title="Add New Product"
+        width={720}
+        onClose={onClose}
+        open={open}
+        bodyStyle={{ paddingBottom: 0 }}
+        extra={
+          <Space>
+            <AntButton onClick={onClose}>Cancel</AntButton>
+         
+          </Space>
+        }
+      >
+        <AntForm layout="vertical" onFinish={onFinish}>
+          <Row gutter={12}>
+            <Col span={12}>
+              <AntForm.Item
+                name="title"
+                label="Title"
+                rules={[{ required: true, message: "Please enter title" }]}
+              >
+                <Input placeholder="Please enter title" />
+              </AntForm.Item>
+            </Col>
+            <Col span={12}>
+              <AntForm.Item
+                name="price"
+                label="Price"
+                rules={[{ required: true, message: "Please enter price" }]}
+              >
+                <Input placeholder="Please enter Price" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+          <Row gutter={12}>
+            <Col span={12}>
+              <AntForm.Item
+                name="img"
+                label="Image"
+                rules={[{ required: true, message: "Please upload Image" }]}
+              >
+                <Input placeholder="Please enter Image" />
+              </AntForm.Item>
+            </Col>
+            <Col span={12}>
+              <AntForm.Item
+                name="quantity"
+                label="Quantity"
+                rules={[{ required: true, message: "Please enter Quantity" }]}
+              >
+                <Input type="number" placeholder="Please enter Quantity" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={12}>
+            <Col span={24}>
+              <AntForm.Item
+                name="description"
+                label="Headline"
+                rules={[
+                  {
+                    required: true,
+                    message: "please enter Headline",
+                  },
+                ]}
+              >
+                <Input.TextArea rows={1} placeholder="Please enter  Headline" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={12}>
+            <Col span={12}>
+              <AntForm.Item
+                name="rating"
+                label="Rating"
+                rules={[{ required: true, message: "Provide Rating" }]}
+              >
+                <Input type="number" placeholder="Rating" />
+              </AntForm.Item>
+            </Col>
+            <Col span={12}>
+              <AntForm.Item
+                name="size"
+                label="Size"
+                rules={[{ required: true, message: "Enter Size" }]}
+              >
+                <Input placeholder="Enter Size" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={12}>
+            <Col span={24}>
+              <AntForm.Item
+                name="full"
+                label="Description"
+                rules={[
+                  {
+                    required: true,
+                    message: "please enter  description",
+                  },
+                ]}
+              >
+                <Input.TextArea
+                  rows={3}
+                  placeholder="please enter  Description"
+                />
+              </AntForm.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={12}>
+            <Col span={12}>
+              <AntForm.Item
+                name="color"
+                label="Color"
+                rules={[{ required: true, message: "Please enter color" }]}
+              >
+                <Input placeholder="Please enter color" />
+              </AntForm.Item>
+            </Col>
+            <Col span={12}>
+              <AntForm.Item
+                name="storage"
+                label="Storage"
+                rules={[{ required: true, message: "Please enter storage" }]}
+              >
+                <Input placeholder="Please enter storage" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+          <Row gutter={12}>
+            <Col span={12}>
+              {/* <AntForm.Item
+                name="ribbon"
+                label="Ribbon"
+                rules={[{ required: true, message: 'Ribbon ' }]}
+              >
+                <Input type="boolean" placeholder="Please enter Ribbon" />
+              </AntForm.Item> */}
+              <AntForm.Item
+                name="ribbon"
+                label="Ribbon"
+                valuePropName="checked"
+              >
+                <Switch />
+              </AntForm.Item>
+            </Col>
+            <Col span={12}>
+              <AntForm.Item
+                name="stock"
+                label="Stock"
+                rules={[{ required: true, message: "Please enter Stock" }]}
+              >
+                <Input type="number" placeholder="Please enter Stock" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24}>
+              <AntForm.Item
+                name="category"
+                label="Category"
+                rules={[{ required: true, message: "Please enter Category" }]}
+              >
+                <Input placeholder="Please enter Category" />
+              </AntForm.Item>
+            </Col>
+          </Row>
+          <AntForm.Item>
+            <AntButton type="primary" htmlType="submit">
+              Submit
+            </AntButton>
+          </AntForm.Item>
+        </AntForm>
+      </Drawer>
     </>
   );
 };

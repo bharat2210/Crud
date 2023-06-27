@@ -310,7 +310,7 @@ const Apiproducts = () => {
           icon={<HeartOutlined />}
           onClick={()=>router.push("/Wishlist")}
          
-          style={{ float:"right", right: "25px", top: "111px" }}
+          style={{ float:"right",top: "111px" }}
         />
       </Tooltip>
    
