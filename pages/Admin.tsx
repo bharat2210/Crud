@@ -131,6 +131,12 @@ const Admin = () => {
   };
   const onFinish = (values: any) => {
     dispatch(addproducts(values));
+    setitemadded(true);
+    setOpen(false)
+    setTimeout(() => {
+      setitemadded(false)
+      
+    }, 2000);
     console.log("values", values);
   };
 
@@ -268,7 +274,7 @@ const Admin = () => {
         renderInput={(params: any) => (
           <TextField {...params} placeholder="Search By Category" />
         )}
-        onChange={(value: any) => {
+        onChange={(event,value: any) => {
           setsearch(value);
         }}
       />
@@ -279,6 +285,7 @@ const Admin = () => {
             left: "392px",
             top: "142px",
           }}
+         
         />
       )}
       <br />
@@ -574,6 +581,7 @@ const Admin = () => {
                 name="ribbon"
                 label="Ribbon"
                 valuePropName="checked"
+               
               >
                 <Switch />
               </AntForm.Item>

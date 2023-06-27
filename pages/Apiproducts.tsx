@@ -108,10 +108,7 @@ const Apiproducts = () => {
   }
 
 
-  const handlebuy=(buyvalues:any)=>{
-    dispatch(updatestock({id:buyvalues.id, newstockvalue:buyvalues.stock -1}))
-
-  }
+  
 
   const handleaddtowish = (wish: any) => {
     const existing = wishlist.find((item: any) => item.id === wish.id);
@@ -305,10 +302,10 @@ const Apiproducts = () => {
         size='small'
       disablePortal
       id="combo-box-demo"
-      options={apiproducts && [...new Set(apiproducts.map((data) => data.category))]}
+      options={apiproducts && Array.from(new Set(apiproducts.map((data) => data.category)))}
       sx={{ width: 250}}
       renderInput={(params) => <TextField {...params}  placeholder='Search By Category'/>}
-      onChange={(event,value) => {setsearch(value)}}
+      onChange={(event,value:any) => {setsearch(value)}}
     />
      {loading && (
         <Spin
@@ -318,6 +315,7 @@ const Apiproducts = () => {
             top:"144px"
          
           }}
+          tip="Loading"
         
         />
      
