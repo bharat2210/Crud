@@ -5,10 +5,11 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from 'next/head'
 import { Button, Result } from 'antd';
+import Navbar1 from "../Components/Navbar1";
 
 const error = () => {
   const router=useRouter();
-  const[second,setseconds]=useState<number>(10);
+  const[second,setseconds]=useState<number>(1000);
 
 
   
@@ -50,15 +51,7 @@ const error = () => {
     
       <style>
         {`
-    .image{
-        display:flex;
-        justify-content:center;
-        align-items:center;
-    }
-    .img{
-        margin-top:100px;
-        border-radius:18px;
-    }
+
    
     .back{
         padding:12px;
@@ -79,7 +72,7 @@ const error = () => {
     
     `}
       </style>
-      <Navbar /><br />
+      <Navbar1 /><br />
       {/* <div className="image">
         <Image
           src="https://github.githubassets.com/images/modules/notifications/inbox-zero.svg"
@@ -101,7 +94,7 @@ const error = () => {
     subTitle="Sorry, the page you visited does not exist."
     extra={<Button type="primary" onClick={handlehome}>Back Home</Button>}
   />
-<h4 style={{textAlign:"center",color:"green"}} >Redirecting to Previous page in {second} seconds</h4>
+<h4 style={{textAlign:"center",color:"green"}} >Redirecting to Home page in {second} seconds</h4>
 
 
     </div>

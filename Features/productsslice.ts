@@ -168,20 +168,7 @@ const productsslice = createSlice({
         return item;
       });
     },
-    updatestock: (state, action) => {
-      const {id,newstockvalue}=action.payload;
-      const product=state.apiproducts.find((item)=> item.id ===id);
-      if(product){
-        product.stock=newstockvalue
-
-      }
-      // state.items=state.items.map((valuestock)=>{
-      //   if(valuestock.id===action.payload){
-      //     return {...valuestock, stock:valuestock.stock -1}
-      //   }
-      //   return valuestock
-      // })
-    },
+  
    
     deleteallitems: (state) => {
       state.cart = [];
@@ -262,6 +249,5 @@ export const {
   addtowishlist,
   removewishcart,
   deletewishcart,
-  updatestock,
   searchproductdata,
 } = productsslice.actions;

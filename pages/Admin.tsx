@@ -1,18 +1,26 @@
 "use client";
 import React from "react";
-import { Col, Row } from "antd";
-import { Switch } from "antd";
-
-import { DatePicker, Drawer } from "antd";
+// Ant Design Imports
+import {
+  Col,
+  Row,
+  Switch,
+  Drawer,
+  Modal,
+  Input,
+  Space,
+  Select,
+  Image,
+  Spin,
+} from "antd";
 import { Button as AntButton, Form as AntForm } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
-import Button from "@mui/material/Button";
+// Miscellenous Imports
 import { useDispatch, useSelector } from "react-redux";
 import Head from "next/head";
-
 import edit from "../styles/edit.module.css";
 import deletecss from "../styles/delete.module.css";
-
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 import {
@@ -21,14 +29,15 @@ import {
   searchproductdata,
 } from "../Features/productsslice";
 import Navbar1 from "../Components/Navbar1";
-import { Container } from "@mui/material";
 import { RootState } from "../store";
 import { useEffect, useState } from "react";
-import { Modal, Tooltip } from "antd";
-import { FloatButton } from "antd";
-import { Input, Space, Select } from "antd";
-import { Image } from "antd";
+import Updateproduct from "../Componentsapi/Updateproduct";
+import Loader from "../Components/Loader";
+import { addproducts } from "../Features/productsslice";
 
+// Mui Imports
+import { Container } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -38,11 +47,7 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import Updateproduct from "../Componentsapi/Updateproduct";
-import { HeartOutlined, PlusOutlined } from "@ant-design/icons";
-import Addproduct from "../Componentsapi/Addproduct";
-import Loader from "../Components/Loader";
-import { addproducts } from "../Features/productsslice";
+import Button from "@mui/material/Button";
 
 const Admin = () => {
   const { Option } = Select;
@@ -59,21 +64,29 @@ const Admin = () => {
   const [open, setOpen] = useState(false);
   const [showupdate, setshowupdate] = useState(false);
   const [deleteproduct, setdeleteproduct] = useState(false);
-  const [additem, setaddproducts] = useState(false);
   const [search, setsearch] = useState();
   const [shownavbar, setshownavbar] = useState(true);
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
   const [imageview, setimageview] = useState(false);
   const [displaybutton, setdisplaybutton] = useState(false);
   const [itemadded, setitemadded] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getproducts());
   }, []);
 
   useEffect(() => {
-    dispatch(searchproductdata(search));
-  }, [search]);
+    if (search) {
+      setLoading(true);
+      const timer = setTimeout(() => {
+        dispatch(searchproductdata(search));
+        setLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [search, dispatch]);
 
   // Admin actions
   const handledelete = (userId: any) => {
@@ -116,7 +129,7 @@ const Admin = () => {
     setshownavbar(false);
     setOpen(true);
   };
-  const onFinish = (values:any) => {
+  const onFinish = (values: any) => {
     dispatch(addproducts(values));
     console.log("values", values);
   };
@@ -214,10 +227,8 @@ const Admin = () => {
       >
         Add New Product
       </AntButton>
-     
- 
       <br />
-      <Select
+      {/* <Select
         style={{
           width: 200,
           position: "absolute",
@@ -238,7 +249,39 @@ const Admin = () => {
         <Option value="Laptops">Laptops</Option>
         <Option value="Macs">Macs</Option>
         <Option value="Displays">Displays</Option>
-      </Select>{" "}
+      </Select>{" "} */}
+      <Autocomplete
+        style={{
+          position: "absolute",
+          left: "225px",
+
+          borderRadius: "8px",
+        }}
+        size="small"
+        disablePortal
+        id="combo-box-demo"
+        options={
+          apiproducts &&
+          Array.from(new Set(apiproducts.map((data) => data.category)))
+        }
+        sx={{ width: 250 }}
+        renderInput={(params: any) => (
+          <TextField {...params} placeholder="Search By Category" />
+        )}
+        onChange={(value: any) => {
+          setsearch(value);
+        }}
+      />
+      {loading && (
+        <Spin
+          style={{
+            position: "absolute",
+            left: "392px",
+            top: "142px",
+          }}
+        />
+      )}
+      <br />
       <br />
       <br />
       <Container>
@@ -387,16 +430,14 @@ const Admin = () => {
         </div>
       )}
       <Drawer
-        
         title="Add New Product"
         width={720}
         onClose={onClose}
         open={open}
-        bodyStyle={{ paddingBottom: 0 }}
+        bodyStyle={{ paddingBottom: 2 }}
         extra={
           <Space>
             <AntButton onClick={onClose}>Cancel</AntButton>
-         
           </Space>
         }
       >
@@ -554,7 +595,7 @@ const Admin = () => {
                 label="Category"
                 rules={[{ required: true, message: "Please enter Category" }]}
               >
-                <Input placeholder="Please enter Category" />
+                <Input type="text" placeholder="Please enter Category" />
               </AntForm.Item>
             </Col>
           </Row>

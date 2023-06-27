@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addtocart, addtowishlist, getproducts, searchproductdata, updatestock } from "../Features/productsslice";
+import { addtocart, addtowishlist, getproducts, searchproductdata } from "../Features/productsslice";
 import { AppDispatch, RootState } from "../store";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -13,6 +13,7 @@ import Container from "@mui/material/Container";
 import { Badge as AntBadge, Image, Tooltip, Rate, AutoComplete } from "antd";
 import { FloatButton } from "antd";
 import styles from '../styles/confirm.module.css'
+import { Spin } from "antd";
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
@@ -42,6 +43,7 @@ const Apiproducts = () => {
   const[showwish,setshowwish]=useState(false);
   const [alreadywishlist, setalreadywishlist] = useState(false);
   const [visibleItems, setVisibleItems] = useState(4);
+  const [loading, setLoading] = useState(false);
  
   const apiproducts = useSelector(
     (state:RootState) => state.allcarts.apiproducts
@@ -64,9 +66,18 @@ const Apiproducts = () => {
 
 
 
-  useEffect(()=>{
-    dispatch(searchproductdata(search))
-  },[search])
+  useEffect(() => {
+    if (search) {
+      setLoading(true);
+      const timer = setTimeout(() => {
+        dispatch(searchproductdata(search));
+        setLoading(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [search, dispatch]);
+
 
 
 
@@ -298,7 +309,21 @@ const Apiproducts = () => {
       sx={{ width: 250}}
       renderInput={(params) => <TextField {...params}  placeholder='Search By Category'/>}
       onChange={(event,value) => {setsearch(value)}}
-    /> <br /><br /><br />
+    />
+     {loading && (
+        <Spin
+          style={{
+            position: "absolute",
+            left: "310px",
+            top:"144px"
+         
+          }}
+        
+        />
+     
+      )}
+       
+         <br /><br /><br />
 
       
 
