@@ -15,7 +15,16 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Badge as AntBadge, Image, Tooltip, Rate, AutoComplete } from "antd";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosTwoToneIcon from '@mui/icons-material/ArrowBackIosTwoTone';
+import {
+  Badge as AntBadge,
+  Image,
+  Tooltip,
+  Rate,
+  AutoComplete,
+  Drawer,
+} from "antd";
 import { FloatButton } from "antd";
 import styles from "../styles/confirm.module.css";
 import { Spin } from "antd";
@@ -24,15 +33,19 @@ import {
   ExclamationCircleOutlined,
   HeartOutlined,
   InfoCircleOutlined,
+  LeftOutlined,
+  RightOutlined,
 } from "@ant-design/icons";
-import { Autocomplete, Stack, TextField } from "@mui/material";
+import { Autocomplete, Box, Stack, TextField } from "@mui/material";
 import Navbar1 from "../Components/Navbar1";
 import Details from "../Componentsapi/Details";
 import { Input, Space, Select } from "antd";
 import { useRouter } from "next/router";
 
+
 const Apiproducts = () => {
   const { Option } = Select;
+
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [id, setid] = useState();
@@ -45,17 +58,23 @@ const Apiproducts = () => {
   const [showwish, setshowwish] = useState(false);
   const [alreadywishlist, setalreadywishlist] = useState(false);
   const [visibleItems, setVisibleItems] = useState(4);
-  const [loading, setLoading] = useState(false);
+  const [open, setopen] = useState(false);
+  const [imageindex, setimageindex] = useState(0);
 
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
+  const singleitem = apiproducts.filter((data) => {
+    data.id === id;
+    return data.id === id;
+  })[0];
+  // console.log("singleitem", singleitem);
 
   const { cart, wishlist, searchdata } = useSelector(
     (state: any) => state.allcarts
   );
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
-
+  const images = singleitem?.img || [];
   // console.log("api", apiproducts);
 
   useEffect(() => {
@@ -67,7 +86,7 @@ const Apiproducts = () => {
   }, [search]);
 
   const handleaddtocart = (values: any) => {
-    const existingitem = cart.find((item:any) => item.id === values.id);
+    const existingitem = cart.find((item: any) => item.id === values.id);
     if (existingitem) {
       setalreadyAdded(true);
       return;
@@ -113,6 +132,23 @@ const Apiproducts = () => {
     }, 100);
   };
 
+  const drawerclose = () => {
+    setopen(false);
+  };
+
+  const nextimage = () => {
+    setimageindex((prevIndex) => {
+      const newIndex = prevIndex + 1;
+      return newIndex >= singleitem?.img.length ? 0 : newIndex;
+    });
+  };
+  const previmage = () => {
+    setimageindex((prevIndex) => {
+      const newindex = prevIndex - 1;
+      return newindex < 0 ? images.length - 1 : newindex;
+    });
+  };
+
   return (
     <>
       <style>
@@ -151,6 +187,44 @@ const Apiproducts = () => {
           }
           fa-heart.active{
             background-color: red;
+          
+          }
+
+          .main{
+            display:flex;
+            flex-direction: row;
+            gap:130px;
+           
+          
+        
+            
+          }
+          .details{
+            text-align: left;
+          }
+         
+          .details p{
+            font-size:16px;
+            color:rgb(54,53,53);
+            width:450px;
+           
+          }
+          details h3{
+            color:
+          }
+          .innerdiv{
+            height:7px;
+            width:12px;
+            background-color:red;
+       
+
+          }
+       
+          .outerdiv{
+            height:7px;
+          
+            background-color:black;
+
           }
          
         
@@ -331,13 +405,13 @@ const Apiproducts = () => {
               >
                 <CardMedia
                   sx={{ height: 300, width: 320 }}
-                  image={product.img}
+                  image={product.img[0]}
                   title={product.title}
                 />
 
                 <CardContent>
                   {product.ribbon && (
-                    <AntBadge.Ribbon text="New" color="Green">
+                    <AntBadge.Ribbon text="New" color="orange">
                       <div>
                         <Typography variant="h6" component="div">
                           {product.title.length > 30
@@ -355,7 +429,11 @@ const Apiproducts = () => {
                           ₹ {product.price}
                         </Typography>
 
-                        <Rate disabled defaultValue={product.rating} />
+                        <Rate
+                          allowHalf
+                          disabled
+                          defaultValue={product.rating}
+                        />
                         <Typography
                           variant="body2"
                           component="div"
@@ -447,7 +525,8 @@ const Apiproducts = () => {
                       variant="outlined"
                       onClick={() => {
                         setid(product.id);
-                        setshowdetails(true);
+                        // setshowdetails(true);
+                        setopen(true);
                       }}
                     >
                       Details
@@ -478,6 +557,62 @@ const Apiproducts = () => {
       <Tooltip title="Go to Top" color="black" placement="top">
         <FloatButton.BackTop type="primary" />
       </Tooltip>
+      <Drawer open={open} onClose={drawerclose} placement="bottom" height={600}>
+        <div className="main">
+          <div className="image">
+            <ArrowBackIosTwoToneIcon
+              style={{
+                position: "absolute",
+                top: "280px",
+                left: "24px",
+                fontSize: "40px",
+                backgroundColor:"black",
+                color:"white",
+               borderRadius:"100%",
+               padding:"8px",
+                zIndex:9999
+              }}
+              onClick={previmage}
+            />{" "}
+            <img
+              src={singleitem?.img[imageindex]}
+              alt=""
+              height={430}
+              width={650}
+              style={{ borderRadius: 12 }}
+            />
+            <ArrowForwardIosIcon
+              onClick={nextimage}
+              style={{
+                position: "absolute",
+                top: "280px",
+                left: "635px",
+                fontSize: "40px",
+                backgroundColor:"black",
+                color:"white",
+               borderRadius:"100%",
+               padding:"8px",
+                zIndex:9999
+              }}
+            />
+          <h1 style={{ color: singleitem?.color === 'White' ? 'inherit' : singleitem?.color }}>{singleitem?.title}</h1>
+
+           
+          </div>
+          <div className="details">
+            <h3>Highlights:</h3>
+            <p>{singleitem?.description}</p>
+            <h3>Features:</h3>
+            <p>{singleitem?.full}</p>
+            <h3>Rating:</h3>
+            <p><Rate allowHalf disabled defaultValue={singleitem?.rating}/></p>
+            <br />
+            <Button variant="contained" onClick={() => setopen(false)}>
+              Close
+            </Button>
+          </div>
+        </div>
+      </Drawer>
     </>
   );
 };
