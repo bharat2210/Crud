@@ -19,7 +19,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosTwoToneIcon from '@mui/icons-material/ArrowBackIosTwoTone';
 import {
   Badge as AntBadge,
-  Image,
+
   Tooltip,
   Rate,
   AutoComplete,
@@ -28,19 +28,22 @@ import {
 import { FloatButton } from "antd";
 import styles from "../styles/confirm.module.css";
 import { Spin } from "antd";
+import { Button as AntButton, Form as AntForm } from "antd";
+import {  Statistic, notification } from "antd";
+
 import {
-  CheckCircleOutlined,
+
   ExclamationCircleOutlined,
   HeartOutlined,
   InfoCircleOutlined,
-  LeftOutlined,
-  RightOutlined,
+ 
 } from "@ant-design/icons";
-import { Autocomplete, Box, Stack, TextField } from "@mui/material";
+import { Autocomplete,  Stack, TextField } from "@mui/material";
 import Navbar1 from "../Components/Navbar1";
 import Details from "../Componentsapi/Details";
-import { Input, Space, Select } from "antd";
+import { Select } from "antd";
 import { useRouter } from "next/router";
+import Loader from "../Components/Loader";
 
 
 const Apiproducts = () => {
@@ -53,9 +56,8 @@ const Apiproducts = () => {
   const [alreadyAdded, setalreadyAdded] = useState(false);
   const [full, setfull] = useState(false);
   const [itemoutofstock, setitemoutofstock] = useState(false);
-  const [showpopup, setshowpopup] = useState(false);
+
   const [search, setsearch] = useState();
-  const [showwish, setshowwish] = useState(false);
   const [alreadywishlist, setalreadywishlist] = useState(false);
   const [visibleItems, setVisibleItems] = useState(4);
   const [open, setopen] = useState(false);
@@ -70,7 +72,7 @@ const Apiproducts = () => {
   })[0];
   // console.log("singleitem", singleitem);
 
-  const { cart, wishlist, searchdata } = useSelector(
+  const { cart, wishlist, searchdata ,isloading} = useSelector(
     (state: any) => state.allcarts
   );
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
@@ -97,14 +99,21 @@ const Apiproducts = () => {
     }
     if (values.stock > 0) {
       dispatch(addtocart(values));
-      setshowpopup(true);
-      setTimeout(() => {
-        setshowpopup(false);
-      }, 1000);
+     notification.success({
+      message:"Item Added",
+      description:"Item successfully added to cart",
+      placement:"topLeft",
+      style:{
+        top:"78px"
+      }
+     })
     } else {
       setitemoutofstock(true);
     }
   };
+  if(isloading){
+    return <Loader/>
+  }
 
   const handleaddtowish = (wish: any) => {
     const existing = wishlist.find((item: any) => item.id === wish.id);
@@ -113,10 +122,17 @@ const Apiproducts = () => {
       return;
     }
     dispatch(addtowishlist(wish));
-    setshowwish(true);
-    setTimeout(() => {
-      setshowwish(false);
-    }, 1000);
+    notification.success({
+      message:"Item Added",
+      description:"Item added successfully to wish list",
+      placement:"topLeft",
+      style:{
+        top:"78px"
+      }
+
+    })
+    
+
   };
 
   const handleLoadMore = () => {
@@ -151,6 +167,7 @@ const Apiproducts = () => {
 
   return (
     <>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       <style>
         {`
         
@@ -232,11 +249,7 @@ const Apiproducts = () => {
       </style>
       {showdetails && <Details setshowdetails={setshowdetails} id={id} />}
 
-      {showpopup && (
-        <div className="popup">
-          <p>Item has been added to Cart 😀 </p>
-        </div>
-      )}
+   
 
       {alreadyAdded && (
         <div className={styles.prompt}>
@@ -288,11 +301,7 @@ const Apiproducts = () => {
           </div>
         </div>
       )}
-      {showwish && (
-        <div className="popup">
-          <p>Item has been added to Wishlist</p>
-        </div>
-      )}
+    
       {alreadywishlist && (
         <div className={styles.prompt}>
           <div className={styles.main}>
@@ -398,7 +407,7 @@ const Apiproducts = () => {
             .slice(0, visibleItems)
             .map((product: any) => (
               <Card
-                sx={{ height: 568, width: 320 }}
+                sx={{ height: 540, width: 320 }}
                 key={product.id}
                 data-aos="fade-up"
                 className="card"
@@ -406,7 +415,7 @@ const Apiproducts = () => {
                 <CardMedia
                   sx={{ height: 300, width: 320 }}
                   image={product.img[0]}
-                  title={product.title}
+                  title={product.img[0] ? product.title : 'Image not available'}
                 />
 
                 <CardContent>
@@ -502,7 +511,7 @@ const Apiproducts = () => {
                     <Button
                       size="small"
                       variant="contained"
-                      onClick={() => handlebuy(product)}
+                     
                     >
                       Buy
                     </Button>
@@ -553,7 +562,7 @@ const Apiproducts = () => {
             Load More Items
           </Button>
         </div>
-      )}
+      )} 
       <Tooltip title="Go to Top" color="black" placement="top">
         <FloatButton.BackTop type="primary" />
       </Tooltip>
@@ -595,15 +604,15 @@ const Apiproducts = () => {
                 zIndex:9999
               }}
             />
-          <h1 style={{ color: singleitem?.color === 'White' ? 'inherit' : singleitem?.color }}>{singleitem?.title}</h1>
+          <h1 style={{ color:"black" }}>{singleitem?.title}</h1>
 
            
           </div>
           <div className="details">
             <h3>Highlights:</h3>
-            <p>{singleitem?.description}</p>
+            <p style={{color:"GrayText"}}>{singleitem?.description}</p>
             <h3>Features:</h3>
-            <p>{singleitem?.full}</p>
+            <p style={{color:"GrayText"}}>{singleitem?.full}</p>
             <h3>Rating:</h3>
             <p><Rate allowHalf disabled defaultValue={singleitem?.rating}/></p>
             <br />

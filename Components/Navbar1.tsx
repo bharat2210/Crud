@@ -49,17 +49,17 @@ function Navbar1() {
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
-  const handleCloseDialog = () => {
-    setDialogOpen(false);
-  };
-  const handleSubmit = () => {
-    // Replace 'YOUR_SECURITY_KEY' with the actual security key you want to check
-    if (keyValue === "bhart") {
-      router.push("/Admin");
-    } else {
-      alert("Invalid security key");
-    }
-  };
+  // const handleCloseDialog = () => {
+  //   setDialogOpen(false);
+  // };
+  // const handleSubmit = () => {
+  //   // Replace 'YOUR_SECURITY_KEY' with the actual security key you want to check
+  //   if (keyValue === "bhart") {
+  //     router.push("/Admin");
+  //   } else {
+  //     alert("Invalid security key");
+  //   }
+  // };
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -114,7 +114,8 @@ function Navbar1() {
     router.push("/Cart");
   };
   const handleadmin = () => {
-    handleOpenDialog();
+    router.push("/Admin");
+   
   };
 
   return (
@@ -254,7 +255,7 @@ function Navbar1() {
               >
                 Admin
               </Button>
-              <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+              {/* <Dialog open={dialogOpen} onClose={handleCloseDialog}>
                 <DialogTitle>
                   <h5>Enter Security Key to access this page</h5>
                 </DialogTitle>
@@ -275,7 +276,7 @@ function Navbar1() {
                     </Button>
                   </Stack>
                 </DialogContent>
-              </Dialog>
+              </Dialog> */}
               <div
                 className="flex"
                 style={{ display: "flex", flexDirection: "row", gap: "2px" }}

@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { store } from '../store'
 import {Provider} from 'react-redux'
 import Layout from '../Components/Layout'
+import Permisions from '../Components/Permisions'
 
 import AOS from 'aos';
 
@@ -19,7 +20,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
   <Provider store={store}>
     <Layout>
-    <Component {...pageProps} />
+      <Permisions>
+      <Component {...pageProps} />
+
+      </Permisions>
+    
     </Layout>
 
   </Provider>

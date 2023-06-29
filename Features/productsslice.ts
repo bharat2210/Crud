@@ -120,7 +120,9 @@ const productsslice = createSlice({
         state.cart[find].quantity += 1;
       } else {
         state.cart.push(action.payload);
+ 
       }
+      localStorage.setItem('cart', JSON.stringify(state.cart));
     },
     addtowishlist: (state, action) => {
       state.wishlist.push(action.payload);
@@ -198,7 +200,7 @@ const productsslice = createSlice({
       state.error=action.error.message || null
     })
     .addCase(addproducts.pending,(state,action)=>{
-      state.isloading=false;
+      state.isloading=true;
       
     })
     .addCase(addproducts.fulfilled,(state,action)=>{
@@ -217,7 +219,7 @@ const productsslice = createSlice({
       state.error = action.error.message || null;
     })
     .addCase(updateitem.pending, (state, action) => {
-      state.isloading=false;
+      state.isloading=true;
     })
     .addCase(updateitem.fulfilled,(state,action)=>{
       state.isloading=false;
