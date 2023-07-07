@@ -28,10 +28,10 @@ const allregister = () => {
   const dispatch: AppDispatch = useDispatch();
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showupdate, setshowupdate] = useState<boolean>(false);
-  const [id, setId] = useState();
-  const[username, setusername] = useState();
+  const [id, setId] = useState<number>();
+  const[username, setusername] = useState<string>();
 
-  const { rusers, isloading } = useSelector<any, any>(
+  const { rusers, isloading } = useSelector(
     (state:RootState) => state.grand
   );
   useEffect(() => {
@@ -39,15 +39,16 @@ const allregister = () => {
     console.log("read users are", rusers);
   }, []);
 
-  const handledelete = (userId,username) => {
+  const handledelete = (userId:number,username:string) => {
     setshowdelete(true);
     setId(userId);
     setusername(username)
   };
   const confirmhandledelete = () => {
     dispatch(deleteuser(id));
-    setshowdelete(false);
     dispatch(readuser());
+    setshowdelete(false);
+   
   };
   if (isloading) {
     return <Loader />;
@@ -79,14 +80,14 @@ const allregister = () => {
         </div>
       )}
       {showupdate && <Update1 id={id} setshowupdate={setshowupdate} />}
-
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 30 }}>
+       <h2 style={{textAlign:"center"}}>Registered Users</h2>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: 60 }}>
         <TableContainer component={Paper} sx={{ width: 1100 }}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">
-                  ID
+                  SNo.
                 </TableCell>
                 <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">
                   Name
@@ -104,9 +105,9 @@ const allregister = () => {
             </TableHead>
             <TableBody>
               {rusers &&
-                rusers.map((element: any) => (
-                  <TableRow key={element.id}>
-                    <TableCell>{element.id}</TableCell>
+                rusers.map((element: any,index:any) => (
+                  <TableRow key={element._id}>
+                    <TableCell sx={{ fontWeight: 800 }}>{index+1}.</TableCell>
                     <TableCell>{element.name}</TableCell>
                     <TableCell>{element.email}</TableCell>
                     <TableCell>{element.password}</TableCell>
@@ -115,7 +116,7 @@ const allregister = () => {
                         className={edit.edit}
                         onClick={() => {
                           setshowupdate(true);
-                          setId(element.id);
+                          setId(element._id);
                         }}
                       >
                         Edit <i className="fa-solid fa-pen-to-square"></i>
@@ -123,7 +124,7 @@ const allregister = () => {
 
                       <button
                         className={styles.delete}
-                        onClick={() => handledelete(element.id,element.name)}
+                        onClick={() => handledelete(element._id,element.name)}
                       >
                         Delete <i className="fa-solid fa-trash"></i>
                       </button>

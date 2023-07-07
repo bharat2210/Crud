@@ -26,18 +26,19 @@ interface LoginCredentials {
 }
 
 export const registerUser = createAsyncThunk('auth/registerUser', async (values: RegisterCredentials) => {
-  const response = await axios.post<User>('http://localhost:3001/users', values);
+  const response = await axios.post<User>('http://localhost:3000/api/useradd', values);
   return response.data;
 });
 export const loginuser=createAsyncThunk('auth/Loginuser',async(Loginvalues:LoginCredentials)=>{
-    const response=await axios.get('http://localhost:3001/users');
-    console.log("response is",response)
-    console.log("login",Loginvalues)
-   const alldata =response.data
-   console.log("all data is",alldata)
-   const user=alldata.find((u:any)=>u.email===Loginvalues.email && u.password===Loginvalues.password)
+    const response=await axios.post('http://localhost:3000/api/login',Loginvalues);
+    return response.data;
+  //   console.log("response is",response)
+  //   console.log("login",Loginvalues)
+  //  const alldata =response.data
+  //  console.log("all data is",alldata)
+  //  const user=alldata.find((u:any)=>u.email===Loginvalues.email && u.password===Loginvalues.password)
 
-   return user || null
+  //  return user || null
   
    
 
@@ -85,6 +86,7 @@ const authSlice = createSlice({
       .addCase(loginuser.rejected,(state,action)=>{
         state.isLoading=false;
         state.error=action.error.message || "Login Failed"
+      
       })
   }
 });

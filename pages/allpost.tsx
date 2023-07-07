@@ -33,13 +33,13 @@ const Allpost = () => {
   const [id, setId] = useState<number>();
   const [username, setusername] = useState<string>();
 
-  const [showconfirm, setshowconfirm] = useState(false);
+  const [showconfirm, setshowconfirm] = useState<boolean>(false);
   const { users, isloading, searchdata } = useSelector(
     (state: RootState) => state.app
   );
 
-  const [showpopup, setshowpopup] = useState(false);
-  const [showcreate, setshowcreate] = useState(false);
+  const [showpopup, setshowpopup] = useState<boolean>(false);
+  const [showcreate, setshowcreate] = useState<boolean>(false);
   const [search, setsearch] = useState("");
   const [loggedInUser, setLoggedInUser] = useState("");
 
@@ -57,13 +57,14 @@ const Allpost = () => {
     }
   });
 
-  const handledelete = (userId: any, username: string) => {
+  const handledelete = (userId:number, username: string) => {
     setshowconfirm(true);
     setId(userId);
     setusername(username);
   };
   const confirmhandledelete = () => {
     dispatch(deleteuser(id));
+    dispatch(showuser())
     setshowconfirm(false);
   };
   if (isloading) {
@@ -152,7 +153,7 @@ const Allpost = () => {
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">
-                  ID
+                  SNo.
                 </TableCell>
                 <TableCell sx={{ fontSize: 18, fontWeight: 800 }} align="left">
                   Name
@@ -185,10 +186,10 @@ const Allpost = () => {
                     }
                   })
 
-                  .map((details: any) => (
-                    <TableRow key={details.id}>
+                  .map((details: any,index:number) => (
+                    <TableRow key={details._id}>
                       <TableCell align="left" sx={{ fontWeight: 800 }}>
-                        {details.id}.
+                        {index+1}.
                       </TableCell>
                       <TableCell align="left">{details.E_name}</TableCell>
                       <TableCell align="left">{details.E_age}</TableCell>
@@ -202,7 +203,7 @@ const Allpost = () => {
                           className={edit.edit}
                           onClick={() => {
                             setshowpopup(true);
-                            setId(details.id);
+                            setId(details._id);
                           }}
                         >
                           Edit <i className="fa-solid fa-pen-to-square"></i>
@@ -211,7 +212,7 @@ const Allpost = () => {
                         <button
                           className={styles.delete}
                           onClick={() =>
-                            handledelete(details.id, details.E_name)
+                            handledelete(details._id, details.E_name)
                           }
                         >
                           Delete <i className="fa-solid fa-trash"></i>

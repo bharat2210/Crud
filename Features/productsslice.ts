@@ -1,10 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import productData from "../productdata";
+import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
 import axios from "axios";
-import Apiproducts from "../pages/Apiproducts";
+
 
 interface Product {
-  id: number;
+  _id: number;
   title: string;
   price: number;
   img: string[];
@@ -12,7 +12,7 @@ interface Product {
   description: string;
   rating: number;
   size: string | number;
-  full: string | number;
+  full: string;
   color: string;
   storage: string | number;
   ribbon:boolean;
@@ -47,11 +47,28 @@ const initialState: CartState = {
 
 
 };
+interface Data{
+  _id: number;
+  title: string;
+  price: number;
+  img: string[];
+  quantity: number;
+  description: string;
+  rating: number;
+  size: string | number;
+  full: string;
+  color: string;
+  storage: string | number;
+  ribbon:boolean;
+  stock:number;
+  category:string;
+
+}
 
 // Get action
- export const getproducts= createAsyncThunk("getproducts",async(data:any)=>{
+ export const getproducts= createAsyncThunk("getproducts",async()=>{
   try{
-    const response = await axios.get("http://localhost:3001/products",{
+    const response = await axios.get("http://localhost:3000/api/getproducts",{
       headers:{
         "Content-Type":"application/json"
       }
@@ -65,22 +82,25 @@ const initialState: CartState = {
  })
 
 //  Create action
-export const addproducts= createAsyncThunk("addproducts",async(data)=>{
+export const addproducts= createAsyncThunk("addproducts",async(formdata)=>{
   try{
-    const response = await axios.post("http://localhost:3001/products",data,{
-      headers:{
-        "Content-Type":"application/json"
-      }
+    const response = await axios.post("http://localhost:3000/api/createproduct",formdata,{
+    headers:{
+      "Content-Type":"application/json"
+    }
     });
     return response.data;
+    
   }catch(error){
     return error
   }
+  
 })
+
 // Delete action
-export const deleteitem = createAsyncThunk("deleteItem", async (userId) => {
+export const deleteitem = createAsyncThunk("deleteItem", async(id) => {
   try {
-    const response = await axios.delete(`http://localhost:3001/products/${userId}`);
+    const response = await axios.delete(`http://localhost:3000/api/deleteproduct?id=${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -92,10 +112,20 @@ export const deleteitem = createAsyncThunk("deleteItem", async (userId) => {
 export const updateitem = createAsyncThunk("updateitem",async (data)=>{
   const{id, ...productdata}:any=data
   try{
-    const response = await axios.put(`http://localhost:3001/products/${id}`,productdata,{
-      headers:{
-        "Content-Type":"application/json"
-      }
+    const response = await axios.put(`http://localhost:3000/api/updateproduct?id=${id}`,productdata,{
+    
+    })
+    return response.data
+  }catch(error){
+    return error
+  }
+});
+
+// Updatestock
+export const updatestock = createAsyncThunk("updatestock",async(productid)=>{
+  try{
+    const response=await axios.put(`http://localhost:3000/api/stock?id=${productid}`,{
+
     })
     return response.data
   }catch(error){
@@ -115,7 +145,7 @@ const productsslice = createSlice({
   initialState,
   reducers: {
     addtocart: (state, action) => {
-      let find = state.cart.findIndex((item) => item.id === action.payload.id);
+      let find = state.cart.findIndex((item) => item._id === action.payload._id);
       if (find >= 0) {
         state.cart[find].quantity += 1;
       } else {
@@ -152,11 +182,11 @@ const productsslice = createSlice({
       state.searchdata=action.payload;
     },
     removeitem: (state, action) => {
-      state.cart = state.cart.filter((item) => item.id !== action.payload);
+      state.cart = state.cart.filter((item:any) => item._id !== action.payload);
     },
     increaseitem: (state, action) => {
-      state.cart = state.cart.map((item) => {
-        if (item.id === action.payload) {
+      state.cart = state.cart.map((item:any) => {
+        if (item._id === action.payload) {
           return { ...item, quantity: item.quantity + 1 };
         }
         return item;
@@ -164,7 +194,7 @@ const productsslice = createSlice({
     },
     decreaseitem: (state, action) => {
       state.cart = state.cart.map((item) => {
-        if (item.id === action.payload) {
+        if (item._id === action.payload) {
           return { ...item, quantity: item.quantity - 1 };
         }
         return item;
@@ -177,7 +207,7 @@ const productsslice = createSlice({
     },
     removewishcart: (state, action) => {
       state.wishlist = state.wishlist.filter(
-        (identity) => identity.id !== action.payload
+        (identity) => identity._id !== action.payload
       );
     },
     deletewishcart: (state, action) => {
@@ -195,9 +225,9 @@ const productsslice = createSlice({
       state.isloading=false;
       state.apiproducts=action.payload
     })
-    .addCase(getproducts.rejected,(state,action)=>{
+    .addCase(getproducts.rejected,(state,action:AnyAction)=>{
       state.isloading=false;
-      state.error=action.error.message || null
+      state.error=action.payload.message || null
     })
     .addCase(addproducts.pending,(state,action)=>{
       state.isloading=true;
@@ -207,16 +237,20 @@ const productsslice = createSlice({
       state.isloading=false;
       state.apiproducts.push(action.payload)
     })
+    .addCase(addproducts.rejected,(state,action:AnyAction)=>{
+      state.isloading=false;
+      state.error=action.payload.message || null
+    })
     .addCase(deleteitem.pending, (state) => {
       state.isloading = true;
     })
     .addCase(deleteitem.fulfilled, (state, action) => {
       state.isloading = false;
-      state.apiproducts = state.apiproducts.filter((data) => data.id !== action.payload);
+      state.apiproducts = state.apiproducts.filter((data:Data) => data._id !== action.payload);
     })
-    .addCase(deleteitem.rejected, (state, action) => {
+    .addCase(deleteitem.rejected, (state, action:AnyAction) => {
       state.isloading = false;
-      state.error = action.error.message || null;
+      state.error = action.payload.message || null;
     })
     .addCase(updateitem.pending, (state, action) => {
       state.isloading=true;
@@ -224,13 +258,31 @@ const productsslice = createSlice({
     .addCase(updateitem.fulfilled,(state,action)=>{
       state.isloading=false;
       const updateproductdata=action.payload;
-      const index=state.apiproducts.findIndex((data)=>data.id===updateproductdata.id)
+      const index=state.apiproducts.findIndex((data:any)=>data._id===updateproductdata._id)
       state.apiproducts[index]=updateproductdata;
     })
     .addCase(updateitem.rejected,(state,action)=>{
       state.isloading=false;
       state.error=action.error.message || null;
     })
+    .addCase(updatestock.pending,(state,action)=>{
+      state.isloading=true;
+   
+    
+  
+    })
+    .addCase(updatestock.fulfilled,(state,action)=>{
+      state.isloading=false;
+      
+      
+    })
+    .addCase(updatestock.rejected,(state,action:AnyAction)=>{
+      state.isloading=false;
+      state.error=action.payload.message || null
+    })
+  
+ 
+  
 
   
     

@@ -14,8 +14,8 @@ const Update1 = ({ id, setshowupdate }: any) => {
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
   const allusers = useSelector((state: any) => state.grand.rusers);
   const singleuser = allusers.filter((elm: any) => {
-    elm.id === id;
-    return elm.id === id;
+    elm._id === id;
+    return elm._id === id;
   })[0];
   const [updata, setupdata] = useState({ name: "", email: "", password: "" });
   useEffect(() => {
@@ -27,7 +27,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
   const handleupdate = (e: any) => {
     e.preventDefault();
 
-    dispatch(updateuser({ id: singleuser.id, ...updata }));
+    dispatch(updateuser({ id: singleuser._id, ...updata }));
     setshowupdate(false);
   };
   return (
@@ -88,7 +88,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
               variant="outlined"
               name="name"
               type="text"
-              value={updata.name}
+              value={updata?.name}
               onChange={(e) =>
                 setupdata((prevstate) => ({
                   ...prevstate,
@@ -104,7 +104,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
               variant="outlined"
               name="email"
               type="text"
-              value={updata.email}
+              value={updata?.email}
               onChange={(e) =>
                 setupdata((prevstate) => ({
                   ...prevstate,
@@ -120,7 +120,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
               variant="outlined"
               name="password"
               type="text"
-              value={updata.password}
+              value={updata?.password}
               onChange={(e) =>
                 setupdata((prevstate) => ({
                   ...prevstate,

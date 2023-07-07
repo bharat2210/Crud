@@ -9,7 +9,7 @@ import Navbar1 from "../Components/Navbar1";
 
 const error = () => {
   const router=useRouter();
-  const[second,setseconds]=useState<number>(1000);
+  const[second,setseconds]=useState<number>(10);
 
 
   
@@ -24,13 +24,13 @@ const error = () => {
   useEffect(()=>{
     if(second===0){
      
-      router.push("/allpost")
+      router.push("/Apiproducts")
          
       
     }
   },[second])
   const handlehome = () =>{
-    router.push("/allpost")
+    router.push("/Apiproducts")
   }
     // const router=useRouter()
    

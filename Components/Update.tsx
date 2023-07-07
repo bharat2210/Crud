@@ -7,15 +7,14 @@ import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { updateuser } from "../Features/userdetail";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
+import { AppDispatch, RootState } from "../store";
 
 const Update = ({ id, setshowpopup }: any) => {
-  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
-  const allusers = useSelector((state: any) => state.app.users);
+  const dispatch: AppDispatch = useDispatch();
+  const allusers = useSelector((state:RootState) => state.app.users);
   const singleuser = allusers.filter((ele: any) => {
-    ele.id === id;
-    return ele.id === id;
+    ele._id === id;
+    return ele._id === id;
   })[0];
 
   const [updatedata, setupdatedata] = useState({
@@ -30,7 +29,7 @@ const Update = ({ id, setshowpopup }: any) => {
   const handleupdate = (e: any) => {
     e.preventDefault();
     setshowpopup(false);
-    dispatch(updateuser({ id: singleuser.id, ...updatedata }));
+    dispatch(updateuser({ id: singleuser._id, ...updatedata }));
   };
 
   console.log("allusers", allusers);

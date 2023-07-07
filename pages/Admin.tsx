@@ -4,19 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 // Ant Design Imports
-import {
-  Col,
-  Row,
-  Switch,
-  Drawer,
-  Modal,
-  Input,
-  Space,
-  Select,
-  Image,
-  Typography,
-} from "antd";
-import { Button as AntButton, Form as AntForm } from "antd";
+import { Col, Row, Drawer, Modal, Space, Select, Image } from "antd";
+import { Button as AntButton } from "antd";
 import {
   FileDoneOutlined,
   PlusOutlined,
@@ -44,6 +33,7 @@ import { RootState } from "../store";
 import { useEffect, useState } from "react";
 import Loader from "../Components/Loader";
 import { addproducts } from "../Features/productsslice";
+import numWords from "num-words";
 
 // Mui Imports
 import { Container } from "@mui/material";
@@ -63,20 +53,22 @@ import { readuser } from "../Features/register";
 import Cart from "./Cart";
 
 const Admin = () => {
-  const [id, setid] = useState();
+  const [id, setid] = useState<Number>();
   const [updatedata, setupdatedata] = useState({
     title: "",
-    price: "",
-    stock: "",
+    price: 0,
+    stock: 0,
   });
-  const allproducts = useSelector((state: any) => state.allcarts.apiproducts);
-  // console.log("allproducts", allproducts);
+  const[username,setusername]=useState<string>()
+  const allproducts = useSelector(
+    (state: RootState) => state.allcarts.apiproducts
+  );
+  console.log("allproducts", allproducts);
   // console.log("update id", id);
 
-  const singleproduct = allproducts.filter((data: any) => {
-    return data.id === id;
-  })[0];
-  // console.log("singleproduct", singleproduct);
+  const singleproduct = allproducts.filter((data: any) => data._id === id)[0];
+
+  console.log("singleproduct", singleproduct);
 
   const { Option } = Select;
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
@@ -87,25 +79,20 @@ const Admin = () => {
   );
   // STATISTICS
 
-  const { rusers } = useSelector<any, any>((state: RootState) => state.grand);
+  const { rusers } = useSelector((state: RootState) => state.grand);
 
-  let totalprice = 0;
   const { users } = useSelector((state: RootState) => state.app);
-
+  let totalprice = 0;
   apiproducts.forEach((item) => {
     totalprice += item.price;
   });
-  // console.log(totalprice);
-  const formattedTotalPrice = totalprice.toLocaleString(undefined, {
-    maximumFractionDigits: 2,
-  });
-
-  const limitedTotalPrice = `${formattedTotalPrice.substring(0, 10)}...`;
+  let word = numWords(totalprice).toUpperCase();
 
   let totalstock = 0;
   apiproducts.forEach((item) => {
     totalstock += item.stock;
   });
+  // console.log("Total stock: " + typeof(totalstock) + totalstock);
 
   // STAT END
   const { isloading, searchdata, cart } = useSelector(
@@ -119,10 +106,10 @@ const Admin = () => {
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
   const [imageview, setimageview] = useState(false);
   const [displaybutton, setdisplaybutton] = useState(false);
-  const [itemadded, setitemadded] = useState(false);
+
   const [updateopen, setupdateopen] = useState(false);
   const [stat, setstat] = useState(false);
-  const [cartData, setCartData] = useState([]);
+  // const [cartData, setCartData] = useState([]);
   const [showbutton, setshowbutton] = useState(false);
 
   useEffect(() => {
@@ -131,13 +118,13 @@ const Admin = () => {
     dispatch(readuser());
   }, []);
 
-  useEffect(() => {
-    const cart = localStorage.getItem("cart");
-    if (cart) {
-      setCartData(JSON.parse(cart));
-      setshowbutton(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const cart = localStorage.getItem("cart");
+  //   if (cart) {
+  //     setCartData(JSON.parse(cart));
+  //     setshowbutton(true);
+  //   }
+  // }, []);
 
   // let cartdata = null;
   // if (typeof window !== 'undefined') {
@@ -150,18 +137,20 @@ const Admin = () => {
   }, [search]);
   useEffect(() => {
     setupdatedata(singleproduct);
-  }, [singleproduct, id]);
-  // console.log("updatedata", updatedata);
+  }, [singleproduct]);
+  console.log("updatedata", updatedata);
 
   // Admin actions
-  const handledelete = (userId: any) => {
+  const handledelete = (userId:number,username:string) => {
     setid(userId);
     setdeleteproduct(true);
+    setusername(username)
     console.log("userId", userId);
   };
   const confirmdelete = () => {
     dispatch(deleteitem(id));
     dispatch(getproducts());
+
     notification.warning({
       message: "Product deletion",
       description: "Item deleted successfully",
@@ -203,15 +192,47 @@ const Admin = () => {
     setshownavbar(false);
     setOpen(true);
   };
-  const onFinish = (values: any) => {
-    dispatch(addproducts(values));
-    setitemadded(true);
-    setOpen(false);
-    setshownavbar(true);
-    setTimeout(() => {
-      setitemadded(false);
-    }, 2000);
-    console.log("values", values);
+  // const onFinish = (values: any) => {
+  //   dispatch(addproducts(values));
+  //
+  //   setOpen(false);
+  //   setshownavbar(true);
+  //
+  //   console.log("values", values);
+  // };
+  const handlesubmit = (e: any) => {
+    e.preventDefault();
+
+    // Retrieve form input values using e.target.elements
+    const formData = {
+      title: e.target.elements.title.value,
+      price: Number(e.target.elements.price.value), // Convert to number
+      img: [e.target.elements.img.value],
+      quantity: Number(e.target.elements.quantity.value), // Convert to number
+      description: e.target.elements.description.value,
+      rating: Number(e.target.elements.rating.value), // Convert to number
+      size: e.target.elements.size.value,
+      full: e.target.elements.full.value,
+      color: e.target.elements.color.value,
+      storage: e.target.elements.storage.value,
+      ribbon: e.target.elements.ribbon.value,
+      stock: Number(e.target.elements.stock.value), // Convert to number
+      category: e.target.elements.category.value,
+    };
+
+    // Call the addproducts action or perform API request
+    dispatch(addproducts(formData));
+
+    // Reset the form or perform any other necessary actions
+    onClose();
+    notification.success({
+      message: "Success",
+      description: "Item added successfully",
+      placement: "topLeft",
+      style: {
+        top: "78px",
+      },
+    });
   };
 
   const updateclose = () => {
@@ -220,7 +241,7 @@ const Admin = () => {
   };
   const handleupdate = (e: any) => {
     e.preventDefault();
-    dispatch(updateitem({ id: singleproduct.id, ...updatedata }));
+    dispatch(updateitem({ id: singleproduct._id, ...updatedata }));
     console.log("values", e);
     notification.success({
       message: "Update Action",
@@ -246,11 +267,24 @@ const Admin = () => {
     setshownavbar(true);
   };
   const handlecancelorders = () => {
-    localStorage.removeItem("cart"); // Remove cart data from localStorage
-    setCartData([]); // Update the state to reflect the empty cart
-    setshowbutton(false);
+    // localStorage.removeItem("cart"); // Remove cart data from localStorage
+    // setCartData([]); // Update the state to reflect the empty cart
+    // setshowbutton(false);
     dispatch(deleteallitems());
   };
+
+  const currenttime = new Date();
+  const currentHour = currenttime.getHours();
+  console.log(currenttime);
+  console.log(currentHour);
+  let wish;
+  if (currentHour < 12) {
+    wish = "Good Morning Bharat 🌅";
+  } else if (currentHour >= 12 && currentHour < 17) {
+    wish = "Good Afternoon Bharat ☀️ ";
+  } else {
+    wish = "Good Evening Bharat 🌇 ";
+  }
 
   return (
     <>
@@ -270,55 +304,39 @@ const Admin = () => {
         }
           
 
-          .centered-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-          }
-          .popup {
-            position: fixed;
-            top: -100px;
-            left: -100px;
-            transform: translateX(-50%);
-            background-color: black;
-            padding: 22px;
-            border-radius: 4px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            z-index: 9999;
-            padding: 8px;
-            animation: slideIn 0.3s ease-in-out forwards;
-          }
-          @keyframes slideIn {
-            0% {
-              top: 1%;
-              left: 50%;
-            }
-            100% {
-              top: 15%;
-              left: 50%;
-              transform: translateX(-50%);
-            }
-          }
+         
+         
           
-           p{
-            margin: 0;
-            font-size: 22px;
-            font-weight: 500;
-            color:white;
-          }
+           
           .fa-bag-shopping{
             color:red;
+          }
+          .form{
+            width:400px;
+          }
+          .formclass{
+            width: 100%;
+            padding:12px;
+            border-radius:12px;
+
+          }
+
+     
+          .textarea{
+            width:100%;
+            border-radius:12px;
+          }
+          .controls{
+            display: flex;
+            flex-direction: row;
+            justify-content:space-around;
+     
           }
          
         
         `}
       </style>
-      {itemadded && (
-        <div className="popup">
-          <p>Item has been added 😀 </p>
-        </div>
-      )}
+
       {shownavbar && <Navbar1 />}
       <br />
       {displaybutton && (
@@ -343,25 +361,12 @@ const Admin = () => {
           centered={true}
           keyboard={true}
           okText="Yes"
-        >
-          <h3>Are you sure want to delete this Product ? ☹️</h3>
+        > 
+        <h1 style={{textAlign:"center"}}>☹️</h1>
+          <h3 style={{textAlign:"center"}}>Are you sure want to delete {username} ? </h3><br />
         </Modal>
       )}
-      <AntButton
-        type="primary"
-        onClick={showDrawer}
-        icon={<PlusOutlined />}
-        style={{ float: "right", right: "25px", position: "fixed" }}
-      >
-        Add New Product
-      </AntButton>
-      <Button
-        variant="contained"
-        onClick={openstat}
-        style={{ position: "fixed", left: "5px" }}
-      >
-        Statistics
-      </Button>
+      <h3 style={{ textAlign: "center" }}>{wish}</h3>
 
       <br />
       {/* <Select
@@ -386,39 +391,57 @@ const Admin = () => {
         <Option value="Macs">Macs</Option>
         <Option value="Displays">Displays</Option>
       </Select>{" "} */}
-      <Autocomplete
-        style={{
-          position: "absolute",
-          left: "225px",
-          borderRadius: "8px",
-        }}
-        size="small"
-        disablePortal
-        id="combo-box-demo"
-        options={
-          apiproducts &&
-          Array.from(new Set(apiproducts.map((data) => data.category)))
-        }
-        sx={{ width: 250 }}
-        renderInput={(params: any) => (
-          <TextField {...params} placeholder="Search By Category" />
-        )}
-        onChange={(event, value: any) => {
-          setsearch(value);
-        }}
-      />
-
-      <br />
-      <br />
-      <br />
 
       <Container>
+        <div className="controls">
+          <Button
+            variant="contained"
+            size="small"
+            onClick={openstat}
+            style={{ marginLeft: 10 }}
+          >
+            Statistics
+          </Button>
+
+          <Autocomplete
+            // style={{
+            //   position: "absolute",
+            //   left: "225px",
+            //   borderRadius: "8px",
+            // }}
+            size="small"
+            disablePortal
+            id="combo-box-demo"
+            options={
+              apiproducts &&
+              Array.from(new Set(apiproducts.map((data) => data.category)))
+            }
+            sx={{ width: 250 }}
+            renderInput={(params: any) => (
+              <TextField {...params} placeholder="Search By Category" />
+            )}
+            onChange={(event, value: any) => {
+              setsearch(value);
+            }}
+          />
+          <AntButton
+            type="primary"
+            onClick={showDrawer}
+            icon={<PlusOutlined />}
+            // style={{ float: "right", right: "25px", position: "fixed" }}
+          >
+            Add New Product
+          </AntButton>
+        </div>
+
+        <br />
+
         <TableContainer component={Paper} sx={{ width: 1100 }}>
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell sx={{ fontSize: 18, fontWeight: 600 }} align="left">
-                  ID
+                  SNo.
                 </TableCell>
                 <TableCell sx={{ fontSize: 18, fontWeight: 600 }} align="left">
                   Title
@@ -454,16 +477,16 @@ const Admin = () => {
                     ) {
                       return item;
                     } else {
-                      return item.category
+                      return item?.category
                         .toLowerCase()
                         .includes(searchdata.toLowerCase());
                     }
                   })
                   .slice(0, visibleItems)
-                  .map((details: any) => (
-                    <TableRow key={details.id} data-aos="zoom-in">
+                  .map((details: any, index: any) => (
+                    <TableRow key={details._id} data-aos="zoom-in">
                       <TableCell align="left" sx={{ fontWeight: 800 }}>
-                        {details.id}.
+                        {index + 1}.
                       </TableCell>
                       <TableCell align="left">{details.title}</TableCell>
                       <TableCell align="left">{details.price}</TableCell>
@@ -505,7 +528,7 @@ const Admin = () => {
                           className={edit.edit}
                           onClick={() => {
                             // setshowupdate(true);
-                            setid(details.id);
+                            setid(details._id);
                             setupdateopen(true);
                             setshownavbar(false);
                           }}
@@ -515,7 +538,7 @@ const Admin = () => {
 
                         <button
                           className={deletecss.delete}
-                          onClick={() => handledelete(details.id)}
+                          onClick={() => handledelete(details._id,details.title)}
                         >
                           Delete <i className="fa-solid fa-trash"></i>
                         </button>
@@ -542,49 +565,6 @@ const Admin = () => {
         title="Update Product"
         style={{ overflowY: "hidden" }}
       >
-        {/* <AntForm layout="vertical">
-         <Row>
-          <Col span={24}>
-            <AntForm.Item
-             label="Title"
-             name="title"
-            
-            >
-              <Input type="text" />
-            </AntForm.Item>
-          </Col>
-         </Row>
-
-
-     
-         <Row>
-          <Col span={24}>
-            <AntForm.Item
-             label="Price"
-             name="price"
-            >
-              <Input type="number"/>
-            </AntForm.Item>
-          </Col>
-         </Row>
-
-
-        
-         <Row>
-          <Col span={24}>
-            <AntForm.Item
-             label="Stock"
-             name="stock"
-            >
-              <Input type="number" />
-            </AntForm.Item>
-          </Col>
-         </Row>
-         <AntButton type="primary" htmlType="submit">Update</AntButton>
-
-
-        </AntForm> */}
-
         <form action="#" onSubmit={handleupdate}>
           <Row gutter={12}>
             <Col span={24}>
@@ -614,10 +594,16 @@ const Admin = () => {
                 type="number"
                 value={updatedata?.price}
                 onChange={(e) =>
-                  setupdatedata((prevvalue) => ({
-                    ...prevvalue,
-                    price: e.target.value,
-                  }))
+                  setupdatedata(
+                    (prevvalue: {
+                      title: string;
+                      price: number;
+                      stock: number;
+                    }) => ({
+                      ...prevvalue,
+                      price: Number(e.target.value),
+                    })
+                  )
                 }
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
               />
@@ -635,7 +621,7 @@ const Admin = () => {
                 onChange={(e) =>
                   setupdatedata((prevvalue) => ({
                     ...prevvalue,
-                    stock: e.target.value,
+                    stock: Number(e.target.value),
                   }))
                 }
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
@@ -655,7 +641,7 @@ const Admin = () => {
 
       <Drawer
         title="Add New Product"
-        width={720}
+        width="auto"
         onClose={onClose}
         open={open}
         bodyStyle={{ paddingBottom: 2 }}
@@ -665,280 +651,180 @@ const Admin = () => {
           </Space>
         }
       >
-        <AntForm layout="vertical" onFinish={onFinish} data-aos="zoom-in">
-          <Row gutter={12}>
+        <form action="#" onSubmit={handlesubmit} className="form">
+          {/* 1st row */}
+          <Row gutter={[12, 12]}>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="text"
                 name="title"
-                label="Title"
-                hasFeedback
-                rules={[
-                  { required: true, message: "Please Enter Title" },
-                  { whitespace: true, message: "Title cannot be empty" },
-                  { min: 5, message: "Title must be at least 5 characters" },
-                  {
-                    max: 15,
-                    message: "Title can't exceed more than 15 characters",
-                  },
-                ]}
-              >
-                <Input placeholder="Enter Title" size="large" />
-              </AntForm.Item>
+                placeholder="Enter Title"
+                required
+                className="formclass"
+              />
             </Col>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="number"
                 name="price"
-                label="Price"
-                hasFeedback
-                rules={[
-                  { required: true, message: "Please Enter Price" },
-                  {
-                    validator: (_, value) => {
-                      if (value && Number(value) < 0) {
-                        return Promise.reject(
-                          "Price must be a positive number"
-                        );
-                      }
-                      return Promise.resolve();
-                    },
-                  },
-                ]}
-              >
-                <Input
-                  type="number"
-                  placeholder="Enter Price"
-                  addonBefore="₹"
-                  size="large"
-                />
-              </AntForm.Item>
+                placeholder="Enter Price"
+                required
+                className="formclass"
+              />
             </Col>
           </Row>
+          <br />
+
+          {/* 2nd row */}
           <Row gutter={12}>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="string"
                 name="img"
-                label="Image"
-                hasFeedback
-                rules={[{ required: true, message: "Image Link is Required" }]}
-              >
-                <Input placeholder="Provide Image Link Here" size="large" />
-              </AntForm.Item>
+                placeholder="Upload Image"
+                required
+                className="formclass"
+              />
             </Col>
             <Col span={12}>
-              <AntForm.Item name="quantity" label="Quantity">
-                <Input
-                  type="number"
-                  placeholder="Enter Quantity"
-                  size="large"
-                  defaultValue={1}
-                  disabled
-                />
-              </AntForm.Item>
+              <input
+                type="number"
+                name="quantity"
+                placeholder="Enter Quantity"
+                value={1}
+                disabled
+                className="formclass"
+              />
             </Col>
           </Row>
-
+          <br />
+          {/* 3rd row */}
           <Row gutter={12}>
             <Col span={24}>
-              <AntForm.Item
+              <textarea
                 name="description"
-                label="Headline"
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Enter Headline",
-                  },
-                  {
-                    min: 10,
-                    message: "Headline must be at least 10 characters",
-                  },
-                  {
-                    max: 20,
-                    message: "Headline cannot exceed more than 20 Characters",
-                  },
-                  {
-                    whitespace: true,
-                    message: "Headline must begin with a character",
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  rows={1}
-                  placeholder="Enter Headline"
-                  allowClear
-                />
-              </AntForm.Item>
+                rows={8}
+                placeholder="Enter Description"
+                className="textarea"
+                required
+              ></textarea>
             </Col>
           </Row>
-
+          <br />
+          {/* 4th Row */}
           <Row gutter={12}>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="number"
                 name="rating"
-                label="Rating"
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Enter a number between 0-5",
-                  },
-                  {
-                    validator: (_, value) => {
-                      if (value && (Number(value) < 0 || Number(value) > 5)) {
-                        return Promise.reject("Rating must be between 0 and 5");
-                      }
-                      return Promise.resolve();
-                    },
-                  },
-                ]}
-              >
-                <Input
-                  type="number"
-                  placeholder="Enter a number between 0-5"
-                  size="large"
-                  min={0}
-                  max={5}
-                />
-              </AntForm.Item>
+                placeholder="Enter a number between 0-5"
+                required
+                className="formclass"
+              />
             </Col>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="text"
                 name="size"
-                label="Size"
-                rules={[{ required: true, message: "Please Enter Size" }]}
-              >
-                <Input placeholder="Enter Size" size="large" />
-              </AntForm.Item>
+                placeholder="Enter size"
+                required
+                className="formclass"
+              />
             </Col>
           </Row>
-
+          <br />
+          {/* 5th Row */}
           <Row gutter={12}>
             <Col span={24}>
-              <AntForm.Item
+              <textarea
                 name="full"
-                label="Description"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Enter Description",
-                  },
-                  {
-                    min: 15,
-                    message: "Description must be at least 15 characters",
-                  },
-                  {
-                    max: 120,
-                    message:
-                      "Description cannot exceed more than 120 Characters",
-                  },
-                  {
-                    whitespace: true,
-                    message: "Description cannot begin with space",
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  rows={3}
-                  placeholder="Enter Description"
-                  allowClear
-                  showCount={true}
-                />
-              </AntForm.Item>
+                rows={10}
+                placeholder="Enter description"
+                className="textarea"
+                required
+              ></textarea>
             </Col>
           </Row>
-
+          <br />
+          {/* 6th row */}
           <Row gutter={12}>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="text"
                 name="color"
-                label="Color"
-                rules={[{ required: true, message: "Please Enter Color" }]}
-              >
-                <Input placeholder="Enter Color of the Product" size="large" />
-              </AntForm.Item>
+                placeholder="Define Color"
+                required
+                className="formclass"
+              />
             </Col>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="text"
                 name="storage"
-                label="Storage"
-                rules={[{ required: true, message: "Please Enter Storage" }]}
-              >
-                <Input placeholder="Enter Storage" size="large" />
-              </AntForm.Item>
+                placeholder="Enter Storage"
+                required
+                className="formclass"
+              />
             </Col>
           </Row>
+          <br />
+
+          {/* 7th row */}
           <Row gutter={12}>
             <Col span={12}>
-              {/* <AntForm.Item
+              <input
+                type="boolean"
                 name="ribbon"
-                label="Ribbon"
-                rules={[{ required: true, message: 'Ribbon ' }]}
-              >
-                <Input type="boolean" placeholder="Please enter Ribbon" />
-              </AntForm.Item> */}
-              <AntForm.Item
-                name="ribbon"
-                label="Ribbon"
-                valuePropName="checked"
-              >
-                <Switch checkedChildren="True" unCheckedChildren="False" />
-              </AntForm.Item>
+                placeholder="New or not"
+                required
+                className="formclass"
+              />
             </Col>
             <Col span={12}>
-              <AntForm.Item
+              <input
+                type="number"
                 name="stock"
-                label="Stock"
-                rules={[
-                  { required: true, message: "Please Enter Stock Value" },
-                  {
-                    validator: (_, value) => {
-                      if (value && Number(value) < 0) {
-                        return Promise.reject(
-                          "Stock must be a positive number"
-                        );
-                      }
-                      return Promise.resolve();
-                    },
-                  },
-                ]}
-              >
-                <Input
-                  type="number"
-                  placeholder="Enter Stock Value"
-                  size="large"
-                />
-              </AntForm.Item>
+                placeholder="Enter Stock"
+                required
+                className="formclass"
+              />
             </Col>
           </Row>
+          <br />
+          {/* 8th row */}
           <Row>
             <Col span={24}>
-              <AntForm.Item
+              <input
+                type="text"
                 name="category"
-                label="Category"
-                rules={[{ required: true, message: "Please Enter Category" }]}
-              >
-                <Input type="text" placeholder="Enter Category" size="large" />
-              </AntForm.Item>
+                placeholder="Enter Category"
+                required
+                className="formclass"
+              />
             </Col>
           </Row>
-          <AntForm.Item>
-            <AntButton type="primary" htmlType="submit">
-              Submit
-            </AntButton>
-          </AntForm.Item>
-        </AntForm>
+          <br />
+          {/* 9th row */}
+          <Row>
+            <Col span={24}>
+              <Button variant="contained" type="submit">
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        </form>
       </Drawer>
 
       <Drawer open={stat} onClose={closestat} placement="left" width={800}>
-        <h4 style={{ color: "GrayText" }}>Dashboard</h4>
-        <h1 style={{ color: "Graytext" }}>Products Statistics</h1>
+        <h4 style={{ color: "black" }}>Dashboard</h4>
+        <h1 style={{ color: "black" }}>Products Statistics</h1>
         <Row gutter={16}>
           <Col span={12}>
             <Card bordered={false}>
               <Statistic
                 title="Total Products"
                 value={apiproducts.length}
-                valueStyle={{ color: "black" }}
+                valueStyle={{ color: "graytext" }}
                 suffix="Items"
                 prefix={<ShoppingOutlined style={{ color: "red" }} />}
               />
@@ -948,10 +834,11 @@ const Admin = () => {
             <Card bordered={false}>
               <Statistic
                 title="Total Value"
-                value="2.3 Cr"
-                valueStyle={{ color: "black" }}
+                value={totalprice}
+                valueStyle={{ color: "graytext" }}
                 prefix="₹"
               />
+              <h5>{word}</h5>
             </Card>
           </Col>
         </Row>
@@ -961,7 +848,7 @@ const Admin = () => {
               <Statistic
                 title="Total Stock"
                 value={totalstock}
-                valueStyle={{ color: "black" }}
+                valueStyle={{ color: "graytext" }}
                 suffix="Units"
                 prefix={
                   <ShoppingCartOutlined style={{ color: "dodgerblue" }} />
@@ -970,14 +857,14 @@ const Admin = () => {
             </Card>
           </Col>
         </Row>
-        <h1 style={{ color: "graytext" }}>Users Statistics</h1>
+        <h1 style={{ color: "black" }}>Users Statistics</h1>
         <Row gutter={16}>
           <Col span={12}>
             <Card bordered={false}>
               <Statistic
                 title="Total Registered Users"
-                value={rusers.length}
-                valueStyle={{ color: "black" }}
+                value={`+ ${rusers.length}`}
+                valueStyle={{ color: "graytext" }}
                 prefix={
                   <FontAwesomeIcon icon={faUser} className="custom-icon" />
                 }
@@ -989,7 +876,7 @@ const Admin = () => {
               <Statistic
                 title="Total Active Users"
                 value={rusers.length}
-                valueStyle={{ color: "black" }}
+                valueStyle={{ color: "graytext" }}
                 prefix={
                   <FontAwesomeIcon icon={faUser} className="custom-icon" />
                 }
@@ -1003,13 +890,13 @@ const Admin = () => {
               <Statistic
                 title="Total Users Records"
                 value={users.length}
-                valueStyle={{ color: "black" }}
+                valueStyle={{ color: "graytext" }}
                 prefix={<FileDoneOutlined style={{ color: "red" }} />}
               />
             </Card>
           </Col>
         </Row>
-        <h1 style={{ color: "graytext" }}>
+        <h1 style={{ color: "black" }}>
           Recent Orders <i className="fa-solid fa-bag-shopping"></i>
         </h1>
         {showbutton && (
@@ -1020,18 +907,22 @@ const Admin = () => {
           </span>
         )}
         <Row gutter={12}>
-          {cartData &&
-            cartData.map((item: any) => (
+          {cart &&
+            cart.map((item: any) => (
               <Col span={8} key={item.id}>
                 <Card title={item.title}>
                   <span style={{ fontSize: "16px" }}>Price:</span>{" "}
-                  <span style={{ fontSize: "15px" }}>{item.price}</span>
+                  <span style={{ fontSize: "15px", color: "GrayText" }}>
+                    {item.price}
+                  </span>
                   <br />
                   <span style={{ fontSize: "16px" }}>Quantity:</span>{" "}
-                  <span style={{ fontSize: "15px" }}>{item.quantity}</span>
+                  <span style={{ fontSize: "15px", color: "GrayText" }}>
+                    {item.quantity}
+                  </span>
                   <br />
                   <span style={{ fontSize: "16px" }}>Grand Total:</span>{" "}
-                  <span style={{ fontSize: "15px" }}>
+                  <span style={{ fontSize: "15px", fontWeight: "500" }}>
                     {item.quantity * item.price}
                   </span>
                 </Card>

@@ -18,18 +18,19 @@ import {
 import styles from "../styles/confirm.module.css";
 import { Tooltip } from "antd";
 import { DeleteFilled, InfoCircleOutlined } from "@ant-design/icons";
+import { AppDispatch, RootState } from "../store";
 
 const Wishlist = () => {
   React.useEffect(() => {
     Aos.init({ duration: 800 });
   });
-  const [showwishlist, setshowwishlist] = useState(false);
-  const [alreadyAdded, setalreadyAdded] = useState(false);
-  const [showdelete, setshowdelete] = useState(false);
-  const [showpopup, setshowpopup] = useState(false);
-  const dispatch = useDispatch();
-  const { wishlist, cart } = useSelector((state: any) => state.allcarts);
-  console.log("wishlist", wishlist);
+  const [showwishlist, setshowwishlist] = useState<boolean>(false);
+  const [alreadyAdded, setalreadyAdded] = useState<boolean>(false);
+  const [showdelete, setshowdelete] = useState<boolean>(false);
+  const [showpopup, setshowpopup] = useState<boolean>(false);
+  const dispatch:AppDispatch = useDispatch();
+  const { wishlist, cart } = useSelector((state:RootState) => state.allcarts);
+  // console.log("wishlist", wishlist);
 
   const wishremove = (id: number) => {
     dispatch(removewishcart(id));
@@ -46,6 +47,8 @@ const Wishlist = () => {
   const confirmdelete = () => {
     dispatch(deletewishcart());
     setshowdelete(false);
+
+    
   };
   const handleaddtocart = (values: any) => {
     const existingItem = cart.find((item: any) => item.id === values.id);
@@ -193,13 +196,13 @@ const Wishlist = () => {
       >
         {wishlist.map((data: any) =>(
           <Card
-            sx={{ height: 390, width: 300 }}
+            sx={{ height: 390, width: 450 }}
             className="card"
             data-aos="fade-up"
-            key={data.id}
+            key={data._id}
           >
             <CardMedia>
-              <img src={data.img} alt="Image" height={250} width={300} />
+              <img src={data.img} alt="Image" height={250} width={450} />
             </CardMedia>
             <CardContent>
               <Typography

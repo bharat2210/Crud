@@ -14,6 +14,7 @@ import styles from "../styles/error.module.css";
 import Link from "next/link";
 import Aos from "aos";
 import Head from 'next/head'
+import { AppDispatch } from "../store";
 const validateschema = Yup.object().shape({
   name: Yup.string()
     .required("Name is required")
@@ -27,16 +28,22 @@ const validateschema = Yup.object().shape({
     .required("Password is Required"),
 });
 
+interface SignupCredentials {
+  name: string;
+  email: string;
+  password:string
+}
+
 const Signup = () => {
   useEffect(() => {
     Aos.init();
   }, []);
   const router = useRouter();
-  const [showpassword, setshowpassword] = useState(false);
+  const [showpassword, setshowpassword] = useState<boolean>(false);
 
-  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const dispatch:AppDispatch = useDispatch();
 
-  const handlesubmit = async (values: any) => {
+  const handlesubmit = async (values:SignupCredentials) => {
     try {
       await dispatch(registerUser(values)).unwrap();
       localStorage.setItem("user", JSON.stringify(values));

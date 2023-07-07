@@ -1,10 +1,10 @@
 import { createSlice,createAsyncThunk,AnyAction } from "@reduxjs/toolkit";
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 
-
+https://file+.vscode-resource.vscode-cdn.net/c%3A/Users/wiznox-pc18/.vscode/extensions/ttoowa.in-your-face-incredible-1.1.0/assets/incredible1.png
 
 interface User{
-    id:number;
+    _id:Number
     E_name:string;
     E_age:number;
     E_email:string
@@ -24,13 +24,13 @@ const initialState: UserDetailstate = {
   };
 
    interface Createuserresponse{
-    id:number;
+    _id:Number
     E_name:string;
     E_age:number;
     E_email:string;
    }
    interface Data{
-    id:number;
+    _id:Number
     E_name:string;
     E_age:number;
     E_email:string
@@ -43,7 +43,7 @@ export const createuser = createAsyncThunk<Createuserresponse, Data>(
   "createuser",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.post("https://63ec5f26be929df00caa3d32.mockapi.io/Crudapp", data, {
+      const response = await axios.post("http://localhost:3000/api/clientadd", data, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -60,7 +60,7 @@ export const createuser = createAsyncThunk<Createuserresponse, Data>(
 export const showuser=createAsyncThunk<Createuserresponse>("showuser",async(data,{rejectWithValue})=>{
    
     try{
-      const response=await axios.get("https://63ec5f26be929df00caa3d32.mockapi.io/Crudapp",{
+      const response=await axios.get("http://localhost:3000/api/clientget",{
         headers:{
             "Content-Type":"application/json",
         },
@@ -81,7 +81,7 @@ export const showuser=createAsyncThunk<Createuserresponse>("showuser",async(data
  export const deleteuser=createAsyncThunk("deleteuser",async(id,data)=>{
   
     try{
-      const response= await axios.delete(`https://63ec5f26be929df00caa3d32.mockapi.io/Crudapp/${id}`,{
+      const response= await axios.delete(`http://localhost:3000/api/clientdelete?id=${id}`,{
      
     })
     return response.data
@@ -98,7 +98,7 @@ export const updateuser=createAsyncThunk("updateuser",async(data:any)=>{
     console.log("data is", data)
     try {
       const response = await axios.put(
-        `https://63ec5f26be929df00caa3d32.mockapi.io/Crudapp/${id}`,
+        `http://localhost:3000/api/clientupdate?id=${id}`,
         userdata,
         {
           headers: {
@@ -165,7 +165,7 @@ export const updateuser=createAsyncThunk("updateuser",async(data:any)=>{
         console.log("action ", id)
      
         if(id){
-            state.users=state.users.filter((details)=>details.id!==id)
+            state.users=state.users.filter((details)=>details._id!==id)
         }
   
         
@@ -181,7 +181,7 @@ export const updateuser=createAsyncThunk("updateuser",async(data:any)=>{
         state.isloading=false;
         const updateduser=action.payload;
         console.log("action",action.payload)
-        const index = state.users.findIndex((user) => user.id === updateduser.id);
+        const index = state.users.findIndex((user) => user._id === updateduser._id);
         console.log("user.id", index)
         state.users[index]=updateduser
         console.log("index is", index)

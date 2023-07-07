@@ -115,16 +115,16 @@ function Navbar1() {
   };
   const handleadmin = () => {
     router.push("/Admin");
-   
   };
 
   return (
     <>
       <style>
         {`
-      #logout:hover{
+      #logout{
         background-color: black;
         color: white;
+        border-radius:40%;
       }
       
       
@@ -162,12 +162,13 @@ function Navbar1() {
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".3rem",
+             
                 color: "inherit",
                 textDecoration: "none",
               }}
             >
-              Crud
+              Shopeee
+              
             </Typography>
 
             <Box
@@ -191,7 +192,10 @@ function Navbar1() {
                   display: "block",
                 }}
               >
+               
                 Home
+             
+               
               </Button>
               <Button
                 onClick={handleregister}
@@ -318,8 +322,10 @@ function Navbar1() {
                       }
                       size="large"
                     />
+                   
                   </Button>
                 </Tooltip>
+             
               </div>
             </Box>
           </Toolbar>
@@ -329,7 +335,7 @@ function Navbar1() {
       <br />
       <br />
       <br />
-
+    
       {/* Mobile Menu */}
       <Drawer
         anchor="left"

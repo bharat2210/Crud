@@ -7,6 +7,7 @@ import {
   decreaseitem,
   deleteallitems,
   getCartTotal,
+  getproducts,
   increaseitem,
   removeitem,
 } from "../Features/productsslice";
@@ -16,25 +17,27 @@ import { useRouter } from "next/router";
 import prompt from "../styles/prompt.module.css";
 import styles from "../styles/confirm.module.css";
 
-
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { AppDispatch, RootState } from "../store";
 
 const Cart = () => {
-  const { cart, totalQuantity, totalPrice, items } = useSelector(
-    (state: any) => state.allcarts
+  const { cart, totalQuantity, totalPrice, apiproducts } = useSelector(
+    (state:RootState) => state.allcarts
   );
   const [stock, setstock] = useState(false);
   const [outofstocktitle, setoutofstocktitle] = useState<any[]>([]);
-  console.log("cart", cart);
-  console.log("items", items);
+  // console.log("cart", cart);
+  // console.log("items", items);
 
   const [showdelete, setshowdelete] = useState(false);
   const [empty, setempty] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch:AppDispatch = useDispatch();
   const router = useRouter();
+
   useEffect(() => {
     dispatch(getCartTotal());
   }, [cart]);
+
   const handle = () => {
     if (cart.length === 0) {
       setempty(true);
@@ -46,26 +49,49 @@ const Cart = () => {
     dispatch(deleteallitems());
     setshowdelete(false);
   };
+
+  // useEffect(()=>{
+  //   const cartqvalue = localStorage.getItem('cart')
+
+  // const qvalue= JSON.parse(cartqvalue)
+  //   console.log("qvalue"+ qvalue)
+  // },[])
+
   const checkout = () => {
     const outOfStockItemsArray = [];
 
     for (const cartItem of cart) {
-      const matchingItem = items.find((item: any) => item.id === cartItem.id);
+      const matchingItem = apiproducts.find(
+        (item: any) => item._id === cartItem._id
+      );
       if (matchingItem && cartItem.quantity > matchingItem.stock) {
         outOfStockItemsArray.push(cartItem.title);
         //  alert(`${cartItem.title} is out of stock`);
       }
     }
-    if (outOfStockItemsArray.length > 0){
+    if (outOfStockItemsArray.length > 0) {
       setoutofstocktitle(outOfStockItemsArray);
       setstock(true);
-    }else {
+    } else if (cart.length === 0) {
+      setempty(true);
+    } else {
       router.push("/New");
     }
+  };
+  const handleincrease = (value: any) => {
+    // console.log("value: " + value.id);
+    dispatch(increaseitem(value._id));
 
-    if(cart.length === 0){
-      setempty(true);
-    }
+    // const cartqvalue = JSON.parse(localStorage.getItem('cart'));
+
+    // // Check if the cart exists and has a quantity property
+    // if (cartqvalue && cartqvalue.quantity) {
+    //   // Increment the quantity property by 1
+    //   cartqvalue.quantity += 1;
+
+    //   // Update the cart object in local storage
+    //   localStorage.setItem('cart', JSON.stringify(cartqvalue));
+    // }
   };
 
   return (
@@ -181,17 +207,13 @@ const Cart = () => {
                 </div>
                 <div className="card-body">
                   {cart.map((data: any) => (
-                    <div className="row" key={data.id}>
+                    <div className="row" key={data._id}>
                       <div className="col-lg-3 col-md-12 mb-4 mb-lg-0">
                         <div
                           className="bg-image hover-overlay hover-zoom ripple rounded"
                           data-mdb-ripple-color="light"
                         >
-                          <img
-                            src={data.img}
-                            className="w-100"
-                            alt="Images"
-                          />
+                          <img src={data.img} className="w-100" alt="Images" />
                           <a href="#!">
                             <div className="mask"></div>
                           </a>
@@ -204,13 +226,13 @@ const Cart = () => {
                         </p>
                         <p>Color: {data.color}</p>
                         <p>Capacity: {data.storage}</p>
-                      
+
                         <button
                           type="button"
                           className="btn btn-primary btn-sm me-1 mb-2"
                           data-mdb-toggle="tooltip"
                           title="Remove item"
-                          onClick={() => dispatch(removeitem(data.id))}
+                          onClick={() => dispatch(removeitem(data._id))}
                         >
                           <i className="fas fa-trash"></i>
                         </button>
@@ -223,7 +245,9 @@ const Cart = () => {
                         >
                           <button
                             className="btn btn-primary px-3 me-2"
-                            onClick={() => dispatch(decreaseitem(data.id))}
+                            onClick={() => {
+                              dispatch(decreaseitem(data._id));
+                            }}
                           >
                             <i className="fas fa-minus"></i>
                           </button>
@@ -243,7 +267,7 @@ const Cart = () => {
 
                           <button
                             className="btn btn-primary px-3 ms-2"
-                            onClick={() => dispatch(increaseitem(data.id))}
+                            onClick={() => handleincrease(data)}
                           >
                             <i className="fas fa-plus"></i>
                           </button>

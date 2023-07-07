@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk,AnyAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface User {
-  id: number;
+
   name: string;
   email: string;
   password: string;
@@ -19,7 +19,7 @@ const initialState: UserDetail = {
   error: null,
 };
 interface Createuserresponse {
-  id: number;
+
   name: string;
   email: string;
   password: string;
@@ -30,7 +30,7 @@ export const readuser = createAsyncThunk<Createuserresponse>(
   "readuser",
   async (data, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:3001/users", {
+      const response = await axios.get("http://localhost:3000/api/userget", {
         headers: {
           "Content-Type": "application/json",
         },
@@ -49,7 +49,7 @@ export const deleteuser = createAsyncThunk(
   async (id: number, data) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3001/users/${id}`,
+        `http://localhost:3000/api/userdelete?id=${id}`,
         {}
       );
       return response.data;
@@ -64,7 +64,7 @@ export const updateuser = createAsyncThunk("updateuser", async (data: any) => {
   const { id, ...userdata } = data;
   try {
     const response = await axios.put(
-      `http://localhost:3001/users/${id}`,
+      `http://localhost:3000/api/userupdate?id=${id}`,
       userdata,
       {
         headers: {
@@ -103,7 +103,7 @@ const ruserdetail = createSlice({
         const { id } = action.payload;
 
         if (id) {
-          state.rusers = state.rusers.filter((element) => element.id !== id);
+          state.rusers = state.rusers.filter((element) => element._id !== id);
         }
       })
       .addCase(deleteuser.rejected, (state, action) => {
@@ -118,7 +118,7 @@ const ruserdetail = createSlice({
         const updateduser = action.payload;
         console.log("action", action.payload);
         const index = state.rusers.findIndex(
-          (user) => user.id === updateduser.id
+          (user) => user._id === updateduser._id
         );
 
         state.rusers[index] = updateduser;

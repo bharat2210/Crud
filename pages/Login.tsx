@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginuser } from "../Features/demo";
 import { useRouter } from "next/router";
 import Navbar from "../Components/Navbar";
@@ -15,7 +15,12 @@ import { AnyAction } from "redux";
 import Link from "next/link";
 import Aos from "aos";
 import Head from 'next/head'
-
+import { AppDispatch } from "../store";
+  
+interface LoginCredentials{
+  email: string;
+  password: string;
+}
 const validateschema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("email is required"),
   password: Yup.string().required("Password is Required"),
@@ -25,21 +30,34 @@ const Login = () => {
   useEffect(() => {
     Aos.init();
   }, []);
-  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const dispatch:AppDispatch = useDispatch();
   const router = useRouter();
-  const handlelogin = async (Loginvalues: any) => {
+  const handlelogin = async (Loginvalues:LoginCredentials) => {
     try {
-      const log = await dispatch(loginuser(Loginvalues)).unwrap();
-      if (log) {
-        localStorage.setItem("user", JSON.stringify(log));
-        router.push("/allpost");
+      // Dispatch the login action
+      const response = await dispatch(loginuser(Loginvalues));
+  
+      // Check if login was successful
+      const user = response.payload;
+      if (user) {
+        // Store user information in local storage
+        // localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("email", Loginvalues.email);
+        localStorage.setItem("password", Loginvalues.password);
+  
+        // Navigate to another page
+        router.push("/Apiproducts");
       } else {
+        // Show an error message
         alert("Invalid username or password");
       }
     } catch (error) {
-      return error;
+      // Show an error message
+      alert("An error occurred during login");
     }
   };
+  
+  
 
   return (
     <>

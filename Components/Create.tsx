@@ -4,16 +4,19 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { useDispatch } from "react-redux";
-import Head from 'next/head'
-
+import Head from 'next/head' 
 import { useRouter } from "next/router";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import styles from '../styles/error.module.css'
 import { createuser } from "../Features/userdetail";
-import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from 'redux';
-
+import { AppDispatch } from "../store";
+  
+interface CreateCredentials{
+  E_name: string;
+  E_age: number;
+  E_email: string;
+}
 const validationSchema = Yup.object().shape({
   E_name: Yup.string().required("Name is required").min(2,"Minimum two characters").max(16,"Only 16 characters are allowed"),
   E_age: Yup.number().required("Age is required").min(1,"Minimum age is 1").max(100,"Can't exceed above 100"),
@@ -22,9 +25,9 @@ const validationSchema = Yup.object().shape({
 
 const Create=({setshowcreate}:any)=>{
 
-    const dispatch:ThunkDispatch<any, void, AnyAction>=useDispatch()
+    const dispatch:AppDispatch=useDispatch()
     const router=useRouter()
-   const handleSubmit=(values:any)=>{
+   const handleSubmit=(values:CreateCredentials)=>{
     setshowcreate(false)
     dispatch(createuser(values))
 
@@ -87,7 +90,7 @@ return(
       <br />
       <Box sx={{height:"auto",padding:8 ,backgroundColor:"white",borderRadius:12}} className="animation">
         <Formik
-          initialValues={{ E_name: "", E_age: "", E_email: "" }}
+          initialValues={{ E_name: "", E_age: 0, E_email: "" }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
            >

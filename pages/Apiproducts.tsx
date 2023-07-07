@@ -6,6 +6,7 @@ import {
   addtowishlist,
   getproducts,
   searchproductdata,
+  updatestock,
 } from "../Features/productsslice";
 import { AppDispatch, RootState } from "../store";
 import Card from "@mui/material/Card";
@@ -15,65 +16,48 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosTwoToneIcon from '@mui/icons-material/ArrowBackIosTwoTone';
-import {
-  Badge as AntBadge,
-
-  Tooltip,
-  Rate,
-  AutoComplete,
-  Drawer,
-} from "antd";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosTwoToneIcon from "@mui/icons-material/ArrowBackIosTwoTone";
+import { Badge as AntBadge, Tooltip, Rate, Drawer } from "antd";
 import { FloatButton } from "antd";
 import styles from "../styles/confirm.module.css";
-import { Spin } from "antd";
-import { Button as AntButton, Form as AntForm } from "antd";
-import {  Statistic, notification } from "antd";
-
+import { notification } from "antd";
 import {
-
   ExclamationCircleOutlined,
   HeartOutlined,
   InfoCircleOutlined,
- 
 } from "@ant-design/icons";
-import { Autocomplete,  Stack, TextField } from "@mui/material";
+import { Autocomplete, Stack, TextField } from "@mui/material";
 import Navbar1 from "../Components/Navbar1";
-import Details from "../Componentsapi/Details";
 import { Select } from "antd";
 import { useRouter } from "next/router";
 import Loader from "../Components/Loader";
-
 
 const Apiproducts = () => {
   const { Option } = Select;
 
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
-  const [id, setid] = useState();
-  const [showdetails, setshowdetails] = useState(false);
+  const [id, setid] = useState<number>();
   const [alreadyAdded, setalreadyAdded] = useState(false);
   const [full, setfull] = useState(false);
   const [itemoutofstock, setitemoutofstock] = useState(false);
-
   const [search, setsearch] = useState();
   const [alreadywishlist, setalreadywishlist] = useState(false);
   const [visibleItems, setVisibleItems] = useState(4);
   const [open, setopen] = useState(false);
   const [imageindex, setimageindex] = useState(0);
-
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
-  const singleitem = apiproducts.filter((data) => {
-    data.id === id;
-    return data.id === id;
+  const singleitem = apiproducts.filter((data: any) => {
+    data._id === id;
+    return data._id === id;
   })[0];
-  // console.log("singleitem", singleitem);
+  console.log("singleitem", singleitem);
 
-  const { cart, wishlist, searchdata ,isloading} = useSelector(
-    (state: any) => state.allcarts
+  const { cart, wishlist, searchdata, isloading } = useSelector(
+    (state: RootState) => state.allcarts
   );
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
   const images = singleitem?.img || [];
@@ -88,7 +72,7 @@ const Apiproducts = () => {
   }, [search]);
 
   const handleaddtocart = (values: any) => {
-    const existingitem = cart.find((item: any) => item.id === values.id);
+    const existingitem = cart.find((item: any) => item._id === values._id);
     if (existingitem) {
       setalreadyAdded(true);
       return;
@@ -99,44 +83,43 @@ const Apiproducts = () => {
     }
     if (values.stock > 0) {
       dispatch(addtocart(values));
-     notification.success({
-      message:"Item Added",
-      description:"Item successfully added to cart",
-      placement:"topLeft",
-      style:{
-        top:"78px"
-      }
-     })
+      notification.success({
+        message: "Item Added",
+        description: "Item successfully added to cart",
+        placement: "topLeft",
+        style: {
+          top: "78px",
+        },
+      });
     } else {
       setitemoutofstock(true);
     }
   };
-  if(isloading){
-    return <Loader/>
+  if (isloading) {
+    return <Loader />;
   }
 
   const handleaddtowish = (wish: any) => {
-    const existing = wishlist.find((item: any) => item.id === wish.id);
+    const existing = wishlist.find((item: any) => item._id === wish._id);
     if (existing) {
       setalreadywishlist(true);
       return;
     }
     dispatch(addtowishlist(wish));
     notification.success({
-      message:"Item Added",
-      description:"Item added successfully to wish list",
-      placement:"topLeft",
-      style:{
-        top:"78px"
-      }
-
-    })
-    
-
+      message: "Item Added",
+      description: "Item added successfully to wish list",
+      placement: "topLeft",
+      style: {
+        top: "78px",
+      },
+    });
   };
 
   const handleLoadMore = () => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
+  
+    
     setTimeout(() => {
       if (loadMoreButtonRef.current) {
         loadMoreButtonRef.current.scrollIntoView({
@@ -164,10 +147,31 @@ const Apiproducts = () => {
       return newindex < 0 ? images.length - 1 : newindex;
     });
   };
+  const handlestock = (pid: any) => {
+    console.log("pid: " + pid);
+    const singleproduct = apiproducts.filter((data: any) => {
+      data._id === pid;
+      return data._id === pid;
+    })[0];
+    console.log("single product: ", singleproduct);
+    if (singleproduct.stock > 0) {
+      dispatch(updatestock(pid));
+      dispatch(getproducts());
+    } else {
+      notification.warning({
+        message: "Stock nill",
+        description: "Item is out of stock",
+        placement: "bottomLeft",
+      });
+    }
+  };
 
   return (
     <>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
       <style>
         {`
         
@@ -247,9 +251,6 @@ const Apiproducts = () => {
         
         `}
       </style>
-      {showdetails && <Details setshowdetails={setshowdetails} id={id} />}
-
-   
 
       {alreadyAdded && (
         <div className={styles.prompt}>
@@ -274,8 +275,8 @@ const Apiproducts = () => {
             <ExclamationCircleOutlined
               style={{ fontSize: "22px", color: "red", fontWeight: "bold" }}
             />
-            <p className={styles.message}>5 items are already in your Cart</p>
-            <p className={styles.message}>Can't exceed more than 5 items !</p>
+            <p className={styles.message}>6 items are already in your Cart</p>
+            <p className={styles.message}>Can't exceed more than 6 items !</p>
             <button className={styles.okButton} onClick={() => setfull(false)}>
               OK
             </button>
@@ -301,7 +302,7 @@ const Apiproducts = () => {
           </div>
         </div>
       )}
-    
+
       {alreadywishlist && (
         <div className={styles.prompt}>
           <div className={styles.main}>
@@ -408,14 +409,14 @@ const Apiproducts = () => {
             .map((product: any) => (
               <Card
                 sx={{ height: 540, width: 320 }}
-                key={product.id}
+                key={product._id}
                 data-aos="fade-up"
                 className="card"
               >
                 <CardMedia
                   sx={{ height: 300, width: 320 }}
                   image={product.img[0]}
-                  title={product.img[0] ? product.title : 'Image not available'}
+                  title={product.img[0] ? product.title : "Image not available"}
                 />
 
                 <CardContent>
@@ -511,7 +512,7 @@ const Apiproducts = () => {
                     <Button
                       size="small"
                       variant="contained"
-                     
+                      onClick={() => handlestock(product._id)}
                     >
                       Buy
                     </Button>
@@ -533,7 +534,7 @@ const Apiproducts = () => {
                       size="small"
                       variant="outlined"
                       onClick={() => {
-                        setid(product.id);
+                        setid(product._id);
                         // setshowdetails(true);
                         setopen(true);
                       }}
@@ -562,7 +563,7 @@ const Apiproducts = () => {
             Load More Items
           </Button>
         </div>
-      )} 
+      )}
       <Tooltip title="Go to Top" color="black" placement="top">
         <FloatButton.BackTop type="primary" />
       </Tooltip>
@@ -575,11 +576,11 @@ const Apiproducts = () => {
                 top: "280px",
                 left: "24px",
                 fontSize: "40px",
-                backgroundColor:"black",
-                color:"white",
-               borderRadius:"100%",
-               padding:"8px",
-                zIndex:9999
+                backgroundColor: "black",
+                color: "white",
+                borderRadius: "100%",
+                padding: "8px",
+                zIndex: 9999,
               }}
               onClick={previmage}
             />{" "}
@@ -597,24 +598,24 @@ const Apiproducts = () => {
                 top: "280px",
                 left: "635px",
                 fontSize: "40px",
-                backgroundColor:"black",
-                color:"white",
-               borderRadius:"100%",
-               padding:"8px",
-                zIndex:9999
+                backgroundColor: "black",
+                color: "white",
+                borderRadius: "100%",
+                padding: "8px",
+                zIndex: 9999,
               }}
             />
-          <h1 style={{ color:"black" }}>{singleitem?.title}</h1>
-
-           
+            <h1 style={{ color: "black" }}>{singleitem?.title}</h1>
           </div>
           <div className="details">
             <h3>Highlights:</h3>
-            <p style={{color:"GrayText"}}>{singleitem?.description}</p>
+            <p style={{ color: "GrayText" }}>{singleitem?.description}</p>
             <h3>Features:</h3>
-            <p style={{color:"GrayText"}}>{singleitem?.full}</p>
+            <p style={{ color: "GrayText" }}>{singleitem?.full}</p>
             <h3>Rating:</h3>
-            <p><Rate allowHalf disabled defaultValue={singleitem?.rating}/></p>
+            <p>
+              <Rate allowHalf disabled defaultValue={singleitem?.rating} />
+            </p>
             <br />
             <Button variant="contained" onClick={() => setopen(false)}>
               Close
