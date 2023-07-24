@@ -1,5 +1,9 @@
 "use client";
-
+// Next imports
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Head from 'next/head'
+// MUI imports
 import {
   Table,
   TableBody,
@@ -9,19 +13,20 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+// Redux imports
+import { useDispatch, useSelector } from "react-redux";
+import { deleteuser, readuser } from "../Features/register";
+import { AppDispatch, RootState } from "../store";
+// Styles imports
 import edit from "../styles/edit.module.css";
 import styles from "../styles/delete.module.css";
-import Navbar1 from "../Components/Navbar1";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { deleteuser, readuser } from "../Features/register";
-import Loader from "../Components/Loader";
 import prompt from "../styles/prompt.module.css";
-
+// Components imports
+import Navbar1 from "../Components/Navbar1";
+import Loader from "../Components/Loader";
 import Update1 from "../Components/Update1";
-import { useRouter } from "next/router";
-import { AppDispatch, RootState } from "../store";
-import Head from 'next/head'
+
+
 
 const allregister = () => {
   const router = useRouter();
@@ -45,11 +50,12 @@ const allregister = () => {
     setusername(username)
   };
   const confirmhandledelete = () => {
-    dispatch(deleteuser(id));
-    dispatch(readuser());
-    setshowdelete(false);
-   
+    dispatch(deleteuser(id)).then(()=>{
+      dispatch(readuser());
+      setshowdelete(false);
+    })
   };
+  
   if (isloading) {
     return <Loader />;
   }

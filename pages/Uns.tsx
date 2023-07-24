@@ -1,45 +1,50 @@
-import { useState } from "react";
-import axios from "axios";
-import Navbar1 from "../Components/Navbar1";
-import Image from "next/image";
-import _ from "lodash";
+// Next imports
 import * as React from "react";
+import { useState } from "react";
+import Image from "next/image";
 import Head from "next/head";
-import { Empty } from "antd";
 import {KeyboardEvent} from 'react'
+// Antd imports
+import { Empty } from "antd";
+// Components imports
+import Navbar1 from "../Components/Navbar1";
+// Libraries imports
+import axios from "axios";
+import _ from "lodash";
+import Carousel from "../Components/Carousel";
 
 
 const Uns = () => {
-  const [image, setImage] = useState([]);
-  const [page, setpage] = useState<number>(1);
-  const [query, setquery] = useState<string>();
-  const [Tagtitles, setTagtitles] = useState<string[]>([]);
+  // const [image, setImage] = useState([]);
+  // const [page, setpage] = useState<number>(1);
+  // const [query, setquery] = useState<string>();
+  // const [Tagtitles, setTagtitles] = useState<string[]>([]);
 
-  const getImg = () => {
-    console.log("handle clicked");
-    axios
-      .get(
-        `https://api.unsplash.com/search/photos?page=${page}&query=${query}&client_id=bTFDrwlD8VM6P_fn4b4p3OUCpncgEHjWXSGMdhp1yBs`
-      )
-      .then((response) => {
-        console.log(response);
-        setImage(response.data.results);
-        setpage(page + 1);
-        const tags = _.flatMap(response.data.results, "tags");
-        // console.log("tags",tags)
-        const titles = tags.map((tag) => tag.title);
-        //  console.log("bhart",titles)
-        setTagtitles(titles);
-      });
-  };
-  const category = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setquery(e.target.value);
-  };
-  const handleKeyPress = (e:KeyboardEvent) => {
-    if (e.key === "Enter") {
-      getImg();
-    }
-  };
+  // const getImg = () => {
+  //   console.log("handle clicked");
+  //   axios
+  //     .get(
+  //       `https://api.unsplash.com/search/photos?page=${page}&query=${query}&client_id=bTFDrwlD8VM6P_fn4b4p3OUCpncgEHjWXSGMdhp1yBs`
+  //     )
+  //     .then((response) => {
+  //       console.log(response);
+  //       setImage(response.data.results);
+  //       setpage(page + 1);
+  //       const tags = _.flatMap(response.data.results, "tags");
+  //       // console.log("tags",tags)
+  //       const titles = tags.map((tag) => tag.title);
+  //       //  console.log("bhart",titles)
+  //       setTagtitles(titles);
+  //     });
+  // };
+  // const category = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setquery(e.target.value);
+  // };
+  // const handleKeyPress = (e:KeyboardEvent) => {
+  //   if (e.key === "Enter") {
+  //     getImg();
+  //   }
+  // };
   return (
     <>
       <Head>
@@ -126,25 +131,26 @@ const Uns = () => {
       `}
       </style>
       <Navbar1 />
+      <Carousel/>
 
-      <div className="result">
+      {/* <div className="result">
         <p style={{ textAlign: "right", fontWeight: 400 }}>
           Showing {image.length} results for "{query}"
         </p>
       </div>
 
       <div className="show">
-        <div className="category">
-          {/* <select name="cate" id="categories" onChange={category}>
+        <div className="category"> 
+         <select name="cate" id="categories" onChange={category}>
         <option value="mountains">Mountains</option>
         <option value="cars">Cars</option>
         <option value="jeep">Jeep</option>
         <option value="coding">Coding</option>
         <option value="trucks">Trucks</option>
-      </select> */}
-          {/* <input type="text" onChange={category}  id="categories"/> */}
+      </select> 
+          <input type="text" onChange={category}  id="categories"/> 
 
-          {/* <Autocomplete
+           <Autocomplete
       options={Tagtitles}
       renderInput={(params) => (
         <TextField
@@ -159,8 +165,8 @@ const Uns = () => {
         
       )}
     
-    /> */}
-          <input
+    /> 
+           <input
             list="categories"
             onChange={category}
             className="categories1"
@@ -204,7 +210,8 @@ const Uns = () => {
             />
           </h5>
         )}
-      </div>
+      </div> */}
+  
     </>
   );
 };

@@ -58,7 +58,7 @@ const Permissions = ({ children }: { children: React.ReactNode }) => {
     // Public user can access only public pages
     const { pathname } = router
 
-    //  list of public pages
+
     const publicPages = ['/allpost', '/Apiproducts','/Cart','/Uns','/Login','/Signup','/New','/404','/Wishlist'] 
 
     if (publicPages.includes(pathname)) {

@@ -4,9 +4,9 @@ import { store } from '../store'
 import {Provider} from 'react-redux'
 import Layout from '../Components/Layout'
 import Permisions from '../Components/Permisions'
-
 import AOS from 'aos';
-
+import ToastContainerWrapper from '../Components/ToastContainerWrapper';
+// import "bootstrap/dist/css/bootstrap.min.css";
 
  
 
@@ -21,6 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   <Provider store={store}>
     <Layout>
       <Permisions>
+        <ToastContainerWrapper/>
       <Component {...pageProps} />
 
       </Permisions>

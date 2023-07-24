@@ -1,16 +1,22 @@
+// Next import
 import React from "react";
+import Head from 'next/head' 
+import { useRouter } from "next/router";
+import styles from '../styles/error.module.css'
+// Redux imports
+import { useDispatch } from "react-redux";
+import { createuser } from "../Features/userdetail";
+import { AppDispatch } from "../store";
+// MUUI imports
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { useDispatch } from "react-redux";
-import Head from 'next/head' 
-import { useRouter } from "next/router";
+// Formik imports
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import styles from '../styles/error.module.css'
-import { createuser } from "../Features/userdetail";
-import { AppDispatch } from "../store";
+
+
   
 interface CreateCredentials{
   E_name: string;

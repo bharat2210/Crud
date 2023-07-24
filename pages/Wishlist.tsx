@@ -1,34 +1,42 @@
+// Next imports
 import React, { useState } from "react";
-import Navbar1 from "../Components/Navbar1";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import prompt from "../styles/prompt.module.css";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { Stack } from "@mui/material";
-import Aos from "aos";
+// Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import {
   deletewishcart,
   removewishcart,
   addtocart,
 } from "../Features/productsslice";
-import styles from "../styles/confirm.module.css";
+import { AppDispatch, RootState } from "../store";
+// Mui imports
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { Stack } from "@mui/material";
+// Antd imports
 import { Tooltip } from "antd";
 import { DeleteFilled, InfoCircleOutlined } from "@ant-design/icons";
-import { AppDispatch, RootState } from "../store";
+// Components imports
+import Navbar1 from "../Components/Navbar1";
+// Styles imports
+import prompt from "../styles/prompt.module.css";
+import styles from "../styles/confirm.module.css";
+// Libraries imports
+import Aos from "aos";
+
 
 const Wishlist = () => {
   React.useEffect(() => {
     Aos.init({ duration: 800 });
   });
+  const dispatch:AppDispatch = useDispatch();
   const [showwishlist, setshowwishlist] = useState<boolean>(false);
   const [alreadyAdded, setalreadyAdded] = useState<boolean>(false);
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showpopup, setshowpopup] = useState<boolean>(false);
-  const dispatch:AppDispatch = useDispatch();
   const { wishlist, cart } = useSelector((state:RootState) => state.allcarts);
   // console.log("wishlist", wishlist);
 

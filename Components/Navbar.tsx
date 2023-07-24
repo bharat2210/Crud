@@ -1,6 +1,10 @@
 "use client"
+// Next imports
 import * as React from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+
+// MUI imports
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,12 +13,12 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-
 import Button from '@mui/material/Button';
-
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import Link from 'next/link';
+// Antd imports
+import { SketchOutlined } from '@ant-design/icons';
+
 
 const pages = [
   {label:"Signup", path:"/"},
@@ -107,7 +111,7 @@ function Navbar() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <SketchOutlined style={{fontSize:"28px"}} />
           <Typography
             variant="h5"
             noWrap

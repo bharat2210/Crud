@@ -1,9 +1,12 @@
 "use client";
+// Next imports
 import * as React from "react";
+// MUI imports
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+// Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { ThunkDispatch } from "redux-thunk";
@@ -12,12 +15,13 @@ import { updateuser } from "../Features/register";
 
 const Update1 = ({ id, setshowupdate }: any) => {
   const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
+  const [updata, setupdata] = useState({ name: "", email: "", password: "" });
   const allusers = useSelector((state: any) => state.grand.rusers);
   const singleuser = allusers.filter((elm: any) => {
     elm._id === id;
     return elm._id === id;
   })[0];
-  const [updata, setupdata] = useState({ name: "", email: "", password: "" });
+
   useEffect(() => {
     setupdata(singleuser);
   }, [singleuser]);

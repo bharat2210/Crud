@@ -1,5 +1,10 @@
+// Next imports
 import * as React from "react";
 import { useRouter } from "next/router";
+import { useState } from "react";
+// Redux imports
+import { useSelector } from "react-redux";
+// MUI imports
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,28 +12,19 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import Link from "next/link";
-import { useSelector } from "react-redux";
-import Badge, { BadgeProps } from "@mui/material/Badge";
-import { styled } from "@mui/material/styles";
+import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { PoweroffOutlined, UserOutlined } from "@ant-design/icons";
+// Antd imports
+import { SketchOutlined, UserOutlined } from "@ant-design/icons";
 import { Tooltip, Avatar } from "antd";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  Stack,
-} from "@mui/material";
-import { useState } from "react";
+
+
 
 function Navbar1() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -99,7 +95,7 @@ function Navbar1() {
   };
 
   const handlepost = () => {
-    router.push("/allpost");
+    router.push("/Landing");
   };
 
   const handleimages = () => {
@@ -132,10 +128,10 @@ function Navbar1() {
       
       `}
       </style>
-      <link
+      {/* <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
+      /> */}
       <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -151,7 +147,7 @@ function Navbar1() {
             >
               <MenuIcon />
             </IconButton>
-            <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+             <SketchOutlined style={{fontSize:"28px"}} />
             <Typography
               variant="h6"
               noWrap
@@ -182,13 +178,13 @@ function Navbar1() {
                 sx={{
                   my: 2,
                   fontSize: 15,
-                  color: router.pathname === "/allpost" ? "white" : "white",
+                  color: router.pathname === "/Landing" ? "white" : "white",
                   borderBottom:
-                    router.pathname === "/allpost"
+                    router.pathname === "/Landing"
                       ? "3px solid white "
                       : "none",
                   borderRadius:
-                    router.pathname === "/allpost" ? "12px" : "none",
+                    router.pathname === "/Landing" ? "12px" : "none",
                   display: "block",
                 }}
               >
@@ -303,7 +299,7 @@ function Navbar1() {
                   </Badge>
                 </IconButton>
 
-                <Tooltip title="Logout" color="red" placement="top">
+                <Tooltip title="Logout" color="red" placement="top" style={{zIndex:9999}}>
                   <Button
                     onClick={handleLogout}
                     id="logout"

@@ -1,5 +1,9 @@
 "use client";
-
+// Next imports
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+// MUI imports
 import {
   Table,
   TableBody,
@@ -10,39 +14,36 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import styles from "../styles/delete.module.css";
-import edit from "../styles/edit.module.css";
-import { useEffect, useState } from "react";
-import { deleteuser, searchuserata, showuser } from "../Features/userdetail";
+// Components imports
 import Loader from "../Components/Loader";
-import prompt from "../styles/prompt.module.css";
 import Update from "../Components/Update";
 import Create from "../Components/Create";
 import Navbar1 from "../Components/Navbar1";
-import moment from "moment";
-import { useRouter } from "next/router";
+// Redux imports
+import { useDispatch, useSelector } from "react-redux";
+import { deleteuser, searchuserata, showuser } from "../Features/userdetail";
 import { AppDispatch, RootState } from "../store";
+// Styles imports
+import styles from "../styles/delete.module.css";
+import edit from "../styles/edit.module.css";
+import prompt from "../styles/prompt.module.css";
+// Momnt imports
+import moment from "moment";
 
-import Head from "next/head";
 
 const Allpost = () => {
   const router = useRouter();
-
   const dispatch: AppDispatch = useDispatch();
   const [id, setId] = useState<number>();
   const [username, setusername] = useState<string>();
-
   const [showconfirm, setshowconfirm] = useState<boolean>(false);
-  const { users, isloading, searchdata } = useSelector(
-    (state: RootState) => state.app
-  );
-
   const [showpopup, setshowpopup] = useState<boolean>(false);
   const [showcreate, setshowcreate] = useState<boolean>(false);
   const [search, setsearch] = useState("");
   const [loggedInUser, setLoggedInUser] = useState("");
-
+  const { users, isloading, searchdata } = useSelector(
+    (state: RootState) => state.app
+  );
   useEffect(() => {
     dispatch(showuser());
     console.log("users are", users);
@@ -63,16 +64,18 @@ const Allpost = () => {
     setusername(username);
   };
   const confirmhandledelete = () => {
-    dispatch(deleteuser(id));
-    dispatch(showuser())
+    dispatch(deleteuser(id)).then(()=>{
+      dispatch(showuser())
+    })
+   
     setshowconfirm(false);
+  };
+  const goback = () => {
+    router.back();
   };
   if (isloading) {
     return <Loader />;
   }
-  const goback = () => {
-    router.back();
-  };
 
   return (
     <>

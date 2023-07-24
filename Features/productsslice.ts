@@ -98,7 +98,7 @@ export const addproducts= createAsyncThunk("addproducts",async(formdata)=>{
 })
 
 // Delete action
-export const deleteitem = createAsyncThunk("deleteItem", async(id) => {
+export const deleteitem = createAsyncThunk("deleteItem", async(id,data) => {
   try {
     const response = await axios.delete(`http://localhost:3000/api/deleteproduct?id=${id}`);
     return response.data;
@@ -122,7 +122,7 @@ export const updateitem = createAsyncThunk("updateitem",async (data)=>{
 });
 
 // Updatestock
-export const updatestock = createAsyncThunk("updatestock",async(productid)=>{
+export const updatestock = createAsyncThunk("updatestock",async(productid,data)=>{
   try{
     const response=await axios.put(`http://localhost:3000/api/stock?id=${productid}`,{
 

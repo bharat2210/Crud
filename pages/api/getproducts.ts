@@ -4,6 +4,7 @@ const products=require('../../../backend/db/products')
 require("../../../backend/db/config")
 
 
+
 const handler=async(req:NextApiRequest,res:NextApiResponse)=>{
     if(req.method === 'GET'){
         try{

@@ -3,6 +3,9 @@ import userdetail from "./Features/userdetail";
 import authSlice from "./Features/demo";
 import ruserdetail from "./Features/register";
 import productsslice from "./Features/productsslice";
+import demoslice  from './Features/exp'
+import pinslice  from './Features/pin'
+
 
 
 export const store = configureStore({
@@ -11,6 +14,10 @@ export const store = configureStore({
     auth: authSlice,
     grand: ruserdetail,
     allcarts: productsslice,
+    alldemo: demoslice,
+    allcode:pinslice
+ 
+    
 
   },
 });

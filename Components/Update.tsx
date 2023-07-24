@@ -1,9 +1,12 @@
 "use client";
+// Next imports
 import * as React from "react";
+// MUI imports
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+// Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { updateuser } from "../Features/userdetail";
@@ -11,17 +14,18 @@ import { AppDispatch, RootState } from "../store";
 
 const Update = ({ id, setshowpopup }: any) => {
   const dispatch: AppDispatch = useDispatch();
+  const [updatedata, setupdatedata] = useState<{E_name:String,E_age:Number,E_email:String}>({
+    E_name: "",
+    E_age: 0,
+    E_email: "",
+  });
   const allusers = useSelector((state:RootState) => state.app.users);
   const singleuser = allusers.filter((ele: any) => {
     ele._id === id;
     return ele._id === id;
   })[0];
 
-  const [updatedata, setupdatedata] = useState({
-    E_name: "",
-    E_age: "",
-    E_email: "",
-  });
+ 
   useEffect(() => {
     setupdatedata(singleuser);
   }, [singleuser]);
@@ -112,7 +116,7 @@ const Update = ({ id, setshowpopup }: any) => {
               onChange={(e) =>
                 setupdatedata((prevstate) => ({
                   ...prevstate,
-                  E_age: e.target.value,
+                  E_age:Number( e.target.value),
                 }))
               }
             />

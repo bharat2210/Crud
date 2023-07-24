@@ -1,10 +1,9 @@
+// Next imports
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
-
+// Components imports
 import Navbar from '../Components/Navbar'
-import Allpost from './allpost'
-import { useEffect, useState } from 'react'
 import Signup from './Signup'
 
 

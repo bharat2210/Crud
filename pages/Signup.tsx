@@ -1,20 +1,27 @@
+// Next imports
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Head from 'next/head'
+// Mui imports
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+// Redux imports
 import { useDispatch } from "react-redux";
 import { registerUser } from "../Features/demo";
-import { useRouter } from "next/router";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
-import styles from "../styles/error.module.css";
-import Link from "next/link";
-import Aos from "aos";
-import Head from 'next/head'
 import { AppDispatch } from "../store";
+// Components imports
+// Formik and Yup imports
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+// Styles imports
+import styles from "../styles/error.module.css";
+// Aos imports
+import Aos from "aos";
+
+
 const validateschema = Yup.object().shape({
   name: Yup.string()
     .required("Name is required")

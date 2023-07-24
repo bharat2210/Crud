@@ -1,5 +1,8 @@
+// Next imports
 import React from "react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+// Redux imports
 import { useDispatch, useSelector } from "react-redux";
 import {
   addtocart,
@@ -9,6 +12,10 @@ import {
   updatestock,
 } from "../Features/productsslice";
 import { AppDispatch, RootState } from "../store";
+// Components imports
+import Navbar1 from "../Components/Navbar1";
+import Loader from "../Components/Loader";
+// Mui imports
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -18,35 +25,35 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosTwoToneIcon from "@mui/icons-material/ArrowBackIosTwoTone";
+import { Autocomplete, Stack, TextField } from "@mui/material";
+// Antd imports
 import { Badge as AntBadge, Tooltip, Rate, Drawer } from "antd";
 import { FloatButton } from "antd";
-import styles from "../styles/confirm.module.css";
 import { notification } from "antd";
 import {
   ExclamationCircleOutlined,
   HeartOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { Autocomplete, Stack, TextField } from "@mui/material";
-import Navbar1 from "../Components/Navbar1";
-import { Select } from "antd";
-import { useRouter } from "next/router";
-import Loader from "../Components/Loader";
+// Styles imports
+import styles from "../styles/confirm.module.css";
+import Footer from "../Components/Footer";
+
+
 
 const Apiproducts = () => {
-  const { Option } = Select;
-
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
+  const [search, setsearch] = useState<string>("");
+  const [visibleItems, setVisibleItems] = useState<number>(4);
   const [id, setid] = useState<number>();
-  const [alreadyAdded, setalreadyAdded] = useState(false);
-  const [full, setfull] = useState(false);
-  const [itemoutofstock, setitemoutofstock] = useState(false);
-  const [search, setsearch] = useState();
-  const [alreadywishlist, setalreadywishlist] = useState(false);
-  const [visibleItems, setVisibleItems] = useState(4);
-  const [open, setopen] = useState(false);
-  const [imageindex, setimageindex] = useState(0);
+  const [imageindex, setimageindex] = useState<number>(0);
+  const [alreadyAdded, setalreadyAdded] = useState<boolean>(false);
+  const [full, setfull] = useState<boolean>(false);
+  const [itemoutofstock, setitemoutofstock] = useState<boolean>(false);
+  const [alreadywishlist, setalreadywishlist] = useState<boolean>(false);
+  const [open, setopen] = useState<boolean>(false);
+  
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
@@ -82,22 +89,21 @@ const Apiproducts = () => {
       return;
     }
     if (values.stock > 0) {
-      dispatch(addtocart(values));
-      notification.success({
-        message: "Item Added",
-        description: "Item successfully added to cart",
-        placement: "topLeft",
-        style: {
-          top: "78px",
-        },
-      });
+      dispatch(addtocart(values))
+        notification.success({
+          message: "Item Added",
+          description: "Item successfully added to cart",
+          placement: "topLeft",
+          style: {
+            top: "78px",
+          },
+        });
+    
     } else {
       setitemoutofstock(true);
     }
   };
-  if (isloading) {
-    return <Loader />;
-  }
+ 
 
   const handleaddtowish = (wish: any) => {
     const existing = wishlist.find((item: any) => item._id === wish._id);
@@ -105,7 +111,7 @@ const Apiproducts = () => {
       setalreadywishlist(true);
       return;
     }
-    dispatch(addtowishlist(wish));
+    dispatch(addtowishlist(wish))
     notification.success({
       message: "Item Added",
       description: "Item added successfully to wish list",
@@ -118,8 +124,6 @@ const Apiproducts = () => {
 
   const handleLoadMore = () => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 4);
-  
-    
     setTimeout(() => {
       if (loadMoreButtonRef.current) {
         loadMoreButtonRef.current.scrollIntoView({
@@ -155,23 +159,31 @@ const Apiproducts = () => {
     })[0];
     console.log("single product: ", singleproduct);
     if (singleproduct.stock > 0) {
-      dispatch(updatestock(pid));
-      dispatch(getproducts());
+      dispatch(updatestock(pid)).then(()=>{
+        dispatch(getproducts());
+      })
     } else {
       notification.warning({
         message: "Stock nill",
-        description: "Item is out of stock",
-        placement: "bottomLeft",
+        description: "This item is currently out of stock",
+        placement: "topLeft",
+        style:{
+          top:"78px"
+
+        }
       });
     }
   };
+  if (isloading) {
+    return <Loader />;
+  }
 
   return (
     <>
-      <link
+      {/* <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
+      /> */}
       <style>
         {`
         
@@ -345,7 +357,8 @@ const Apiproducts = () => {
         <Option value="Laptops">Laptops</Option>
         <Option value="Macs">Macs</Option>
         <Option value="Displays">Displays</Option>
-      </Select> <br /><br /> */}
+      </Select> <br /><br /> */} 
+   
       <Autocomplete
         style={{
           position: "absolute",
@@ -569,17 +582,17 @@ const Apiproducts = () => {
       </Tooltip>
       <Drawer open={open} onClose={drawerclose} placement="bottom" height={600}>
         <div className="main">
-          <div className="image">
+          <div className="image" style={{position:"relative"}}>
             <ArrowBackIosTwoToneIcon
               style={{
                 position: "absolute",
-                top: "280px",
-                left: "24px",
-                fontSize: "40px",
-                backgroundColor: "black",
+                top: "205px",
+             
+                fontSize: "30px",
+                backgroundColor: "graytext",
                 color: "white",
                 borderRadius: "100%",
-                padding: "8px",
+                padding: "6px",
                 zIndex: 9999,
               }}
               onClick={previmage}
@@ -595,13 +608,13 @@ const Apiproducts = () => {
               onClick={nextimage}
               style={{
                 position: "absolute",
-                top: "280px",
-                left: "635px",
-                fontSize: "40px",
-                backgroundColor: "black",
+                top: "205px",
+                left: "610px",
+                fontSize: "30px",
+                backgroundColor: "graytext",
                 color: "white",
                 borderRadius: "100%",
-                padding: "8px",
+                padding: "6px",
                 zIndex: 9999,
               }}
             />
@@ -622,7 +635,11 @@ const Apiproducts = () => {
             </Button>
           </div>
         </div>
-      </Drawer>
+      </Drawer><br /><br />
+      <Footer/>
+     
+   
+   
     </>
   );
 };

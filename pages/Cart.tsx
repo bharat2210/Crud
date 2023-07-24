@@ -1,7 +1,8 @@
+// Next imports
 import React, { useEffect, useState } from "react";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import Navbar1 from "../Components/Navbar1";
+import Head from "next/head";
+import { useRouter } from "next/router";
+// Redux imports
 import { useSelector, useDispatch } from "react-redux";
 import {
   decreaseitem,
@@ -11,29 +12,33 @@ import {
   increaseitem,
   removeitem,
 } from "../Features/productsslice";
-import Head from "next/head";
+import { AppDispatch, RootState } from "../store";
+// Antd imports
+import { InfoCircleOutlined } from "@ant-design/icons";
+// Mui imports
 import { Button, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/router";
+// Styles imports
 import prompt from "../styles/prompt.module.css";
 import styles from "../styles/confirm.module.css";
-
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { AppDispatch, RootState } from "../store";
+// Font Awesome imports
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";     
+// Components imports
+import Navbar1 from "../Components/Navbar1";
 
 const Cart = () => {
+  const dispatch:AppDispatch = useDispatch();
+  const router = useRouter();
+  const [stock, setstock] = useState(false);
+  const [outofstocktitle, setoutofstocktitle] = useState<any[]>([]);
+  const [showdelete, setshowdelete] = useState<boolean>(false);
+  const [empty, setempty] = useState<boolean>(false);
   const { cart, totalQuantity, totalPrice, apiproducts } = useSelector(
     (state:RootState) => state.allcarts
   );
-  const [stock, setstock] = useState(false);
-  const [outofstocktitle, setoutofstocktitle] = useState<any[]>([]);
+
   // console.log("cart", cart);
   // console.log("items", items);
-
-  const [showdelete, setshowdelete] = useState(false);
-  const [empty, setempty] = useState(false);
-  const dispatch:AppDispatch = useDispatch();
-  const router = useRouter();
-
   useEffect(() => {
     dispatch(getCartTotal());
   }, [cart]);

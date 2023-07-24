@@ -1,11 +1,12 @@
+// Next imports
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Navbar from "../Components/Navbar";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import Head from 'next/head'
-import { Button, Result } from 'antd';
+// Components imports
 import Navbar1 from "../Components/Navbar1";
+// Antd imports
+import { Button, Result } from 'antd';
+
 
 const error = () => {
   const router=useRouter();
@@ -24,13 +25,13 @@ const error = () => {
   useEffect(()=>{
     if(second===0){
      
-      router.push("/Apiproducts")
+      router.push("/Landing")
          
       
     }
   },[second])
   const handlehome = () =>{
-    router.push("/Apiproducts")
+    router.push("/Landing")
   }
     // const router=useRouter()
    

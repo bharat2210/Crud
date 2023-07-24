@@ -1,7 +1,27 @@
-"use client";
+// React imports
+import Head from "next/head";
+import { useEffect, useState } from "react";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import {toast} from 'react-toastify'
+// Components imports
+import Loader from "../Components/Loader";
+import Navbar1 from "../Components/Navbar1";
+// Redux imports
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteallitems,
+  deleteitem,
+  getproducts,
+  searchproductdata,
+  updateitem,
+} from "../Features/productsslice";
+import { AppDispatch, RootState } from "../store";
+import { addproducts } from "../Features/productsslice";
+// Styles imports
+import edit from "../styles/edit.module.css";
+import deletecss from "../styles/delete.module.css";
 
 // Ant Design Imports
 import { Col, Row, Drawer, Modal, Space, Select, Image } from "antd";
@@ -14,25 +34,7 @@ import {
 } from "@ant-design/icons";
 import { Card, Statistic, notification } from "antd";
 
-// Miscellenous Imports
-import { useDispatch, useSelector } from "react-redux";
-import Head from "next/head";
-import edit from "../styles/edit.module.css";
-import deletecss from "../styles/delete.module.css";
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
-import {
-  deleteallitems,
-  deleteitem,
-  getproducts,
-  searchproductdata,
-  updateitem,
-} from "../Features/productsslice";
-import Navbar1 from "../Components/Navbar1";
-import { RootState } from "../store";
-import { useEffect, useState } from "react";
-import Loader from "../Components/Loader";
-import { addproducts } from "../Features/productsslice";
+// Num-words imports
 import numWords from "num-words";
 
 // Mui Imports
@@ -50,37 +52,58 @@ import {
 import Button from "@mui/material/Button";
 import { showuser } from "../Features/userdetail";
 import { readuser } from "../Features/register";
-import Cart from "./Cart";
 
+interface ProductData {
+  title: string;
+  price: number;
+  stock: number;
+  storage:string;
+  img: string[]; // Array of image URLs
+}
 const Admin = () => {
+  const dispatch:AppDispatch = useDispatch();
   const [id, setid] = useState<Number>();
-  const [updatedata, setupdatedata] = useState({
+  const [updatedata, setupdatedata] = useState<ProductData>({
     title: "",
     price: 0,
     stock: 0,
+    storage:"",
+    img:[]
+   
   });
   const[username,setusername]=useState<string>()
+  const [visibleItems, setVisibleItems] = useState<number>(4);
+  const [open, setOpen] = useState<boolean>(false);
+  const [deleteproduct, setdeleteproduct] = useState<boolean>(false);
+  const [search, setsearch] = useState();
+  const [shownavbar, setshownavbar] = useState<boolean>(true);
+  const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
+  const [displaybutton, setdisplaybutton] = useState<boolean>(false);
+  const [updateopen, setupdateopen] = useState<boolean>(false);
+  const [stat, setstat] = useState<boolean>(false);
+  const [showbutton, setshowbutton] = useState<boolean>(false);
+  const[imageurls, setimageurls] = useState<string[]>([])
+  const [imageview, setimageview] = useState<boolean>(false);
   const allproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
   console.log("allproducts", allproducts);
+  const { isloading, searchdata, cart } = useSelector(
+    (state: RootState) => state.allcarts
+  );
   // console.log("update id", id);
-
-  const singleproduct = allproducts.filter((data: any) => data._id === id)[0];
-
+  const singleproduct = allproducts?.filter((data: any) => data._id === id)[0];
   console.log("singleproduct", singleproduct);
-
   const { Option } = Select;
-  const dispatch: ThunkDispatch<any, void, AnyAction> = useDispatch();
 
-  const [visibleItems, setVisibleItems] = useState(4);
+
+ 
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
   // STATISTICS
 
   const { rusers } = useSelector((state: RootState) => state.grand);
-
   const { users } = useSelector((state: RootState) => state.app);
   let totalprice = 0;
   apiproducts.forEach((item) => {
@@ -95,22 +118,9 @@ const Admin = () => {
   // console.log("Total stock: " + typeof(totalstock) + totalstock);
 
   // STAT END
-  const { isloading, searchdata, cart } = useSelector(
-    (state: RootState) => state.allcarts
-  );
-  // console.log("cart", cart)
-  const [open, setOpen] = useState(false);
-  const [deleteproduct, setdeleteproduct] = useState(false);
-  const [search, setsearch] = useState();
-  const [shownavbar, setshownavbar] = useState(true);
-  const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
-  const [imageview, setimageview] = useState(false);
-  const [displaybutton, setdisplaybutton] = useState(false);
-
-  const [updateopen, setupdateopen] = useState(false);
-  const [stat, setstat] = useState(false);
-  // const [cartData, setCartData] = useState([]);
-  const [showbutton, setshowbutton] = useState(false);
+ 
+ 
+ 
 
   useEffect(() => {
     dispatch(getproducts());
@@ -148,23 +158,23 @@ const Admin = () => {
     console.log("userId", userId);
   };
   const confirmdelete = () => {
-    dispatch(deleteitem(id));
-    dispatch(getproducts());
+    dispatch(deleteitem(id)).then(()=>{
+      dispatch(getproducts());
+   
+      notification.warning({
+        message: "Product deletion",
+        description: `${username} deleted successfully`,
+        placement: "topLeft",
+  
+        style: {
+          top: "78px",
+        },
+      });
+      setdeleteproduct(false);
 
-    notification.warning({
-      message: "Product deletion",
-      description: "Item deleted successfully",
-      placement: "topLeft",
-
-      style: {
-        top: "78px",
-      },
-    });
-    setdeleteproduct(false);
+    })
   };
-  if (isloading) {
-    return <Loader />;
-  }
+
   const handleCancel = () => {
     setdeleteproduct(false);
   };
@@ -207,7 +217,7 @@ const Admin = () => {
     const formData = {
       title: e.target.elements.title.value,
       price: Number(e.target.elements.price.value), // Convert to number
-      img: [e.target.elements.img.value],
+      img: imageurls,
       quantity: Number(e.target.elements.quantity.value), // Convert to number
       description: e.target.elements.description.value,
       rating: Number(e.target.elements.rating.value), // Convert to number
@@ -221,18 +231,20 @@ const Admin = () => {
     };
 
     // Call the addproducts action or perform API request
-    dispatch(addproducts(formData));
+    dispatch(addproducts(formData)).then(()=>{
+      onClose();
+      notification.success({
+        message: "Success",
+        description: "Item added successfully",
+        placement: "topLeft",
+        style: {
+          top: "78px",
+        },
+      });
+    })
 
-    // Reset the form or perform any other necessary actions
-    onClose();
-    notification.success({
-      message: "Success",
-      description: "Item added successfully",
-      placement: "topLeft",
-      style: {
-        top: "78px",
-      },
-    });
+ 
+    
   };
 
   const updateclose = () => {
@@ -241,23 +253,17 @@ const Admin = () => {
   };
   const handleupdate = (e: any) => {
     e.preventDefault();
-    dispatch(updateitem({ id: singleproduct._id, ...updatedata }));
-    console.log("values", e);
-    notification.success({
-      message: "Update Action",
-      description: "Item updated successfully",
-      placement: "topLeft",
-      style: {
-        top: "78px",
-      },
-    });
-
+    dispatch(updateitem({ id: singleproduct._id, ...updatedata })).then(()=>{
+      toast.success(("Item updated successfully"),{
+        position:"top-right",
+        style:{
+          top: "78px",
+        }
+      })
+    })
     setupdateopen(false);
     setshownavbar(true);
   };
-  if (isloading) {
-    return <Loader />;
-  }
   const openstat = () => {
     setstat(true);
     setshownavbar(false);
@@ -275,15 +281,38 @@ const Admin = () => {
 
   const currenttime = new Date();
   const currentHour = currenttime.getHours();
-  console.log(currenttime);
-  console.log(currentHour);
-  let wish;
+  // console.log(currenttime);
+  // console.log(currentHour);
+  let greetings;
   if (currentHour < 12) {
-    wish = "Good Morning Bharat 🌅";
+
+    greetings = "Good Morning Bharat 🌅";
   } else if (currentHour >= 12 && currentHour < 17) {
-    wish = "Good Afternoon Bharat ☀️ ";
+    greetings = "Good Afternoon Bharat ☀️ ";
   } else {
-    wish = "Good Evening Bharat 🌇 ";
+    greetings = "Good Evening Bharat 🌇 ";
+  }
+
+  // const handleFileUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   const base64 = await convertToBase64(file);
+  //   console.log(base64)
+  
+  // }
+  // function convertToBase64(file){
+  //   return new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+  //     fileReader.onload = () => {
+  //       resolve(fileReader.result)
+  //     };
+  //     fileReader.onerror = (error) => {
+  //       reject(error)
+  //     }
+  //   })
+  // }
+  if (isloading) {
+    return <Loader />;
   }
 
   return (
@@ -291,24 +320,15 @@ const Admin = () => {
       <Head>
         <title>Admin Page</title>
         <meta name="description" content="Generated by create next app" />
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
+    
+   
       </Head>
       <style>
         {`
         .custom-icon{
           color:green;
         }
-          
-
-         
-         
-          
-           
-          .fa-bag-shopping{
+        .fa-bag-shopping{
             color:red;
           }
           .form{
@@ -332,6 +352,7 @@ const Admin = () => {
             justify-content:space-around;
      
           }
+       
          
         
         `}
@@ -361,12 +382,14 @@ const Admin = () => {
           centered={true}
           keyboard={true}
           okText="Yes"
+          cancelText="No"
         > 
         <h1 style={{textAlign:"center"}}>☹️</h1>
           <h3 style={{textAlign:"center"}}>Are you sure want to delete {username} ? </h3><br />
         </Modal>
       )}
-      <h3 style={{ textAlign: "center" }}>{wish}</h3>
+      <h3 style={{ textAlign: "center" }}>{greetings}</h3>
+
 
       <br />
       {/* <Select
@@ -490,7 +513,7 @@ const Admin = () => {
                       </TableCell>
                       <TableCell align="left">{details.title}</TableCell>
                       <TableCell align="left">{details.price}</TableCell>
-                      <TableCell align="left">{details.stock}</TableCell>
+                      <TableCell align="left" style={{color:details.stock <= 1 ? "red": "inherit",fontWeight:"800"}}>{details.stock}</TableCell>
                       <TableCell align="left">{details.category}</TableCell>
                       <TableCell align="left" className="tableimage">
                         {/* <Image
@@ -548,6 +571,7 @@ const Admin = () => {
             </TableBody>
           </Table>
         </TableContainer>
+
       </Container>
       <br />
       {visibleItems < apiproducts.length && (
@@ -561,16 +585,16 @@ const Admin = () => {
         onClose={updateclose}
         open={updateopen}
         bodyStyle={{ paddingBottom: 2 }}
-        width={320}
+        width={400}
         title="Update Product"
-        style={{ overflowY: "hidden" }}
+  
       >
         <form action="#" onSubmit={handleupdate}>
           <Row gutter={12}>
             <Col span={24}>
               <label htmlFor="Title">Title</label>
               <br />
-              <br />
+          
               <input
                 type="text"
                 value={updatedata?.title}
@@ -589,17 +613,13 @@ const Admin = () => {
             <Col span={24}>
               <label htmlFor="Price">Price</label>
               <br />
-              <br />
+           
               <input
                 type="number"
                 value={updatedata?.price}
                 onChange={(e) =>
                   setupdatedata(
-                    (prevvalue: {
-                      title: string;
-                      price: number;
-                      stock: number;
-                    }) => ({
+                    (prevvalue) => ({
                       ...prevvalue,
                       price: Number(e.target.value),
                     })
@@ -614,7 +634,7 @@ const Admin = () => {
             <Col span={24}>
               <label htmlFor="Stock">Stock</label>
               <br />
-              <br />
+             
               <input
                 type="number"
                 value={updatedata?.stock}
@@ -627,7 +647,47 @@ const Admin = () => {
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
               />
             </Col>
+          </Row><br />
+          <Row gutter={12}>
+            <Col span={24}>
+              <label htmlFor="Storage">Storage</label>
+              <br />
+             
+              <input
+                type="string"
+                value={updatedata?.storage}
+                onChange={(e) =>
+                  setupdatedata((prevvalue) => ({
+                    ...prevvalue,
+                    storage:e.target.value,
+                  }))
+                }
+                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+              />
+            </Col>
+          </Row><br />
+          <Row gutter={12}>
+            <Col span={24}>
+              <label htmlFor="Image">Image</label>
+              <br />
+            
+              <textarea
+              rows={7}
+              cols={10}
+               
+                value={updatedata?.img.join(",")}
+                onChange={(e) =>
+                  setupdatedata((prevvalue) => ({
+                    ...prevvalue,
+                    img:e.target.value.split(","),
+                  }))
+                }
+                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+              >
+                </textarea>
+            </Col>
           </Row>
+         
           <br />
           <Row gutter={12}>
             <Col span={24}>
@@ -677,16 +737,25 @@ const Admin = () => {
 
           {/* 2nd row */}
           <Row gutter={12}>
-            <Col span={12}>
-              <input
-                type="string"
+            <Col span={24}>
+              <textarea
+                rows={4}
+                cols={10}
                 name="img"
                 placeholder="Upload Image"
                 required
+                value={imageurls.join(",")}
+                onChange={(e) => setimageurls(e.target.value.split(','))}
                 className="formclass"
-              />
+          
+              >
+                </textarea>
             </Col>
-            <Col span={12}>
+            
+          </Row>
+          <br />
+          <Row gutter={12}>
+          <Col span={24}>
               <input
                 type="number"
                 name="quantity"
@@ -696,8 +765,7 @@ const Admin = () => {
                 className="formclass"
               />
             </Col>
-          </Row>
-          <br />
+          </Row><br />
           {/* 3rd row */}
           <Row gutter={12}>
             <Col span={24}>
