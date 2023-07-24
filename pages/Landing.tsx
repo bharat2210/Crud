@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // MUI Imports
 import { Container, Typography } from "@mui/material";
 // AntD imports
-import { Card, Col, Row } from "antd";
+import { Card, Col, FloatButton, Row, Tooltip } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
 // Components imports
 import Carousel from "../Components/Carousel";
@@ -57,7 +57,7 @@ const images = [
   },
 ];
 const { Meta } = Card;
-const MUIcarousel = () => {
+const Landing = () => {
   useEffect(() => {
     Aos.init();
   }, []);
@@ -72,6 +72,10 @@ const MUIcarousel = () => {
       
       `}
       </style>
+      <Tooltip title="Go To Top" color="green" placement="left">
+        <FloatButton.BackTop type="primary"/>
+         
+      </Tooltip>
       <Navbar1 />
 
       <div className="img" data-aos="zoom-in">
@@ -122,18 +126,18 @@ const MUIcarousel = () => {
           }}
           className="bannerimage"
         />
-      </div>
+      </div><br /><br /><br />
       <div className="service">
-        <h2 style={{ textAlign: "center", color: "GrayText" }}>
-          Services Offered By Us
-        </h2>
+        <h1 style={{ textAlign: "center", color: "GrayText" }}>
+          Services Offered
+        </h1>
         <img
           src="Services.jpg"
           alt=""
           style={{ marginLeft: "300px", borderRadius:"12px"}}
         height={750} width={1000}/>
       </div>
-
+      
       <div className="container" style={{ height: "auto", marginTop: "150px" }}>
         <Typography
           variant="h4"
@@ -175,4 +179,4 @@ const MUIcarousel = () => {
   );
 };
 
-export default MUIcarousel;
+export default Landing;
