@@ -1,42 +1,47 @@
 // Next imports
 import React, { useState } from "react";
 // Antd imports
-import { Col, Modal, Row, message } from "antd";
+import { Col, Modal, Row } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { Button, Result } from "antd";
+import { Result } from "antd";
 // Redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { createmessages } from "../Features/message";
 import { AppDispatch, RootState } from "../store";
 // Components imports
+import Loader from "./Loader";
 
 const Contact = () => {
   const dispatch: AppDispatch = useDispatch();
   const { isloading } = useSelector((state: RootState) => state.allmessages);
-  const [firstname, setfirstName] = useState("");
-  const [lastname, setlastName] = useState("");
-  const [email, setemail] = useState("");
-  const [message, setMessage] = useState("");
+  const [firstname, setfirstName] = useState<string>("");
+  const [lastname, setlastName] = useState<string>("");
+  const [email, setemail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [sendmessage, setsendmessage] = useState<boolean>(false);
   const handlesubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     dispatch(createmessages({ firstname, lastname, email, message })).then(
       () => {
         setsendmessage(true);
-        setfirstName("");
-        setlastName("");
-
         setMessage("");
       }
-    );
-
-    // console.log(e)
+    ); // console.log(e)
   };
+  if (isloading) {
+    return <Loader />;
+  }
 
   return (
     <div>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@500&family=Roboto&display=swap" rel="stylesheet"/>
       <style>
         {`
+        body{
+          font-family: 'Heebo', sans-serif;
+        }
             .row{
                 display:flex;
                 flex-direction:row;
@@ -47,7 +52,7 @@ const Contact = () => {
             .button {
               font-family: inherit;
               font-size: 18px;
-              background: royalblue;
+              background: rgb(25,118,210);
               color: white;
               padding: 0.5em 0.8em;
               padding-left: 0.4em;
@@ -100,35 +105,28 @@ const Contact = () => {
             .custom-textarea::placeholder {
               /* Set the desired position for the placeholder text */
               position: absolute;
-              top: 30px; /* Adjust the top position */
-              left: 20px; /* Adjust the left position */
+              top: 10px; /* Adjust the top position */
+              left: 15px; /* Adjust the left position */
               color: #888; /* Placeholder text color */
               font-size: 18px; /* Placeholder text font size */
             }
-           
-         
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
+            .custom-input::placeholder {
+              color: #888; 
+              font-size: 14px;
+            }
             `}
       </style>
       {sendmessage && (
         <Modal
           open={sendmessage}
           centered={true}
+          cancelText="Close"
           onOk={() => setsendmessage(false)}
+          onCancel={() => setsendmessage(false)}
         >
           <Result
             icon={<SmileOutlined />}
-            title={`Great, we have received your message. Our team will shortly contact you via email ${email}`}
+            title={`Great, we have received your message ${firstname}. Our team will shortly contact you via email ${email}`}
           />
         </Modal>
       )}
@@ -136,11 +134,11 @@ const Contact = () => {
         <h1 style={{ textAlign: "center", color: "GrayText" }}>Contact Us</h1>
         <div className="row">
           <div className="column1">
-            <h2 style={{ color: "dodgerblue" }}>
+            <h2 style={{ color: "rgb(25,118,210)" }}>
               We would Love to hear from you
             </h2>
 
-            <p style={{ width: "430px", textAlign: "left" }}>
+            <p style={{ width: "430px", textAlign: "left", color: "GrayText" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
               vestibulum ipsum sed felis laoreet, ut luctus nulla pulvinar.
               Nullam eleifend erat eget lacinia sodales. Nunc rutrum sit amet
@@ -149,7 +147,7 @@ const Contact = () => {
               sapien, sed pharetra nisi elit eget ex.
             </p>
 
-            <p style={{ width: "450px" }}>
+            <p style={{ width: "450px", color: "GrayText" }}>
               {" "}
               Nullam efficitur, risus lacinia bibendum posuere, nisl justo
               ultrices sapien, sed pharetra nisi elit eget ex. Mauris maximus
@@ -157,7 +155,9 @@ const Contact = () => {
             </p>
             <br />
 
-            <p>Available 24X7 Just for you</p>
+            <p style={{ fontWeight: "900", color: "green" }}>
+              Available 24X7 Just for you
+            </p>
           </div>
           <div className="column2">
             <iframe
@@ -175,13 +175,20 @@ const Contact = () => {
         className="main-container2"
         style={{
           backgroundColor: "rgb(230,228,228)",
-          height: "450px",
+          height: "auto",
           width: "100%",
           borderRadius: "18px",
+          padding:"0px 0px 8px 0px"
         }}
       >
-        <h1 style={{ textAlign: "center" }}>Take a message</h1>
-        <h2 style={{ textAlign: "center" }}>We Care about you</h2>
+        <br />
+        <h1 style={{ textAlign: "center", color: "GrayText" }}>
+          Take a message
+        </h1>
+        <h2 style={{ textAlign: "center", color: "GrayText" }}>
+          We Care about you
+        </h2>
+        <br />
         <div className="form">
           <form action="" onSubmit={handlesubmit}>
             <Row style={{ marginLeft: "350px" }}>
@@ -198,7 +205,8 @@ const Contact = () => {
                     borderRadius: "50px",
                     border: "none",
                   }}
-                  placeholder="First Name"
+                  className="custom-input"
+                  placeholder="First name"
                 />
               </Col>
               <Col span={6}>
@@ -213,7 +221,8 @@ const Contact = () => {
                     borderRadius: "50px",
                     border: "none",
                   }}
-                  placeholder="Last Name (Optional)"
+                  className="custom-input"
+                  placeholder="Last name (Optional)"
                 />
               </Col>
               <Col span={6}>
@@ -229,7 +238,8 @@ const Contact = () => {
                     borderRadius: "50px",
                     border: "none",
                   }}
-                  placeholder="Enter your Email"
+                  className="custom-input"
+                  placeholder="Enter your email"
                 />
               </Col>
             </Row>
@@ -282,5 +292,4 @@ const Contact = () => {
     </div>
   );
 };
-
 export default Contact;

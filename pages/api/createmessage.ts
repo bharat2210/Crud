@@ -10,7 +10,7 @@ const handler=async(req:NextApiRequest,res:NextApiResponse)=>{
             const data = new messages(req.body);
             let result  =await data.save();
             result = result.toObject();
-            res.status(200).send(result);
+            res.status(201).send(result);
     }catch(error){
         res.status(500).json({message:"Internal Server Error"})
     }

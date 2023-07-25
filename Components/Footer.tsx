@@ -105,7 +105,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-logo">
             <SketchOutlined
-              style={{ fontSize: "150px", color: "dodgerblue" }}
+              style={{ fontSize: "150px", color: "rgb(25,118,210)" }}
             />
           </div>
           <div className="footer-text">
@@ -161,16 +161,16 @@ const Footer = () => {
         <div className="footer-menu" style={{ textAlign: "center" }}>
           <ul>
             <li>
-              <a href="#">Home</a>
+              <a href="/Landing">Home</a>
             </li>
             <li>
-              <a href="#">About</a>
+              <a href="/Apiproducts">Products</a>
             </li>
             <li>
-              <a href="#">Services</a>
+              <a href="/Uns">Gallery</a>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <a href="/Contactus">Contact</a>
             </li>
           </ul>
         </div>
