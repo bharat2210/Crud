@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 // Components imports
 import Loader from "../Components/Loader";
 import Navbar1 from "../Components/Navbar1";
@@ -24,7 +24,17 @@ import edit from "../styles/edit.module.css";
 import deletecss from "../styles/delete.module.css";
 
 // Ant Design Imports
-import { Col, Row, Drawer, Modal, Space, Select, Image } from "antd";
+import {
+  Col,
+  Row,
+  Drawer,
+  Modal,
+  Space,
+  Select,
+  Image,
+  Tooltip,
+  Popconfirm,
+} from "antd";
 import { Button as AntButton } from "antd";
 import {
   FileDoneOutlined,
@@ -33,6 +43,8 @@ import {
   ShoppingOutlined,
 } from "@ant-design/icons";
 import { Card, Statistic, notification } from "antd";
+import { Badge } from "antd";
+import { Descriptions } from "antd";
 
 // Num-words imports
 import numWords from "num-words";
@@ -52,26 +64,27 @@ import {
 import Button from "@mui/material/Button";
 import { showuser } from "../Features/userdetail";
 import { readuser } from "../Features/register";
+import { deletemessage, formatmessages, getmessages } from "../Features/message";
 
 interface ProductData {
   title: string;
   price: number;
   stock: number;
-  storage:string;
+  storage: string | number;
   img: string[]; // Array of image URLs
 }
 const Admin = () => {
-  const dispatch:AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [id, setid] = useState<Number>();
+  const[messageid,setmessageid]=useState<number>()
   const [updatedata, setupdatedata] = useState<ProductData>({
     title: "",
     price: 0,
     stock: 0,
-    storage:"",
-    img:[]
-   
+    storage: "" || 0,
+    img: [],
   });
-  const[username,setusername]=useState<string>()
+  const [username, setusername] = useState<string>();
   const [visibleItems, setVisibleItems] = useState<number>(4);
   const [open, setOpen] = useState<boolean>(false);
   const [deleteproduct, setdeleteproduct] = useState<boolean>(false);
@@ -82,8 +95,9 @@ const Admin = () => {
   const [updateopen, setupdateopen] = useState<boolean>(false);
   const [stat, setstat] = useState<boolean>(false);
   const [showbutton, setshowbutton] = useState<boolean>(false);
-  const[imageurls, setimageurls] = useState<string[]>([])
+  const [imageurls, setimageurls] = useState<string[]>([]);
   const [imageview, setimageview] = useState<boolean>(false);
+  const [querybox, setquerybox] = useState<boolean>(false);
   const allproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
@@ -96,11 +110,15 @@ const Admin = () => {
   console.log("singleproduct", singleproduct);
   const { Option } = Select;
 
-
- 
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
+
+  const messages = useSelector(
+    (state: RootState) => state.allmessages.Messages
+  );
+  const lengthofquery = messages.length;
+  console.log("messages", messages);
   // STATISTICS
 
   const { rusers } = useSelector((state: RootState) => state.grand);
@@ -118,12 +136,10 @@ const Admin = () => {
   // console.log("Total stock: " + typeof(totalstock) + totalstock);
 
   // STAT END
- 
- 
- 
 
   useEffect(() => {
     dispatch(getproducts());
+    dispatch(getmessages());
     dispatch(showuser());
     dispatch(readuser());
   }, []);
@@ -151,28 +167,27 @@ const Admin = () => {
   console.log("updatedata", updatedata);
 
   // Admin actions
-  const handledelete = (userId:number,username:string) => {
+  const handledelete = (userId: number, username: string) => {
     setid(userId);
     setdeleteproduct(true);
-    setusername(username)
+    setusername(username);
     console.log("userId", userId);
   };
   const confirmdelete = () => {
-    dispatch(deleteitem(id)).then(()=>{
+    dispatch(deleteitem(id)).then(() => {
       dispatch(getproducts());
-   
+
       notification.warning({
         message: "Product deletion",
         description: `${username} deleted successfully`,
         placement: "topLeft",
-  
+
         style: {
           top: "78px",
         },
       });
       setdeleteproduct(false);
-
-    })
+    });
   };
 
   const handleCancel = () => {
@@ -231,7 +246,7 @@ const Admin = () => {
     };
 
     // Call the addproducts action or perform API request
-    dispatch(addproducts(formData)).then(()=>{
+    dispatch(addproducts(formData)).then(() => {
       onClose();
       notification.success({
         message: "Success",
@@ -241,10 +256,7 @@ const Admin = () => {
           top: "78px",
         },
       });
-    })
-
- 
-    
+    });
   };
 
   const updateclose = () => {
@@ -253,14 +265,14 @@ const Admin = () => {
   };
   const handleupdate = (e: any) => {
     e.preventDefault();
-    dispatch(updateitem({ id: singleproduct._id, ...updatedata })).then(()=>{
-      toast.success(("Item updated successfully"),{
-        position:"top-right",
-        style:{
+    dispatch(updateitem({ id: singleproduct._id, ...updatedata })).then(() => {
+      toast.success("Item updated successfully", {
+        position: "top-right",
+        style: {
           top: "78px",
-        }
-      })
-    })
+        },
+      });
+    });
     setupdateopen(false);
     setshownavbar(true);
   };
@@ -279,13 +291,27 @@ const Admin = () => {
     dispatch(deleteallitems());
   };
 
+  const handleformat=()=>{
+    dispatch(formatmessages()).then(()=>{
+      dispatch(getmessages())
+    })
+  }
+  const handledeleteQuery=()=>{
+    // console.log("handleDelete",messageid)
+    dispatch(deletemessage(messageid)).then(()=>{
+      dispatch(getmessages())
+    })
+    // console.log("messageid",messageid)
+      
+    
+  }
+
   const currenttime = new Date();
   const currentHour = currenttime.getHours();
   // console.log(currenttime);
   // console.log(currentHour);
   let greetings;
   if (currentHour < 12) {
-
     greetings = "Good Morning Bharat 🌅";
   } else if (currentHour >= 12 && currentHour < 17) {
     greetings = "Good Afternoon Bharat ☀️ ";
@@ -297,7 +323,7 @@ const Admin = () => {
   //   const file = e.target.files[0];
   //   const base64 = await convertToBase64(file);
   //   console.log(base64)
-  
+
   // }
   // function convertToBase64(file){
   //   return new Promise((resolve, reject) => {
@@ -317,11 +343,13 @@ const Admin = () => {
 
   return (
     <>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
       <Head>
         <title>Admin Page</title>
         <meta name="description" content="Generated by create next app" />
-    
-   
       </Head>
       <style>
         {`
@@ -383,13 +411,15 @@ const Admin = () => {
           keyboard={true}
           okText="Yes"
           cancelText="No"
-        > 
-        <h1 style={{textAlign:"center"}}>☹️</h1>
-          <h3 style={{textAlign:"center"}}>Are you sure want to delete {username} ? </h3><br />
+        >
+          <h1 style={{ textAlign: "center" }}>☹️</h1>
+          <h3 style={{ textAlign: "center" }}>
+            Are you sure want to delete {username} ?{" "}
+          </h3>
+          <br />
         </Modal>
       )}
       <h3 style={{ textAlign: "center" }}>{greetings}</h3>
-
 
       <br />
       {/* <Select
@@ -414,6 +444,24 @@ const Admin = () => {
         <Option value="Macs">Macs</Option>
         <Option value="Displays">Displays</Option>
       </Select>{" "} */}
+
+      <Tooltip title="Queries" placement="left">
+        <div
+          className="badge"
+          style={{ position: "absolute", right: "45px", top: "120px" }}
+        >
+          <Badge count={lengthofquery}>
+            <i
+              className="fa-solid fa-envelope"
+              style={{ fontSize: "28px" }}
+              onClick={() => {
+                setquerybox(true);
+                setshownavbar(false);
+              }}
+            ></i>
+          </Badge>
+        </div>
+      </Tooltip>
 
       <Container>
         <div className="controls">
@@ -513,7 +561,15 @@ const Admin = () => {
                       </TableCell>
                       <TableCell align="left">{details.title}</TableCell>
                       <TableCell align="left">{details.price}</TableCell>
-                      <TableCell align="left" style={{color:details.stock <= 1 ? "red": "inherit",fontWeight:"800"}}>{details.stock}</TableCell>
+                      <TableCell
+                        align="left"
+                        style={{
+                          color: details.stock <= 1 ? "red" : "inherit",
+                          fontWeight: "800",
+                        }}
+                      >
+                        {details.stock}
+                      </TableCell>
                       <TableCell align="left">{details.category}</TableCell>
                       <TableCell align="left" className="tableimage">
                         {/* <Image
@@ -561,7 +617,9 @@ const Admin = () => {
 
                         <button
                           className={deletecss.delete}
-                          onClick={() => handledelete(details._id,details.title)}
+                          onClick={() =>
+                            handledelete(details._id, details.title)
+                          }
                         >
                           Delete <i className="fa-solid fa-trash"></i>
                         </button>
@@ -571,7 +629,6 @@ const Admin = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
       </Container>
       <br />
       {visibleItems < apiproducts.length && (
@@ -587,14 +644,13 @@ const Admin = () => {
         bodyStyle={{ paddingBottom: 2 }}
         width={400}
         title="Update Product"
-  
       >
         <form action="#" onSubmit={handleupdate}>
           <Row gutter={12}>
             <Col span={24}>
               <label htmlFor="Title">Title</label>
               <br />
-          
+
               <input
                 type="text"
                 value={updatedata?.title}
@@ -613,17 +669,15 @@ const Admin = () => {
             <Col span={24}>
               <label htmlFor="Price">Price</label>
               <br />
-           
+
               <input
                 type="number"
                 value={updatedata?.price}
                 onChange={(e) =>
-                  setupdatedata(
-                    (prevvalue) => ({
-                      ...prevvalue,
-                      price: Number(e.target.value),
-                    })
-                  )
+                  setupdatedata((prevvalue) => ({
+                    ...prevvalue,
+                    price: Number(e.target.value),
+                  }))
                 }
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
               />
@@ -634,7 +688,7 @@ const Admin = () => {
             <Col span={24}>
               <label htmlFor="Stock">Stock</label>
               <br />
-             
+
               <input
                 type="number"
                 value={updatedata?.stock}
@@ -647,47 +701,47 @@ const Admin = () => {
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
               />
             </Col>
-          </Row><br />
+          </Row>
+          <br />
           <Row gutter={12}>
             <Col span={24}>
               <label htmlFor="Storage">Storage</label>
               <br />
-             
+
               <input
                 type="string"
                 value={updatedata?.storage}
                 onChange={(e) =>
                   setupdatedata((prevvalue) => ({
                     ...prevvalue,
-                    storage:e.target.value,
+                    storage: e.target.value,
                   }))
                 }
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
               />
             </Col>
-          </Row><br />
+          </Row>
+          <br />
           <Row gutter={12}>
             <Col span={24}>
               <label htmlFor="Image">Image</label>
               <br />
-            
+
               <textarea
-              rows={7}
-              cols={10}
-               
+                rows={7}
+                cols={10}
                 value={updatedata?.img.join(",")}
                 onChange={(e) =>
                   setupdatedata((prevvalue) => ({
                     ...prevvalue,
-                    img:e.target.value.split(","),
+                    img: e.target.value.split(","),
                   }))
                 }
                 style={{ width: "80%", padding: 8, borderRadius: 8 }}
-              >
-                </textarea>
+              ></textarea>
             </Col>
           </Row>
-         
+
           <br />
           <Row gutter={12}>
             <Col span={24}>
@@ -745,17 +799,14 @@ const Admin = () => {
                 placeholder="Upload Image"
                 required
                 value={imageurls.join(",")}
-                onChange={(e) => setimageurls(e.target.value.split(','))}
+                onChange={(e) => setimageurls(e.target.value.split(","))}
                 className="formclass"
-          
-              >
-                </textarea>
+              ></textarea>
             </Col>
-            
           </Row>
           <br />
           <Row gutter={12}>
-          <Col span={24}>
+            <Col span={24}>
               <input
                 type="number"
                 name="quantity"
@@ -765,7 +816,8 @@ const Admin = () => {
                 className="formclass"
               />
             </Col>
-          </Row><br />
+          </Row>
+          <br />
           {/* 3rd row */}
           <Row gutter={12}>
             <Col span={24}>
@@ -1008,6 +1060,65 @@ const Admin = () => {
         >
           Close
         </AntButton>
+      </Drawer>
+
+      <Drawer
+        open={querybox}
+        onClose={() => {
+          setquerybox(false);
+          setshownavbar(true);
+        }}
+        placement="right"
+        width={700}
+      >
+        <h1>Queries</h1>
+        <Popconfirm
+          title="Delete Queries"
+          description="Are you sure to delete these Queries?"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={handleformat}
+        >
+          <Button variant="contained">Delete All Queries</Button>
+        </Popconfirm>
+        <br />
+        <br />
+        {messages &&
+          messages.map((data) => (
+            <React.Fragment key={data._id}>
+              <Descriptions layout="vertical">
+                <Descriptions.Item label="UserName">
+                  {data.firstname} {data.lastname}
+                </Descriptions.Item>
+                <Descriptions.Item label="Email">
+                  {data.email}
+                </Descriptions.Item>
+                <Descriptions.Item label="Actions">
+                  <Button variant="contained" size="small">
+                    Resolve
+                  </Button>{" "}
+                  <Popconfirm 
+                  title="Delete Query"
+                  description="Are you sure you want to delete this query ?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={handledeleteQuery}
+                  
+                  >
+
+                
+                  <Button variant="text" size="small" onClick={()=>setmessageid(data._id)}>
+                    Delete
+                  </Button>
+                  </Popconfirm>
+                </Descriptions.Item>
+                <Descriptions.Item label="Message" span={2}>
+                  {data.message}
+                </Descriptions.Item>
+              </Descriptions>
+              <hr />
+            </React.Fragment>
+          ))}
       </Drawer>
       <br />
       <br />

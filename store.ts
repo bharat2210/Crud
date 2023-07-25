@@ -3,8 +3,9 @@ import userdetail from "./Features/userdetail";
 import authSlice from "./Features/demo";
 import ruserdetail from "./Features/register";
 import productsslice from "./Features/productsslice";
-import demoslice  from './Features/exp'
-import pinslice  from './Features/pin'
+import demoslice  from './Features/exp';
+import pinslice  from './Features/pin';
+import messageSlice from './Features/message'
 
 
 
@@ -15,7 +16,8 @@ export const store = configureStore({
     grand: ruserdetail,
     allcarts: productsslice,
     alldemo: demoslice,
-    allcode:pinslice
+    allcode:pinslice,
+    allmessages:messageSlice
  
     
 

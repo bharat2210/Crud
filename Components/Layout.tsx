@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Footer from './Footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -18,7 +19,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
  },[])
  
 
-  return <div>{children}</div>;
+  return <div>{children} <br />
+  <Footer/>
+  
+  </div>;
 };
 
 export default Layout;

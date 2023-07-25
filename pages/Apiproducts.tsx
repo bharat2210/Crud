@@ -636,7 +636,7 @@ const Apiproducts = () => {
           </div>
         </div>
       </Drawer><br /><br />
-      <Footer/>
+ 
      
    
    

@@ -112,6 +112,9 @@ function Navbar1() {
   const handleadmin = () => {
     router.push("/Admin");
   };
+  const handlecontact = () => {
+    router.push("/Contactus");
+  };
 
   return (
     <>
@@ -242,6 +245,20 @@ function Navbar1() {
                 Products
               </Button>
               <Button
+                onClick={handlecontact}
+                sx={{
+                  my: 2,
+                  fontSize: 15,
+                  color: router.pathname === "/Contactus" ? "white" : "white",
+                  borderBottom:
+                    router.pathname === "/Contactus" ? "3px solid white " : "none",
+                  borderRadius: router.pathname === "/Contactus" ? "12px" : "none",
+                  display: "block",
+                }}
+              >
+                Contact us
+              </Button>
+              <Button
                 onClick={handleadmin}
                 sx={{
                   my: 2,
@@ -255,6 +272,7 @@ function Navbar1() {
               >
                 Admin
               </Button>
+            
               {/* <Dialog open={dialogOpen} onClose={handleCloseDialog}>
                 <DialogTitle>
                   <h5>Enter Security Key to access this page</h5>

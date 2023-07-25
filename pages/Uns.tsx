@@ -12,6 +12,7 @@ import Navbar1 from "../Components/Navbar1";
 import axios from "axios";
 import _ from "lodash";
 import Carousel from "../Components/Carousel";
+import Contact from "../Components/Contact";
 
 
 const Uns = () => {
@@ -131,7 +132,8 @@ const Uns = () => {
       `}
       </style>
       <Navbar1 />
-      <Carousel/>
+      <Carousel/><br /> 
+  
 
       {/* <div className="result">
         <p style={{ textAlign: "right", fontWeight: 400 }}>
