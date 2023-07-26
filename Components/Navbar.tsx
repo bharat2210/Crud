@@ -21,9 +21,15 @@ import { SketchOutlined } from '@ant-design/icons';
 
 
 const pages = [
-  {label:"Signup", path:"/"},
+{
+  label:"Signup", 
+  path:"/"
+},
 
-  { label: 'Login', path: '/Login' }
+{ 
+  label: 'Login', 
+  path: '/Login' 
+}
 ]; 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -121,14 +127,13 @@ function Navbar() {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily:"sans-serif",
               fontWeight: 700,
-              letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            CRUD
+            Shopeee
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

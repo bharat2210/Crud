@@ -133,7 +133,7 @@ const Wishlist = () => {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
-      <Navbar1 />
+
       <div className="container">
         <div className="heading">
           <h1> Wishlist - {wishlist.length} {wishlist.length===1 ? "item" :"items"}</h1>

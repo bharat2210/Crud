@@ -10,6 +10,7 @@ import { createmessages } from "../Features/message";
 import { AppDispatch, RootState } from "../store";
 // Components imports
 import Loader from "./Loader";
+import { json } from "stream/consumers";
 
 const Contact = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -18,12 +19,33 @@ const Contact = () => {
   const [lastname, setlastName] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const[requestbyname,setrequestbyname] = useState<string>("");
+  const[requestbyemail,setrequestbyemail] = useState<string>("");
   const [sendmessage, setsendmessage] = useState<boolean>(false);
+
+  // const userinfo={
+  //   fisrtname:firstname,
+  //   lastname:lastname,
+  //   email:email,
+  //   message:message
+  // }
+  const data= { firstname,email}
   const handlesubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     dispatch(createmessages({ firstname, lastname, email, message })).then(
       () => {
+       
+        localStorage.setItem("createmessages",JSON.stringify(data))
+        const datagot= getStoredData();
+        console.log("localstorage",datagot)
+        const gotname=datagot.firstname;
+        const gotemail=datagot.email;
+        setrequestbyname(gotname)
+        setrequestbyemail(gotemail)
         setsendmessage(true);
+        setfirstName("");
+        setlastName("");
+        setemail("");
         setMessage("");
       }
     ); // console.log(e)
@@ -31,6 +53,27 @@ const Contact = () => {
   if (isloading) {
     return <Loader />;
   }
+  const getStoredData = () => {
+    const data = localStorage.getItem("createmessages");
+    if (data) {
+      return (JSON.parse(data));
+      
+    }
+    return null;
+  
+  };
+  const clearStoredData = () => {
+    localStorage.removeItem("createmessages")
+  }
+const onok=()=>{
+  setsendmessage(false);
+  clearStoredData();
+}
+const oncancel=()=>{
+  setsendmessage(false);
+  clearStoredData();
+}   
+ 
 
   return (
     <div>
@@ -41,6 +84,11 @@ const Contact = () => {
         {`
         body{
           font-family: 'Heebo', sans-serif;
+          background-image:url("https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80");
+          background-attachment:fixed;
+          background-size:cover;
+          background-repeat:no-repeat;
+          background-position:center;
         }
             .row{
                 display:flex;
@@ -121,24 +169,24 @@ const Contact = () => {
           open={sendmessage}
           centered={true}
           cancelText="Close"
-          onOk={() => setsendmessage(false)}
-          onCancel={() => setsendmessage(false)}
+          onOk={() => {onok()}}
+          onCancel={() => {oncancel()}}
         >
           <Result
             icon={<SmileOutlined />}
-            title={`Great, we have received your message ${firstname}. Our team will shortly contact you via email ${email}`}
+            title={`Thankyou , we have received your message ${requestbyname}. Our team will shortly contact you via email ${requestbyemail}`}
           />
         </Modal>
       )}
-      <div className="main-container">
-        <h1 style={{ textAlign: "center", color: "GrayText" }}>Contact Us</h1>
+      <div className="main-container" style={{width:"100%",height:"auto",backgroundColor:"transparent"}}>
+        <h1 style={{ textAlign: "center", color: "black" }}>Contact Us</h1><br />
         <div className="row">
           <div className="column1">
             <h2 style={{ color: "rgb(25,118,210)" }}>
               We would Love to hear from you
             </h2>
-
-            <p style={{ width: "430px", textAlign: "left", color: "GrayText" }}>
+             <br />
+            <p style={{ width: "430px", textAlign: "left", color: "black" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
               vestibulum ipsum sed felis laoreet, ut luctus nulla pulvinar.
               Nullam eleifend erat eget lacinia sodales. Nunc rutrum sit amet
@@ -146,49 +194,48 @@ const Contact = () => {
               efficitur, risus lacinia bibendum posuere, nisl justo ultrices
               sapien, sed pharetra nisi elit eget ex.
             </p>
-
-            <p style={{ width: "450px", color: "GrayText" }}>
+            <br />
+            <p style={{ width: "450px", color: "black" }}>
               {" "}
               Nullam efficitur, risus lacinia bibendum posuere, nisl justo
               ultrices sapien, sed pharetra nisi elit eget ex. Mauris maximus
               lorem et leo sodales, in porttitor eros consectetur.
-            </p>
-            <br />
-
+            </p><br />
             <p style={{ fontWeight: "900", color: "green" }}>
-              Available 24X7 Just for you
+              Available 24X7 Just for you <br />
+              TollFree Number : 1800 180 3000
             </p>
-          </div>
+          </div><br />
           <div className="column2">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1587.958537621464!2d76.6978035315703!3d30.71333548648994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fefd89ee56eeb%3A0x489a927bc5c0de0a!2sWiznox%20Technologies!5e0!3m2!1sen!2sin!4v1690261761317!5m2!1sen!2sin"
               width="500"
               height="400"
-              style={{ border: "0" }}
+              style={{ border: "0",borderRadius:"12px" }}
               loading="lazy"
             ></iframe>
           </div>
         </div>
       </div>
-      <br />
       <div
         className="main-container2"
         style={{
-          backgroundColor: "rgb(230,228,228)",
+          backgroundColor: "transparent",
           height: "auto",
           width: "100%",
           borderRadius: "18px",
-          padding:"0px 0px 8px 0px"
+          padding:"0px 0px 8px 0px",
+          marginTop:"50px"
         }}
       >
-        <br />
-        <h1 style={{ textAlign: "center", color: "GrayText" }}>
-          Take a message
+        <br /><br /><br />
+        <h1 style={{ textAlign: "center", color: "black" }}>
+        Share your valuable feedback, suggestions !
         </h1>
-        <h2 style={{ textAlign: "center", color: "GrayText" }}>
-          We Care about you
+        <h2 style={{ textAlign: "center", color: "black" }}>
+          We Care about you ❤️
         </h2>
-        <br />
+        <br /><br />
         <div className="form">
           <form action="" onSubmit={handlesubmit}>
             <Row style={{ marginLeft: "350px" }}>
@@ -201,7 +248,7 @@ const Contact = () => {
                   onChange={(e) => setfirstName(e.target.value)}
                   style={{
                     width: "60%",
-                    padding: "12px",
+                    padding: "14px",
                     borderRadius: "50px",
                     border: "none",
                   }}
@@ -217,7 +264,7 @@ const Contact = () => {
                   onChange={(e) => setlastName(e.target.value)}
                   style={{
                     width: "60%",
-                    padding: "12px",
+                    padding: "14px",
                     borderRadius: "50px",
                     border: "none",
                   }}
@@ -234,7 +281,7 @@ const Contact = () => {
                   onChange={(e) => setemail(e.target.value)}
                   style={{
                     width: "60%",
-                    padding: "12px",
+                    padding: "14px",
                     borderRadius: "50px",
                     border: "none",
                   }}
@@ -253,8 +300,8 @@ const Contact = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   cols={102}
-                  rows={12}
-                  style={{ borderRadius: "12px", border: "none" }}
+                  rows={16}
+                  style={{ borderRadius: "12px", border: "none",color:"black",fontWeight:"900" }}
                   placeholder="Your message"
                   className="custom-textarea"
                 ></textarea>

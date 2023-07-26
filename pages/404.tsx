@@ -73,7 +73,7 @@ const error = () => {
     
     `}
       </style>
-      <Navbar1 /><br />
+    
       {/* <div className="image">
         <Image
           src="https://github.githubassets.com/images/modules/notifications/inbox-zero.svg"

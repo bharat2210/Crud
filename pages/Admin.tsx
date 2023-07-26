@@ -7,7 +7,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 // Components imports
 import Loader from "../Components/Loader";
-import Navbar1 from "../Components/Navbar1";
+
 // Redux imports
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -299,7 +299,14 @@ const Admin = () => {
   const handledeleteQuery=()=>{
     // console.log("handleDelete",messageid)
     dispatch(deletemessage(messageid)).then(()=>{
+      toast.success("Query Deleted Successfully",{
+        position:"top-right",
+        style:{
+          top:"78px"
+        }
+      })
       dispatch(getmessages())
+      
     })
     // console.log("messageid",messageid)
       
@@ -392,20 +399,9 @@ const Admin = () => {
         `}
       </style>
 
-      {shownavbar && <Navbar1 />}
-      <br />
-      {displaybutton && (
-        <Button
-          onClick={() => {
-            setshownavbar(true);
-            setdisplaybutton(false);
-          }}
-          style={{ marginLeft: "43%", position: "fixed" }}
-          variant="contained"
-        >
-          Show Navbar Controls
-        </Button>
-      )}
+     
+   
+     
 
       {deleteproduct && (
         <Modal
@@ -425,6 +421,7 @@ const Admin = () => {
           <br />
         </Modal>
       )}
+      <br /><br />
       <h3 style={{ textAlign: "center" }}>{greetings}</h3>
 
       <br />
@@ -597,10 +594,7 @@ const Admin = () => {
                           width={40}
                           height={40}
                           src={details.img[0]}
-                          onClick={() => {
-                            setshownavbar(false);
-                            setdisplaybutton(true);
-                          }}
+                          
                         />
                       </TableCell>
 
@@ -650,6 +644,7 @@ const Admin = () => {
         bodyStyle={{ paddingBottom: 2 }}
         width={400}
         title="Update Product"
+        zIndex={9999}
       >
         <form action="#" onSubmit={handleupdate}>
           <Row gutter={12}>
@@ -770,6 +765,7 @@ const Admin = () => {
             <AntButton onClick={onClose}>Cancel</AntButton>
           </Space>
         }
+        zIndex={9999}
       >
         <form action="#" onSubmit={handlesubmit} className="form">
           {/* 1st row */}
@@ -941,7 +937,7 @@ const Admin = () => {
         </form>
       </Drawer>
 
-      <Drawer open={stat} onClose={closestat} placement="left" width={800}>
+      <Drawer open={stat} onClose={closestat} placement="left" width={800} zIndex={9999}>
         <h4 style={{ color: "black" }}>Dashboard</h4>
         <h1 style={{ color: "black" }}>Products Statistics</h1>
         <Row gutter={16}>
@@ -1078,9 +1074,10 @@ const Admin = () => {
         width={700}
         extra={
           <Space>
-            <AntButton onClick={()=>{setquerybox(false);setshownavbar(true)}}>Close</AntButton>
+            <AntButton type="primary" onClick={()=>{setquerybox(false);setshownavbar(true)}}>Close</AntButton>
           </Space>
         }
+        zIndex={9999}
       >
         <h1>Queries</h1>
         <Popconfirm

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Footer from './Footer';
+import Navbar1 from './Navbar1';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -19,7 +20,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
  },[])
  
 
-  return <div>{children} <br />
+  return <div>
+
+    <style>
+      {`
+      *{
+        margin:0;
+        padding:0;
+      }
+      
+      `}
+    </style>
+    <Navbar1/>
+    {children} 
   <Footer/>
   
   </div>;

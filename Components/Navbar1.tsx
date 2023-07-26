@@ -23,6 +23,10 @@ import ListItemText from "@mui/material/ListItemText";
 // Antd imports
 import { SketchOutlined, UserOutlined } from "@ant-design/icons";
 import { Tooltip, Avatar } from "antd";
+// Var imports
+import { Current_User_Type } from "./Permisions";
+
+
 
 
 
@@ -35,6 +39,14 @@ function Navbar1() {
   const { cart } = useSelector((state: any) => state.allcarts);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [keyValue, setKeyValue] = useState("");
+  const [localstoragevalue, setLocalStorageValue] = useState(false)
+  console.log("Current user type ",Current_User_Type)
+
+React.useEffect(()=>{
+  const isloggedInUser = !!localStorage.getItem("user");
+  setLocalStorageValue(isloggedInUser)
+  console.log("Is logged in", isloggedInUser)
+},[])
 
   React.useEffect(() => {
     const name = JSON.parse(localStorage.getItem("user") || "null");
@@ -87,7 +99,8 @@ function Navbar1() {
 
   const handleLogout = () => {
     localStorage.clear();
-    router.push("/");
+    setLocalStorageValue(false)
+    router.push("/Signup")
   };
 
   const handleregister = () => {
@@ -115,6 +128,12 @@ function Navbar1() {
   const handlecontact = () => {
     router.push("/Contactus");
   };
+  const handlesignin=()=>{
+    router.push("/Signup")
+  }
+  const handlelogin=()=>{
+    router.push("/Login");
+  }
 
   return (
     <>
@@ -135,7 +154,7 @@ function Navbar1() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       /> */}
-      <AppBar position="fixed">
+      <AppBar position="fixed" sx={{height:84}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
@@ -159,9 +178,8 @@ function Navbar1() {
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
+                fontFamily:"sans-serif",
                 fontWeight: 700,
-             
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -176,11 +194,13 @@ function Navbar1() {
                 display: { xs: "none", md: "flex", padding: 8 },
               }}
             >
-              <Button
+             {localstoragevalue ? 
+             <>
+             <Button
                 onClick={handlepost}
                 sx={{
                   my: 2,
-                  fontSize: 15,
+                  fontSize: 18,
                   color: router.pathname === "/Landing" ? "white" : "white",
                   borderBottom:
                     router.pathname === "/Landing"
@@ -189,6 +209,7 @@ function Navbar1() {
                   borderRadius:
                     router.pathname === "/Landing" ? "12px" : "none",
                   display: "block",
+                  textTransform:"none"
                 }}
               >
                
@@ -196,10 +217,10 @@ function Navbar1() {
              
                
               </Button>
-              <Button
+               {/* <Button
                 onClick={handleregister}
                 sx={{
-                  fontSize: 14,
+                  fontSize: 18,
                   my: 2,
                   color: router.pathname === "/allregister" ? "white" : "white",
                   borderBottom:
@@ -209,20 +230,22 @@ function Navbar1() {
                   borderRadius:
                     router.pathname === "/allregister" ? "12px" : "none",
                   display: "block",
+                  textTransform:"none"
                 }}
               >
                 Users
-              </Button>
+              </Button>  */}
               <Button
                 onClick={handleimages}
                 sx={{
                   my: 2,
-                  fontSize: 15,
+                  fontSize: 18,
                   color: router.pathname === "/Uns" ? "white" : "white",
                   borderBottom:
                     router.pathname === "/Uns" ? "3px solid white " : "none",
                   borderRadius: router.pathname === "/Uns" ? "12px" : "none",
                   display: "block",
+                  textTransform:"none"
                 }}
               >
                 Images
@@ -231,7 +254,7 @@ function Navbar1() {
                 onClick={handleproduct}
                 sx={{
                   my: 2,
-                  fontSize: 15,
+                  fontSize: 18,
                   color: router.pathname === "/Apiproducts" ? "white" : "white",
                   borderBottom:
                     router.pathname === "/Apiproducts"
@@ -240,6 +263,7 @@ function Navbar1() {
                   borderRadius:
                     router.pathname === "/Apiproducts" ? "12px" : "none",
                   display: "block",
+                  textTransform:"none"
                 }}
               >
                 Products
@@ -248,53 +272,35 @@ function Navbar1() {
                 onClick={handlecontact}
                 sx={{
                   my: 2,
-                  fontSize: 15,
+                  fontSize: 18,
                   color: router.pathname === "/Contactus" ? "white" : "white",
                   borderBottom:
                     router.pathname === "/Contactus" ? "3px solid white " : "none",
                   borderRadius: router.pathname === "/Contactus" ? "12px" : "none",
                   display: "block",
+                  textTransform:"none"
                 }}
               >
-                Contact us
+                Contactus
               </Button>
               <Button
                 onClick={handleadmin}
                 sx={{
                   my: 2,
-                  fontSize: 15,
+                  fontSize: 18,
                   color: router.pathname === "/Admin" ? "white" : "white",
                   borderBottom:
                     router.pathname === "/Admin" ? "3px solid white " : "none",
                   borderRadius: router.pathname === "/Admin" ? "12px" : "none",
-                  display: "block",
+                  display: Current_User_Type==="Admin_User" ? "block" : "none",
+                  textTransform:"none",
+                
                 }}
               >
-                Admin
+                Admin 
+               
               </Button>
-            
-              {/* <Dialog open={dialogOpen} onClose={handleCloseDialog}>
-                <DialogTitle>
-                  <h5>Enter Security Key to access this page</h5>
-                </DialogTitle>
-                <DialogContent>
-                  <TextField
-                    label="Security Key"
-                    value={keyValue}
-                    onChange={(e) => setKeyValue(e.target.value)}
-                  />
-                  <br />
-                
-                  <Stack spacing={2} direction="row">
-                    <Button onClick={handleSubmit} variant="contained">
-                      Submit
-                    </Button>
-                    <Button onClick={() => setDialogOpen(false)} variant="text">
-                      Cancel
-                    </Button>
-                  </Stack>
-                </DialogContent>
-              </Dialog> */}
+               
               <div
                 className="flex"
                 style={{ display: "flex", flexDirection: "row", gap: "2px" }}
@@ -317,13 +323,12 @@ function Navbar1() {
                   </Badge>
                 </IconButton>
 
-                <Tooltip title="Logout" color="red" placement="top" style={{zIndex:9999}}>
+                <Tooltip title="Logout" color="red" placement="top" zIndex={9999}>
                   <Button
                     onClick={handleLogout}
                     id="logout"
                     sx={{
                       my: 2,
-
                       position: "absolute",
                       right: 1,
                     }}
@@ -341,6 +346,48 @@ function Navbar1() {
                 </Tooltip>
              
               </div>
+              </> 
+              :
+              <>
+             
+               <Button
+               onClick={handlesignin}
+               sx={{
+                 my: 2,
+                 fontSize: 18,
+                 color: router.pathname === "/Signup" ? "white" : "white",
+                 borderBottom:
+                   router.pathname === "/Signup" ? "3px solid white " : "none",
+                 borderRadius: router.pathname === "/Signup" ? "12px" : "none",
+                 display: "block",
+                 textTransform:"none",
+               
+               }}
+             >
+               Signup
+              
+             </Button>
+              
+             <Button
+               onClick={handlelogin}
+               sx={{
+                 my: 2,
+                 fontSize: 18,
+                 color: router.pathname === "/Login" ? "white" : "white",
+                 borderBottom:
+                   router.pathname === "/Login" ? "3px solid white " : "none",
+                 borderRadius: router.pathname === "/Login" ? "12px" : "none",
+                 display:"block",
+                 textTransform:"none",
+               
+               }}
+             >
+               Login
+              
+             </Button>
+             </>
+              }
+      
             </Box>
           </Toolbar>
         </Container>

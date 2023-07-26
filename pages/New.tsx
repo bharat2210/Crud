@@ -478,7 +478,7 @@ const New = () => {
         </Modal>
       )}
 
-      <Navbar1 />
+     
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"

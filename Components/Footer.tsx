@@ -3,9 +3,7 @@ import React from "react";
 // Antd imports
 import {
   CopyrightOutlined,
-  FacebookOutlined,
   GooglePlusOutlined,
-  InstagramOutlined,
   SketchOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
@@ -24,9 +22,10 @@ const Footer = () => {
 .footer-section {
   background:#232B2B;
   color: white;
-  padding: 15px;
-  border-radius: 12px;
+  padding: 15px 15px 0px 15px;
+  width: 100%;
   margin-top:30px;
+  
 }
 
 .footer-content {
@@ -105,8 +104,12 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-logo">
             <SketchOutlined
-              style={{ fontSize: "150px", color: "rgb(25,118,210)" }}
-            />
+              style={{ fontSize: "80px", color:"rgb(25,118,210)" }}
+            />{" "}
+            <br />
+            <span style={{ textAlign: "center", fontSize: "24px" }}>
+              Shopeee
+            </span>
           </div>
           <div className="footer-text">
             <p style={{ width: "500px", textAlign: "center" }}>
@@ -181,8 +184,8 @@ const Footer = () => {
           className="copyright"
           style={{ textAlign: "center", color: "white" }}
         >
-           Copyright <CopyrightOutlined /> 2023  Shopeee <SketchOutlined style={{ fontSize: "15px" }} /> All rights reserved. {" "}
-          
+          Copyright <CopyrightOutlined /> 2023 Shopeee{" "}
+          <SketchOutlined style={{ fontSize: "15px" }} /> All rights reserved.{" "}
         </div>
         <br />
       </footer>

@@ -20,6 +20,15 @@ const images = [
     imgPath:
       "https://www.apple.com/in/iphone-14/images/meta/iphone-14_overview__50yr9pd9hfm2_og.png?202305180126",
   },
+  // {
+  //   imgPath:
+  //     "https://i5.walmartimages.com/dfw/4ff9c6c9-effa/k2-_37d9c78c-0d0d-4ac5-8ca1-e849a4222ed3.v1.jpg",
+  // },
+  {
+    imgPath:
+      "https://www.apple.com/newsroom/images/product/iphone/standard/Apple-iPhone-14-iPhone-14-Plus-5up-hero-220907_Full-Bleed-Image.jpg.large.jpg",
+  },
+ 
   {
     imgPath:
       "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-purple?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027205808",
@@ -120,7 +129,8 @@ function Carousel() {
   };
 
   return (
-    <Container sx={{ overflowX: "hidden" }}>
+
+      <Container sx={{ overflowX: "hidden"}}>
       <AutoPlaySwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={activeStep}
@@ -176,6 +186,7 @@ function Carousel() {
         }
       />
     </Container>
+ 
   );
 }
 

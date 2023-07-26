@@ -69,6 +69,7 @@ const Landing = () => {
         transform:scale(1.2);
        
       }
+     
       
       `}
       </style>
@@ -76,7 +77,7 @@ const Landing = () => {
         <FloatButton.BackTop type="primary"/>
          
       </Tooltip>
-      <Navbar1 />
+   
 
       <div className="img" data-aos="zoom-in">
         <img
@@ -127,14 +128,14 @@ const Landing = () => {
           className="bannerimage"
         />
       </div><br /><br /><br />
-      <div className="service">
+      <div className="service" style={{width:"100%",height:"auto",padding:"4px 0px 4px 0px"}}>
         <h1 style={{ textAlign: "center", color: "GrayText" }}>
           Services Offered
         </h1>
         <img
           src="Services.jpg"
           alt=""
-          style={{ marginLeft: "300px", borderRadius:"12px"}}
+          style={{ marginLeft: "300px", borderRadius:"12px", mixBlendMode:"darken"}}
         height={750} width={1000}/>
       </div>
       

@@ -4,7 +4,7 @@ import axios from "axios";
 interface request{
     _id:number;
     firstname: string;
-    lastname: string;
+    lastname?: string;
     email:string;
     message:string;
 

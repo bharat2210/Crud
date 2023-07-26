@@ -331,7 +331,7 @@ const Apiproducts = () => {
         </div>
       )}
 
-      <Navbar1 />
+
       <br />
       <br />
 

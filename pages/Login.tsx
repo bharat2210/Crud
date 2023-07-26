@@ -49,7 +49,7 @@ const Login = () => {
         // localStorage.setItem("email", Loginvalues.email);
         // localStorage.setItem("password", Loginvalues.password);
 
-        router.push("/Apiproducts");
+        router.push("/Landing");
       } else {
         alert("Invalid username or password");
       }
@@ -78,10 +78,7 @@ const Login = () => {
   
   `}
       </style>
-      <Navbar />
-      <br />
-      <br />
-      <br />
+   
       <Box
         sx={{
           display: "flex",
@@ -91,9 +88,9 @@ const Login = () => {
         <div className="login" data-aos="zoom-in-up" data-aos-duration="1000">
           <Box
             sx={{
-              width: "600px",
+              width: "500px",
               padding: 12,
-              height: "550px",
+              height: "300px",
             }}
           >
             <Formik
@@ -155,7 +152,7 @@ const Login = () => {
                   </Button>
                   <h5>
                     <Link
-                      href="/"
+                      href="/Signup"
                       style={{
                         color: "dodgerblue",
                         textDecoration: "underline",

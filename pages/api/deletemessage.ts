@@ -14,7 +14,7 @@ const handler=async(req:NextApiRequest,res:NextApiResponse)=>{
             res.status(500).send({message:"Internal Server Error"})
         }
     }else{
-        res.status(401).send({messages:"Method Not Allowed"})
+        res.status(405).send({messages:"Method Not Allowed"})
     }
 }
 export default handler;

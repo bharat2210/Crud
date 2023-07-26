@@ -6,7 +6,7 @@ import Footer from '../Components/Footer'
 const Contactus = () => {
   return (
     <div>
-   <Navbar1/><br />
+  <br />
    <Contact/>
  
 

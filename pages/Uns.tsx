@@ -131,7 +131,7 @@ const Uns = () => {
         
       `}
       </style>
-      <Navbar1 /><br />
+
       <Carousel/><br /> 
   
 
