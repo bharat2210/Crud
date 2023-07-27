@@ -4,7 +4,6 @@ import * as React from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
-import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
@@ -12,109 +11,24 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import { Container } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getImages } from "../Features/imageCarousel";
+import { AppDispatch, RootState } from "../store";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-const images = [
-  {
-    imgPath:
-      "https://www.apple.com/in/iphone-14/images/meta/iphone-14_overview__50yr9pd9hfm2_og.png?202305180126",
-  },
-  // {
-  //   imgPath:
-  //     "https://i5.walmartimages.com/dfw/4ff9c6c9-effa/k2-_37d9c78c-0d0d-4ac5-8ca1-e849a4222ed3.v1.jpg",
-  // },
-  {
-    imgPath:
-      "https://www.apple.com/newsroom/images/product/iphone/standard/Apple-iPhone-14-iPhone-14-Plus-5up-hero-220907_Full-Bleed-Image.jpg.large.jpg",
-  },
- 
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-purple?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027205808",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-purple_AV2?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027358341",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-finish-select-202209-6-7inch-midnight?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661027925267",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-finish-select-202209-6-7inch-midnight_AV2?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1661028248718",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-product-red?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316263304",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-starlight?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316263356",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-se-finish-unselect-gallery-4-202207?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655249929536",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-finish-select-202209-6-1inch-yellow?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1676505836714",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-finish-select-202207-starlight?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1655316263356",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-12-finish-select-202207-green?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1662150005626",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-finish-unselect-gallery-1-202207_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1662129048006",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-finish-unselect-gallery-4-202207?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1662128967910",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-finish-select-202207-5-4inch_AV1?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1671463394187",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-finish-select-202207-5-4inch_GEO_US?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1671463403579",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-finish-select-202209-6-7inch-gold?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1663703841907",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-14-pro-model-unselect-gallery-1-202209?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1660753619946",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-finish-select-202207-6-1inch-pink?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1657641867367",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-finish-select-202207-5-4inch_AV2_GEO_US?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1671463394783",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/homepod-mini-select-orange-202110_FV1?wid=934&hei=440&fmt=jpeg&qlt=95&.v=1633086020000",
-  },
-  {
-    imgPath:
-      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/homepod-select-midnight-202210?wid=470&hei=556&fmt=png-alpha&.v=1670557210097",
-  },
-];
-
 function Carousel() {
   const theme = useTheme();
+  const dispatch:AppDispatch=useDispatch()
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = images.length;
+  
+  React.useEffect(()=>{
+    dispatch(getImages())
+  },[])
+
+  const img= useSelector((state:RootState)=>state.allimages.images)
+  console.log("img: ", img)
+  const maxSteps = img.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -130,14 +44,14 @@ function Carousel() {
 
   return (
 
-      <Container sx={{ overflowX: "hidden"}}>
+      <Container sx={{ overflowX: "hidden"}} maxWidth="lg">
       <AutoPlaySwipeableViews
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={activeStep}
         onChangeIndex={handleStepChange}
         enableMouseEvents
       >
-        {images.map((step, index) => (
+        {img.map((step, index) => (
           <div>
             {Math.abs(activeStep - index) <= 2 ? (
               <Box

@@ -12,9 +12,9 @@ const handler=async(req:NextApiRequest,res:NextApiResponse)=>{
       if( user.password!==password){
         return res.status(401).json({message:"Invalid Credentials"})
       }
-      res.status(200).json({message:"Login successfully"})
+      res.status(200).json({message:"Login successfully",name:user.name})
      }catch(error){
-        res.status(500).send({message:"Login failed"})
+        res.status(401).send({message:"Login failed"})
      }
     }else{
         res.status(405).json({message:"Method not allowed"})

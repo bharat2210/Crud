@@ -12,7 +12,6 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import AdbIcon from "@mui/icons-material/Adb";
 import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -46,7 +45,7 @@ React.useEffect(()=>{
   const isloggedInUser = !!localStorage.getItem("user");
   setLocalStorageValue(isloggedInUser)
   console.log("Is logged in", isloggedInUser)
-},[])
+},)
 
   React.useEffect(() => {
     const name = JSON.parse(localStorage.getItem("user") || "null");
@@ -139,11 +138,7 @@ React.useEffect(()=>{
     <>
       <style>
         {`
-      #logout{
-        background-color: black;
-        color: white;
-        border-radius:40%;
-      }
+    
       
       
       
@@ -154,7 +149,7 @@ React.useEffect(()=>{
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       /> */}
-      <AppBar position="fixed" sx={{height:84}}>
+      <AppBar position="fixed" sx={{height:84,backgroundColor:"rgb(25,118,210)"}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
@@ -328,19 +323,12 @@ React.useEffect(()=>{
                     onClick={handleLogout}
                     id="logout"
                     sx={{
-                      my: 2,
+                   
                       position: "absolute",
-                      right: 1,
+                     right:1
                     }}
                   >
-                    <Avatar
-                      src={
-                        <UserOutlined
-                          style={{ fontSize: "24px", fontWeight: "800" }}
-                        />
-                      }
-                      size="large"
-                    />
+                    <img src="Client.png" alt="" height={60} width={60}/>
                    
                   </Button>
                 </Tooltip>

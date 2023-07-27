@@ -54,7 +54,7 @@ const Signup = () => {
     try {
       await dispatch(registerUser(values)).unwrap();
       localStorage.setItem("user", JSON.stringify(values));
-      router.push("/allpost");
+      router.push("/Landing");
     } catch (error) {
       return error;
     }
@@ -71,9 +71,7 @@ const Signup = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <br />
-      <br />
-      <br />
-      <br />
+      
 
       <style>
         {`
@@ -109,7 +107,7 @@ const Signup = () => {
               onSubmit={handlesubmit}
             >
               <Form>
-                <h2>Register Yourself</h2>
+                <h2>Register Yourself</h2><br />
                 <Field
                   as={TextField}
                   label="Name"

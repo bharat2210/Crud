@@ -37,6 +37,7 @@ import {
 } from "antd";
 import { Button as AntButton } from "antd";
 import {
+  DeleteOutlined,
   FileDoneOutlined,
   PlusOutlined,
   ShoppingCartOutlined,
@@ -45,6 +46,8 @@ import {
 import { Card, Statistic, notification } from "antd";
 import { Badge } from "antd";
 import { Descriptions } from "antd";
+import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons";
+import { FloatButton } from "antd";
 
 // Num-words imports
 import numWords from "num-words";
@@ -64,7 +67,12 @@ import {
 import Button from "@mui/material/Button";
 import { showuser } from "../Features/userdetail";
 import { readuser } from "../Features/register";
-import { deletemessage, formatmessages, getmessages } from "../Features/message";
+import {
+  deletemessage,
+  formatmessages,
+  getmessages,
+} from "../Features/message";
+import { addImages, deleteImage, getImages } from "../Features/imageCarousel";
 
 interface ProductData {
   title: string;
@@ -73,10 +81,12 @@ interface ProductData {
   storage: string | number;
   img: string[]; // Array of image URLs
 }
+
+const { Meta } = Card;
 const Admin = () => {
   const dispatch: AppDispatch = useDispatch();
   const [id, setid] = useState<Number>();
-  const[messageid,setmessageid]=useState<number>()
+  const [messageid, setmessageid] = useState<number>();
   const [updatedata, setupdatedata] = useState<ProductData>({
     title: "",
     price: 0,
@@ -89,7 +99,8 @@ const Admin = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [deleteproduct, setdeleteproduct] = useState<boolean>(false);
   const [search, setsearch] = useState();
-  const [shownavbar, setshownavbar] = useState<boolean>(true);
+  const [editImage, seteditImage] = useState<boolean>(false);
+  const [ImageId, setImageId] = useState("");
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
   const [displaybutton, setdisplaybutton] = useState<boolean>(false);
   const [updateopen, setupdateopen] = useState<boolean>(false);
@@ -98,6 +109,9 @@ const Admin = () => {
   const [imageurls, setimageurls] = useState<string[]>([]);
   const [imageview, setimageview] = useState<boolean>(false);
   const [querybox, setquerybox] = useState<boolean>(false);
+  const [imageadddrawer, setimageadddrawer] = useState(false);
+  const [imgPath, setimgPath] = useState("");
+  const [title, settitle] = useState("");
   const allproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
@@ -142,7 +156,10 @@ const Admin = () => {
     dispatch(getmessages());
     dispatch(showuser());
     dispatch(readuser());
+    dispatch(getImages());
   }, []);
+
+  const { images } = useSelector((state: RootState) => state.allimages);
 
   // useEffect(() => {
   //   const cart = localStorage.getItem("cart");
@@ -210,11 +227,9 @@ const Admin = () => {
 
   const onClose = () => {
     setOpen(false);
-    setshownavbar(true);
   };
 
   const showDrawer = () => {
-    setshownavbar(false);
     setOpen(true);
   };
   // const onFinish = (values: any) => {
@@ -261,7 +276,6 @@ const Admin = () => {
 
   const updateclose = () => {
     setupdateopen(false);
-    setshownavbar(true);
   };
   const handleupdate = (e: any) => {
     e.preventDefault();
@@ -274,15 +288,12 @@ const Admin = () => {
       });
     });
     setupdateopen(false);
-    setshownavbar(true);
   };
   const openstat = () => {
     setstat(true);
-    setshownavbar(false);
   };
   const closestat = () => {
     setstat(false);
-    setshownavbar(true);
   };
   const handlecancelorders = () => {
     // localStorage.removeItem("cart"); // Remove cart data from localStorage
@@ -291,27 +302,55 @@ const Admin = () => {
     dispatch(deleteallitems());
   };
 
-  const handleformat=()=>{
-    dispatch(formatmessages()).then(()=>{
-      dispatch(getmessages())
-    })
-  }
-  const handledeleteQuery=()=>{
+  const handleformat = () => {
+    dispatch(formatmessages()).then(() => {
+      dispatch(getmessages());
+    });
+  };
+  const handledeleteQuery = () => {
     // console.log("handleDelete",messageid)
-    dispatch(deletemessage(messageid)).then(()=>{
-      toast.success("Query Deleted Successfully",{
-        position:"top-right",
-        style:{
-          top:"78px"
-        }
-      })
-      dispatch(getmessages())
-      
-    })
+    dispatch(deletemessage(messageid)).then(() => {
+      toast.success("Query Deleted Successfully", {
+        position: "top-right",
+        style: {
+          top: "78px",
+        },
+      });
+      dispatch(getmessages());
+    });
     // console.log("messageid",messageid)
-      
-    
-  }
+  };
+
+  const handleimagedelete = (imgId) => {
+    setImageId(imgId);
+  };
+  const handleimagedeleteconfirm = () => {
+    dispatch(deleteImage(ImageId)).then(() => {
+      dispatch(getImages());
+      toast.success("Image Deleted Successfully", {
+        position: "top-left",
+        style: {
+          top: "78px",
+        },
+      });
+    });
+  };
+
+  const handleimage = () => {
+    seteditImage(false);
+    setimageadddrawer(true);
+  };
+
+  const handleimageSubmit = (e) => {
+    e.preventDefault();
+    console.log("setimgUrl",imgPath)
+    console.log("setimgTitle",title)
+    dispatch(addImages({imgPath,title})).then(()=>{
+      dispatch(getImages());
+      setimageadddrawer(false);
+      seteditImage(true)
+    })
+  };
 
   const currenttime = new Date();
   const currentHour = currenttime.getHours();
@@ -399,10 +438,6 @@ const Admin = () => {
         `}
       </style>
 
-     
-   
-     
-
       {deleteproduct && (
         <Modal
           title=""
@@ -421,7 +456,8 @@ const Admin = () => {
           <br />
         </Modal>
       )}
-      <br /><br />
+      <br />
+      <br />
       <h3 style={{ textAlign: "center" }}>{greetings}</h3>
 
       <br />
@@ -448,10 +484,10 @@ const Admin = () => {
         <Option value="Displays">Displays</Option>
       </Select>{" "} */}
 
-      <Tooltip title="Queries" placement="left">
+      <Tooltip title="Queries" placement="right">
         <div
           className="badge"
-          style={{ position: "absolute", right: "45px", top: "120px" }}
+          style={{ position: "absolute", right: "270px", top: "153px" }}
         >
           <Badge count={lengthofquery}>
             <i
@@ -459,7 +495,6 @@ const Admin = () => {
               style={{ fontSize: "28px" }}
               onClick={() => {
                 setquerybox(true);
-                setshownavbar(false);
               }}
             ></i>
           </Badge>
@@ -498,14 +533,9 @@ const Admin = () => {
               setsearch(value);
             }}
           />
-          <AntButton
-            type="primary"
-            onClick={showDrawer}
-            icon={<PlusOutlined />}
-            // style={{ float: "right", right: "25px", position: "fixed" }}
-          >
-            Add New Product
-          </AntButton>
+          <Button variant="contained" onClick={showDrawer} size="small">
+            <PlusOutlined /> Add New Product
+          </Button>
         </div>
 
         <br />
@@ -590,12 +620,7 @@ const Admin = () => {
                             },
                           }}
                         /> */}
-                        <Image
-                          width={40}
-                          height={40}
-                          src={details.img[0]}
-                          
-                        />
+                        <Image width={40} height={40} src={details.img[0]} />
                       </TableCell>
 
                       <TableCell
@@ -937,7 +962,13 @@ const Admin = () => {
         </form>
       </Drawer>
 
-      <Drawer open={stat} onClose={closestat} placement="left" width={800} zIndex={9999}>
+      <Drawer
+        open={stat}
+        onClose={closestat}
+        placement="left"
+        width={800}
+        zIndex={9999}
+      >
         <h4 style={{ color: "black" }}>Dashboard</h4>
         <h1 style={{ color: "black" }}>Products Statistics</h1>
         <Row gutter={16}>
@@ -1068,13 +1099,19 @@ const Admin = () => {
         open={querybox}
         onClose={() => {
           setquerybox(false);
-          setshownavbar(true);
         }}
         placement="right"
         width={700}
         extra={
           <Space>
-            <AntButton type="primary" onClick={()=>{setquerybox(false);setshownavbar(true)}}>Close</AntButton>
+            <AntButton
+              type="primary"
+              onClick={() => {
+                setquerybox(false);
+              }}
+            >
+              Close
+            </AntButton>
           </Space>
         }
         zIndex={9999}
@@ -1103,26 +1140,31 @@ const Admin = () => {
                 </Descriptions.Item>
                 <Descriptions.Item label="Actions">
                   <div className="buttons">
-                  <AntButton type="primary"  size="small" className="resolvebutton">
-                    Resolve
-                  </AntButton>{" "}
-                  <Popconfirm 
-                  title="Delete Query"
-                  description="Are you sure to delete this query ?"
-                  okText="Yes"
-                  cancelText="No"
-                  onConfirm={handledeleteQuery}
-                  
-                  >
-                    {" "}
-
-                
-                  <AntButton danger size="small" onClick={()=>setmessageid(data._id)} className="deletebutton">
-                    Delete
-                  </AntButton>
-                  </Popconfirm>
+                    <AntButton
+                      type="primary"
+                      size="small"
+                      className="resolvebutton"
+                    >
+                      Resolve
+                    </AntButton>{" "}
+                    <Popconfirm
+                      title="Delete Query"
+                      description="Are you sure to delete this query ?"
+                      okText="Yes"
+                      cancelText="No"
+                      onConfirm={handledeleteQuery}
+                    >
+                      {" "}
+                      <AntButton
+                        danger
+                        size="small"
+                        onClick={() => setmessageid(data._id)}
+                        className="deletebutton"
+                      >
+                        Delete
+                      </AntButton>
+                    </Popconfirm>
                   </div>
-                 
                 </Descriptions.Item>
                 <Descriptions.Item label="Message" span={2}>
                   {data.message}
@@ -1132,6 +1174,104 @@ const Admin = () => {
             </React.Fragment>
           ))}
       </Drawer>
+
+      <Drawer
+        open={editImage}
+        onClose={() => seteditImage(false)}
+        width={300}
+        zIndex={9999}
+        extra={<AntButton onClick={handleimage}>Add Images</AntButton>}
+      >
+        {images &&
+          images?.map((data) => (
+            <Row>
+              <Col span={24}>
+                <Card
+                  key={data._id}
+                  style={{ width: 200 }}
+                  cover={<img alt="example" src={data.imgPath} />}
+                  actions={[
+                    <Popconfirm
+                      title="Delete Image"
+                      description="Are you sure to delete this Image?"
+                      okText="Yes"
+                      cancelText="No"
+                      zIndex={9999}
+                      onConfirm={handleimagedeleteconfirm}
+                    >
+                      <AntButton
+                        size="small"
+                        style={{ backgroundColor: "white" }}
+                        onClick={() => handleimagedelete(data._id)}
+                      >
+                        <DeleteOutlined />
+                      </AntButton>
+                    </Popconfirm>,
+                  ]}
+                ></Card>
+                <br />
+                <br />
+              </Col>
+              <br />
+            </Row>
+          ))}
+      </Drawer>
+
+      <Drawer
+        open={imageadddrawer}
+        onClose={() => setimageadddrawer(false)}
+        placement="right"
+        width={300}
+        zIndex={9999}
+      >
+        <h2>Add Image</h2>
+        <form action="" onSubmit={handleimageSubmit}>
+          <Row>
+            <Col span={24}>
+              <input
+                type="text"
+                placeholder="Enter image url"
+                name="imgPath"
+                value={imgPath}
+                onChange={(e)=>setimgPath(e.target.value)}
+                style={{ padding: "6px", width: "100%" }}
+              />
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={24}>
+              <input
+                type="text"
+                placeholder="Enter image title"
+                name="title"
+                value={title}
+                onChange={(e)=>settitle(e.target.value)}
+                style={{ padding: "6px", width: "100%" }}
+              />
+            </Col>
+          </Row>
+          <br />
+          <AntButton htmlType="submit">Submit</AntButton>
+        </form>
+      </Drawer>
+      <>
+        <Tooltip
+          title="Carousel Images"
+          color="rgb(25,118,210)"
+          placement="left"
+        >
+          <FloatButton
+            style={{
+              top: 600,
+              right: 30,
+            }}
+            type="primary"
+            onClick={() => seteditImage(true)}
+          />
+        </Tooltip>
+      </>
+
       <br />
       <br />
     </>

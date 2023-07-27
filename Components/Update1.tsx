@@ -40,6 +40,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
         {`
 .overlay {
     position: fixed;
+    top:0;
       margin-right:auto;
       margin-left:auto;
       width: 100%;
@@ -73,7 +74,8 @@ const Update1 = ({ id, setshowupdate }: any) => {
       <div className="overlay">
         <Box
           sx={{
-            height: 450,
+            height: 350,
+            width:300,
            padding:8,
             backgroundColor: "white",
             borderRadius: 12,
@@ -84,7 +86,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
             style={{ textAlign: "left", color: "dodgerblue" }}
           >
             Edit Records
-          </h3>
+          </h3><br />
           <form action="" onSubmit={handleupdate}>
             <TextField
               id="outlined-basic"
@@ -99,6 +101,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
                   name: e.target.value,
                 }))
               }
+              sx={{width:"100%"}}
             />
             <br />
             <br />
@@ -115,6 +118,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
                   email: e.target.value,
                 }))
               }
+              sx={{width:"100%"}}
             />
             <br />
             <br />
@@ -131,6 +135,7 @@ const Update1 = ({ id, setshowupdate }: any) => {
                   password: e.target.value,
                 }))
               }
+              sx={{width:"100%"}}
             />
             <br />
             <br />

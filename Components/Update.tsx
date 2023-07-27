@@ -47,6 +47,7 @@ const Update = ({ id, setshowpopup }: any) => {
     position: fixed;
       margin-right:auto;
       margin-left:auto;
+      top:0;
       width: 100%;
       height: 100%;
       display: flex;
@@ -77,7 +78,8 @@ const Update = ({ id, setshowpopup }: any) => {
       <div className="overlay">
         <Box
           sx={{
-            height: 450,
+            height: 350,
+            width:350,
             padding: 8,
             backgroundColor: "white",
             borderRadius: 12,
@@ -85,10 +87,10 @@ const Update = ({ id, setshowpopup }: any) => {
           className="animation"
         >
           <h3
-            style={{ textAlign: "center", color: "dodgerblue", marginTop: 1 }}
+            style={{ textAlign: "left", color: "dodgerblue" }}
           >
             Edit Record
-          </h3>
+          </h3><br />
           <form action="" onSubmit={handleupdate}>
             <TextField
               id="outlined-basic"
@@ -103,6 +105,7 @@ const Update = ({ id, setshowpopup }: any) => {
                   E_name: e.target.value,
                 }))
               }
+              sx={{width:"100%"}}
             />
             <br />
             <br />
@@ -119,6 +122,7 @@ const Update = ({ id, setshowpopup }: any) => {
                   E_age:Number( e.target.value),
                 }))
               }
+              sx={{width:"100%"}}
             />
             <br />
             <br />
@@ -135,6 +139,7 @@ const Update = ({ id, setshowpopup }: any) => {
                   E_email: e.target.value,
                 }))
               }
+              sx={{width:"100%"}}
             />
             <br />
             <br />

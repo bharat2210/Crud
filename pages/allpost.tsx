@@ -18,7 +18,7 @@ import {
 import Loader from "../Components/Loader";
 import Update from "../Components/Update";
 import Create from "../Components/Create";
-import Navbar1 from "../Components/Navbar1";
+
 // Redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { deleteuser, searchuserata, showuser } from "../Features/userdetail";
@@ -44,6 +44,7 @@ const Allpost = () => {
   const { users, isloading, searchdata } = useSelector(
     (state: RootState) => state.app
   );
+ 
   useEffect(() => {
     dispatch(showuser());
     console.log("users are", users);
@@ -53,8 +54,9 @@ const Allpost = () => {
   }, [search]);
   useEffect(() => {
     const name = JSON.parse(localStorage.getItem("user"));
-    if (name) {
-      setLoggedInUser(name.name);
+    const name1=name.user.name
+    if (name1) {
+      setLoggedInUser(name1);
     }
   });
 
@@ -111,7 +113,7 @@ const Allpost = () => {
    
    `}
       </style>
-      <Navbar1 />
+
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -130,6 +132,7 @@ const Allpost = () => {
       )}
       {showcreate && <Create setshowcreate={setshowcreate} />}
       {showpopup && <Update id={id} setshowpopup={setshowpopup} />}
+      <br /><br />
       <h2 style={{ textAlign: "center" }}>Welcome "{loggedInUser}"🎉</h2>
       <div className="upper">
         <button onClick={() => setshowcreate(true)} className="add">

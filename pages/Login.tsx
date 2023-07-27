@@ -1,5 +1,5 @@
 // Next imports
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
@@ -31,21 +31,26 @@ const validateschema = Yup.object().shape({
   password: Yup.string().required("Password is Required"),
 });
 
+
 const Login = () => {
   useEffect(() => {
     Aos.init();
   }, []);
+  const[username,setusername]=useState("")
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
+ 
   const handlelogin = async (Loginvalues: LoginCredentials) => {
     try {
       const response = await dispatch(loginuser(Loginvalues));
 
       // Check if login was successful
       const user = response.payload;
+      console.log("payload",user)
+   
       if (user) {
         // Store user information in local storage
-        localStorage.setItem("user", JSON.stringify(Loginvalues));
+        localStorage.setItem("user", JSON.stringify({Loginvalues,user}));
         // localStorage.setItem("email", Loginvalues.email);
         // localStorage.setItem("password", Loginvalues.password);
 
@@ -68,11 +73,7 @@ const Login = () => {
       <style>
         {`
   
-  .login{
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px , rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-    border-radius:12px;
-
-  }
+ 
   
   
   
@@ -99,7 +100,7 @@ const Login = () => {
               onSubmit={handlelogin}
             >
               <Form>
-                <h2>Login</h2>
+                <h2>Login</h2><br />
                 <Field
                   as={TextField}
                   label="Email"

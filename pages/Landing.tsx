@@ -58,6 +58,8 @@ const images = [
 ];
 const { Meta } = Card;
 const Landing = () => {
+
+  
   useEffect(() => {
     Aos.init();
   }, []);
@@ -68,6 +70,55 @@ const Landing = () => {
       .bannerimage:hover{
         transform:scale(1.2);
        
+      }
+      .service h1{
+        text-align: center;
+        font-size:50px;
+      }
+      .service h1::first-letter{
+        color:rgb(25,118,210)
+      }
+      .store{
+        height:800px;
+        width:100%;
+        background-image:url("https://images.unsplash.com/photo-1631211541363-b79b94085c14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
+        background-attachment:fixed;
+        background-size:cover;
+        background-repeat:no-repeat;
+        background-position:center;
+        position:relative;
+      }
+      .store-text{
+        position:absolute;
+        top:100px;
+        left:30%;
+      }
+      .store-text h1{
+        color:white;
+        font-size:110px;
+        letter-spacing:3px;
+      }
+      .store-text h1::first-letter{
+        color:rgb(25,118,210);
+      }
+      .store-text h4{
+        text-align:center;
+        color:rgb(25,118,210);
+        font-size:30px;
+   
+      }
+      .offers h1{
+        font-size:50px;
+        text-align:center;
+        word-spacing:2px;
+        letter-spacing:3px;
+      }
+      .offers h1::first-letter{
+        color:rgb(25,118,210);
+      }
+    
+      .Category_Shopping::first-letter{
+        color:rgb(25,118,210);
       }
      
       
@@ -93,11 +144,11 @@ const Landing = () => {
         />
       </div>
       <Carousel />
-      <br />
-      <br />
+  
+      
       <div className="newproducts">
         <h1 style={{ textAlign: "center", color: "orangered" ,fontFamily:"sans-serif",fontStyle:"italic"}}>
-        Newly Launched
+          <img src="https://media.istockphoto.com/id/1197832105/vector/male-hand-holding-megaphone-with-new-product-speech-bubble-loudspeaker-banner-for-business.jpg?s=612x612&w=0&k=20&c=INIM5M-N2DZh6pS6DUBSGh7x9ItOBSC3atZOVJtQf7M=" alt="" height={200} width={350}/>
         </h1>
         <br />
         <br />
@@ -127,27 +178,68 @@ const Landing = () => {
           }}
           className="bannerimage"
         />
-      </div><br /><br /><br />
+      </div><br /><br /><br /><br />
+
       <div className="service" style={{width:"100%",height:"auto",padding:"4px 0px 4px 0px"}}>
-        <h1 style={{ textAlign: "center", color: "GrayText" }}>
+        <h1>
           Services Offered
-        </h1>
+        </h1><br />
         <img
           src="Services.jpg"
           alt=""
           style={{ marginLeft: "300px", borderRadius:"12px", mixBlendMode:"darken"}}
         height={750} width={1000}/>
+      </div><br />
+
+      <div className="store">
+        <div className="store-text">
+        <h1>Visit Our Store</h1> <br />
+        <h4>For better experience</h4>
+        </div>
+  
+      </div><br /><br /><br /><br />
+
+      <div className="offers">
+        <h1>Best Offers</h1>
+        <Container fixed>
+        <Row data-aos="fade-right">
+            <Col span={24}>
+              <img src="Offer1.png" alt="" />
+            </Col>
+          </Row><br />
+          <Row data-aos="fade-left">
+            <Col span={24}>
+              <img src="Offer2.png" alt="" />
+            </Col>
+          </Row><br />
+          <Row data-aos="fade-right">
+            <Col span={24}>
+              <img src="Offer3.png" alt="" />
+            </Col>
+          </Row><br />
+          <Row data-aos="fade-left">
+            <Col span={24}>
+              <img src="Offer4.png" alt="" />
+            </Col>
+          </Row><br />
+
+        </Container>
+        
+        
       </div>
+
+
       
       <div className="container" style={{ height: "auto", marginTop: "150px" }}>
         <Typography
-          variant="h4"
-          sx={{ textAlign: "center" }}
+          variant="h3"
+          sx={{ textAlign: "center",fontWeight:"bolder" }}
           data-aos="fade-left"
+          className="Category_Shopping"
         >
           Shop By Category <ShoppingOutlined style={{ color: "dodgerblue" }} />
         </Typography>
-        <br />
+        <br /><br />
         <div className="cards" data-aos="fade-right">
           <Container>
             <Row gutter={[12, 12]}>
