@@ -25,10 +25,6 @@ import { Tooltip, Avatar } from "antd";
 // Var imports
 import { Current_User_Type } from "./Permisions";
 
-
-
-
-
 function Navbar1() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -38,14 +34,14 @@ function Navbar1() {
   const { cart } = useSelector((state: any) => state.allcarts);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [keyValue, setKeyValue] = useState("");
-  const [localstoragevalue, setLocalStorageValue] = useState(false)
-  console.log("Current user type ",Current_User_Type)
+  const [localstoragevalue, setLocalStorageValue] = useState(false);
+  console.log("Current user type ", Current_User_Type);
 
-React.useEffect(()=>{
-  const isloggedInUser = !!localStorage.getItem("user");
-  setLocalStorageValue(isloggedInUser)
-  console.log("Is logged in", isloggedInUser)
-},)
+  React.useEffect(() => {
+    const isloggedInUser = !!localStorage.getItem("user");
+    setLocalStorageValue(isloggedInUser);
+    console.log("Is logged in", isloggedInUser);
+  });
 
   React.useEffect(() => {
     const name = JSON.parse(localStorage.getItem("user") || "null");
@@ -98,12 +94,8 @@ React.useEffect(()=>{
 
   const handleLogout = () => {
     localStorage.clear();
-    setLocalStorageValue(false)
-    router.push("/Signup")
-  };
-
-  const handleregister = () => {
-    router.push("/allregister");
+    setLocalStorageValue(false);
+    router.push("/Signup");
   };
 
   const handlepost = () => {
@@ -127,12 +119,12 @@ React.useEffect(()=>{
   const handlecontact = () => {
     router.push("/Contactus");
   };
-  const handlesignin=()=>{
-    router.push("/Signup")
-  }
-  const handlelogin=()=>{
+  const handlesignin = () => {
+    router.push("/Signup");
+  };
+  const handlelogin = () => {
     router.push("/Login");
-  }
+  };
 
   return (
     <>
@@ -149,7 +141,10 @@ React.useEffect(()=>{
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       /> */}
-      <AppBar position="fixed" sx={{height:84,backgroundColor:"rgb(25,118,210)"}}>
+      <AppBar
+        position="fixed"
+        sx={{ height: 84, backgroundColor: "rgb(25,118,210)" }}
+      >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
@@ -164,7 +159,7 @@ React.useEffect(()=>{
             >
               <MenuIcon />
             </IconButton>
-             <SketchOutlined style={{fontSize:"28px"}} />
+            <SketchOutlined style={{ fontSize: "28px" }} />
             <Typography
               variant="h6"
               noWrap
@@ -173,14 +168,13 @@ React.useEffect(()=>{
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontFamily:"sans-serif",
+                fontFamily: "sans-serif",
                 fontWeight: 700,
                 color: "inherit",
                 textDecoration: "none",
               }}
             >
               Shopeee
-              
             </Typography>
 
             <Box
@@ -189,30 +183,27 @@ React.useEffect(()=>{
                 display: { xs: "none", md: "flex", padding: 8 },
               }}
             >
-             {localstoragevalue ? 
-             <>
-             <Button
-                onClick={handlepost}
-                sx={{
-                  my: 2,
-                  fontSize: 18,
-                  color: router.pathname === "/Landing" ? "white" : "white",
-                  borderBottom:
-                    router.pathname === "/Landing"
-                      ? "3px solid white "
-                      : "none",
-                  borderRadius:
-                    router.pathname === "/Landing" ? "12px" : "none",
-                  display: "block",
-                  textTransform:"none"
-                }}
-              >
-               
-                Home
-             
-               
-              </Button>
-               {/* <Button
+              {localstoragevalue ? (
+                <>
+                  <Button
+                    onClick={handlepost}
+                    sx={{
+                      my: 2,
+                      fontSize: 18,
+                      color: router.pathname === "/Landing" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Landing"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Landing" ? "12px" : "none",
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Home
+                  </Button>
+                  {/* <Button
                 onClick={handleregister}
                 sx={{
                   fontSize: 18,
@@ -230,152 +221,173 @@ React.useEffect(()=>{
               >
                 Users
               </Button>  */}
-              <Button
-                onClick={handleimages}
-                sx={{
-                  my: 2,
-                  fontSize: 18,
-                  color: router.pathname === "/Uns" ? "white" : "white",
-                  borderBottom:
-                    router.pathname === "/Uns" ? "3px solid white " : "none",
-                  borderRadius: router.pathname === "/Uns" ? "12px" : "none",
-                  display: "block",
-                  textTransform:"none"
-                }}
-              >
-                Images
-              </Button>
-              <Button
-                onClick={handleproduct}
-                sx={{
-                  my: 2,
-                  fontSize: 18,
-                  color: router.pathname === "/Apiproducts" ? "white" : "white",
-                  borderBottom:
-                    router.pathname === "/Apiproducts"
-                      ? "3px solid white "
-                      : "none",
-                  borderRadius:
-                    router.pathname === "/Apiproducts" ? "12px" : "none",
-                  display: "block",
-                  textTransform:"none"
-                }}
-              >
-                Products
-              </Button>
-              <Button
-                onClick={handlecontact}
-                sx={{
-                  my: 2,
-                  fontSize: 18,
-                  color: router.pathname === "/Contactus" ? "white" : "white",
-                  borderBottom:
-                    router.pathname === "/Contactus" ? "3px solid white " : "none",
-                  borderRadius: router.pathname === "/Contactus" ? "12px" : "none",
-                  display: "block",
-                  textTransform:"none"
-                }}
-              >
-                Contactus
-              </Button>
-              <Button
-                onClick={handleadmin}
-                sx={{
-                  my: 2,
-                  fontSize: 18,
-                  color: router.pathname === "/Admin" ? "white" : "white",
-                  borderBottom:
-                    router.pathname === "/Admin" ? "3px solid white " : "none",
-                  borderRadius: router.pathname === "/Admin" ? "12px" : "none",
-                  display: Current_User_Type==="Admin_User" ? "block" : "none",
-                  textTransform:"none",
-                
-                }}
-              >
-                Admin 
-               
-              </Button>
-               
-              <div
-                className="flex"
-                style={{ display: "flex", flexDirection: "row", gap: "2px" }}
-              >
-                <IconButton
-                  aria-label="cart"
-                  sx={{ my: 2, fontSize: 15, color: "white" }}
-                  onClick={handlecart}
-                >
-                  <Badge
-                    color="secondary"
-                    badgeContent={cart.length}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right",
-                    }}
-                    sx={{ color: "white" }}
-                  >
-                    <ShoppingCartIcon sx={{ color: "white", fontSize: 30 }} />
-                  </Badge>
-                </IconButton>
-
-                <Tooltip title="Logout" color="red" placement="top" zIndex={9999}>
                   <Button
-                    onClick={handleLogout}
-                    id="logout"
+                    onClick={handleimages}
                     sx={{
-                   
-                      position: "absolute",
-                     right:1
+                      my: 2,
+                      fontSize: 18,
+                      color: router.pathname === "/Uns" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Uns"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Uns" ? "12px" : "none",
+                      display: "block",
+                      textTransform: "none",
                     }}
                   >
-                    <img src="Client.png" alt="" height={60} width={60}/>
-                   
+                    Images
                   </Button>
-                </Tooltip>
-             
-              </div>
-              </> 
-              :
-              <>
-             
-               <Button
-               onClick={handlesignin}
-               sx={{
-                 my: 2,
-                 fontSize: 18,
-                 color: router.pathname === "/Signup" ? "white" : "white",
-                 borderBottom:
-                   router.pathname === "/Signup" ? "3px solid white " : "none",
-                 borderRadius: router.pathname === "/Signup" ? "12px" : "none",
-                 display: "block",
-                 textTransform:"none",
-               
-               }}
-             >
-               Signup
-              
-             </Button>
-              
-             <Button
-               onClick={handlelogin}
-               sx={{
-                 my: 2,
-                 fontSize: 18,
-                 color: router.pathname === "/Login" ? "white" : "white",
-                 borderBottom:
-                   router.pathname === "/Login" ? "3px solid white " : "none",
-                 borderRadius: router.pathname === "/Login" ? "12px" : "none",
-                 display:"block",
-                 textTransform:"none",
-               
-               }}
-             >
-               Login
-              
-             </Button>
-             </>
-              }
-      
+                  <Button
+                    onClick={handleproduct}
+                    sx={{
+                      my: 2,
+                      fontSize: 18,
+                      color:
+                        router.pathname === "/Apiproducts" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Apiproducts"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Apiproducts" ? "12px" : "none",
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Products
+                  </Button>
+                  <Button
+                    onClick={handlecontact}
+                    sx={{
+                      my: 2,
+                      fontSize: 18,
+                      color:
+                        router.pathname === "/Contactus" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Contactus"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Contactus" ? "12px" : "none",
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Contactus
+                  </Button>
+                  <Button
+                    onClick={handleadmin}
+                    sx={{
+                      my: 2,
+                      fontSize: 18,
+                      color: router.pathname === "/Admin" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Admin"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Admin" ? "12px" : "none",
+                      display:
+                        Current_User_Type === "Admin_User" ? "block" : "none",
+                      textTransform: "none",
+                    }}
+                  >
+                    Admin
+                  </Button>
+
+                  <div
+                    className="flex"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "2px",
+                    }}
+                  >
+                    <IconButton
+                      aria-label="cart"
+                      sx={{ my: 2, fontSize: 15, color: "white" }}
+                      onClick={handlecart}
+                    >
+                      <Badge
+                        color="secondary"
+                        badgeContent={cart.length}
+                        anchorOrigin={{
+                          vertical: "top",
+                          horizontal: "right",
+                        }}
+                        sx={{ color: "white" }}
+                      >
+                        <ShoppingCartIcon
+                          sx={{ color: "white", fontSize: 30 }}
+                        />
+                      </Badge>
+                    </IconButton>
+
+                    <Tooltip
+                      title={
+                        Current_User_Type === "Admin_User"
+                          ? "Logout (Admin)"
+                          : "Logout"
+                      }
+                      placement="top"
+                      zIndex={9999}
+                    >
+                      <Button
+                        onClick={handleLogout}
+                        id="logout"
+                        sx={{
+                          position: "absolute",
+                          right: 1,
+                        }}
+                      >
+                        <img src="Client.png" alt="" height={60} width={60} />
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={handlesignin}
+                    sx={{
+                      my: 2,
+                      fontSize: 18,
+                      color: router.pathname === "/Signup" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Signup"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Signup" ? "12px" : "none",
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Signup
+                  </Button>
+
+                  <Button
+                    onClick={handlelogin}
+                    sx={{
+                      my: 2,
+                      fontSize: 18,
+                      color: router.pathname === "/Login" ? "white" : "white",
+                      borderBottom:
+                        router.pathname === "/Login"
+                          ? "3px solid white "
+                          : "none",
+                      borderRadius:
+                        router.pathname === "/Login" ? "12px" : "none",
+                      display: "block",
+                      textTransform: "none",
+                    }}
+                  >
+                    Login
+                  </Button>
+                </>
+              )}
             </Box>
           </Toolbar>
         </Container>
@@ -384,7 +396,7 @@ React.useEffect(()=>{
       <br />
       <br />
       <br />
-    
+
       {/* Mobile Menu */}
       <Drawer
         anchor="left"

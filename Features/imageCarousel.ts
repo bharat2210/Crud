@@ -2,6 +2,7 @@ import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface ImageType {
+   _id:number;
   imgPath: string;
   title: string;
 }
@@ -38,7 +39,7 @@ export const deleteImage = createAsyncThunk("deleteImage", async (id, data) => {
 });
 // Add images
 export const addImages = createAsyncThunk("addImages", async(data) => {
-    console.log("data of image",data)
+    // console.log("data of image",data)
   try {
     const response = await axios.post(
       "http://localhost:3000/api/addimage",
@@ -55,6 +56,23 @@ export const addImages = createAsyncThunk("addImages", async(data) => {
     throw new Error("Error in adding image");
   }
 });
+
+// Update image
+export const updateImageapi = createAsyncThunk("updateImageapi", async(data)=>{
+  const{id,...updatedImage}:any=data
+  console.log("updated image data",data)
+  try{
+    const response= await axios.put(`http://localhost:3000/api/updateImage?id=${id}`,updatedImage,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
+    return response.data
+  }catch(error){
+    throw new Error("Error in updating")
+  }
+})
 
 const imgSlice = createSlice({
   name: "imgSlice",
@@ -96,6 +114,20 @@ const imgSlice = createSlice({
       .addCase(addImages.rejected, (state, action: AnyAction) => {
         state.isloading = false;
         state.error = action.payload.message || null;
+      })
+      .addCase(updateImageapi.pending, (state, action) => {
+        state.isloading = true;
+      })
+      .addCase(updateImageapi.fulfilled, (state, action) => {
+        state.isloading = false;
+        const updateimagedata=action.payload;
+      const index=state.images.findIndex((data:any)=>data._id===updateimagedata._id)
+      state.images[index]=updateimagedata;
+      
+      })
+      .addCase(updateImageapi.rejected, (state, action: AnyAction) => {
+        state.isloading = false;
+        alert("Error updating image")
       })
       
   },

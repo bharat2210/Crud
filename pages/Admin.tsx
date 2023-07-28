@@ -5,6 +5,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+
 // Components imports
 import Loader from "../Components/Loader";
 
@@ -19,9 +20,22 @@ import {
 } from "../Features/productsslice";
 import { AppDispatch, RootState } from "../store";
 import { addproducts } from "../Features/productsslice";
+import {
+  deletemessage,
+  formatmessages,
+  getmessages,
+} from "../Features/message";
+import {
+  addImages,
+  deleteImage,
+  getImages,
+  updateImageapi,
+} from "../Features/imageCarousel";
+import { showuser } from "../Features/userdetail";
+import { readuser } from "../Features/register";
 // Styles imports
 import edit from "../styles/edit.module.css";
-import deletecss from "../styles/delete.module.css";
+
 
 // Ant Design Imports
 import {
@@ -38,7 +52,9 @@ import {
 import { Button as AntButton } from "antd";
 import {
   DeleteOutlined,
+  EditOutlined,
   FileDoneOutlined,
+  InfoCircleOutlined,
   PlusOutlined,
   ShoppingCartOutlined,
   ShoppingOutlined,
@@ -46,7 +62,6 @@ import {
 import { Card, Statistic, notification } from "antd";
 import { Badge } from "antd";
 import { Descriptions } from "antd";
-import { CommentOutlined, CustomerServiceOutlined } from "@ant-design/icons";
 import { FloatButton } from "antd";
 
 // Num-words imports
@@ -65,14 +80,6 @@ import {
   Paper,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import { showuser } from "../Features/userdetail";
-import { readuser } from "../Features/register";
-import {
-  deletemessage,
-  formatmessages,
-  getmessages,
-} from "../Features/message";
-import { addImages, deleteImage, getImages } from "../Features/imageCarousel";
 
 interface ProductData {
   title: string;
@@ -94,24 +101,25 @@ const Admin = () => {
     storage: "" || 0,
     img: [],
   });
+  const [updateImage, setupdateImage] = useState({ imgPath: "", title: "" });
   const [username, setusername] = useState<string>();
   const [visibleItems, setVisibleItems] = useState<number>(4);
   const [open, setOpen] = useState<boolean>(false);
   const [deleteproduct, setdeleteproduct] = useState<boolean>(false);
   const [search, setsearch] = useState();
   const [editImage, seteditImage] = useState<boolean>(false);
-  const [ImageId, setImageId] = useState("");
+  const [ImageId, setImageId] = useState<number>();
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
-  const [displaybutton, setdisplaybutton] = useState<boolean>(false);
   const [updateopen, setupdateopen] = useState<boolean>(false);
   const [stat, setstat] = useState<boolean>(false);
   const [showbutton, setshowbutton] = useState<boolean>(false);
   const [imageurls, setimageurls] = useState<string[]>([]);
-  const [imageview, setimageview] = useState<boolean>(false);
   const [querybox, setquerybox] = useState<boolean>(false);
   const [imageadddrawer, setimageadddrawer] = useState(false);
-  const [imgPath, setimgPath] = useState("");
-  const [title, settitle] = useState("");
+  const [ImageupdateDrawer, setImageupdateDrawer] = useState<boolean>(false);
+  const [ImageUpdateId, setImageupdateId] = useState<number>();
+  const [imgPath, setimgPath] = useState<string>("");
+  const [title, settitle] = useState<string>("");
   const allproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
@@ -160,6 +168,13 @@ const Admin = () => {
   }, []);
 
   const { images } = useSelector((state: RootState) => state.allimages);
+  const singleimage = images.filter((data) => data._id === ImageUpdateId)[0];
+  console.log("Single image: ", singleimage);
+
+  useEffect(() => {
+    setupdateImage(singleimage);
+  }, [singleimage]);
+  console.log("upadate image: ", updateImage);
 
   // useEffect(() => {
   //   const cart = localStorage.getItem("cart");
@@ -277,7 +292,7 @@ const Admin = () => {
   const updateclose = () => {
     setupdateopen(false);
   };
-  const handleupdate = (e: any) => {
+  const handleupdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateitem({ id: singleproduct._id, ...updatedata })).then(() => {
       toast.success("Item updated successfully", {
@@ -298,11 +313,12 @@ const Admin = () => {
   const handlecancelorders = () => {
     // localStorage.removeItem("cart"); // Remove cart data from localStorage
     // setCartData([]); // Update the state to reflect the empty cart
-    // setshowbutton(false);
+
     dispatch(deleteallitems());
+    setshowbutton(false);
   };
 
-  const handleformat = () => {
+  const handleformatqueries = () => {
     dispatch(formatmessages()).then(() => {
       dispatch(getmessages());
     });
@@ -321,7 +337,7 @@ const Admin = () => {
     // console.log("messageid",messageid)
   };
 
-  const handleimagedelete = (imgId) => {
+  const handleimagedelete = (imgId: number) => {
     setImageId(imgId);
   };
   const handleimagedeleteconfirm = () => {
@@ -341,15 +357,32 @@ const Admin = () => {
     setimageadddrawer(true);
   };
 
-  const handleimageSubmit = (e) => {
+  const handleimageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("setimgUrl",imgPath)
-    console.log("setimgTitle",title)
-    dispatch(addImages({imgPath,title})).then(()=>{
+    console.log("setimgUrl", imgPath);
+    console.log("setimgTitle", title);
+    dispatch(addImages({ imgPath, title })).then(() => {
       dispatch(getImages());
       setimageadddrawer(false);
-      seteditImage(true)
-    })
+      seteditImage(true);
+    });
+  };
+
+  const hanldeImageUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(updateImageapi({ id: singleimage._id, ...updateImage })).then(
+      () => {
+        dispatch(getImages());
+        setImageupdateDrawer(false);
+        seteditImage(true);
+        //  toast.success("Image Title updated successfully",{
+        //   position:"top-right",
+        //   style:{
+        //     top:"78px"
+        //   }
+        //  })
+      }
+    );
   };
 
   const currenttime = new Date();
@@ -420,12 +453,7 @@ const Admin = () => {
             width:100%;
             border-radius:12px;
           }
-          .controls{
-            display: flex;
-            flex-direction: row;
-            justify-content:space-around;
-     
-          }
+        
           .buttons{
             display: flex;
             flex-direction: row;
@@ -484,15 +512,16 @@ const Admin = () => {
         <Option value="Displays">Displays</Option>
       </Select>{" "} */}
 
-      <Tooltip title="Queries" placement="right">
+      {/* Queries Tooltip */}
+      <Tooltip title="Queries"  placement="right">
         <div
           className="badge"
-          style={{ position: "absolute", right: "270px", top: "153px" }}
+          style={{ position: "fixed", left: "28px", top: "230px" }}
         >
           <Badge count={lengthofquery}>
             <i
               className="fa-solid fa-envelope"
-              style={{ fontSize: "28px" }}
+              style={{ fontSize: "28px",color:"rgb(22,119,254)" }}
               onClick={() => {
                 setquerybox(true);
               }}
@@ -501,17 +530,33 @@ const Admin = () => {
         </div>
       </Tooltip>
 
+      {/* Carousel Image Tooltip */}
+      <Tooltip title="Carousel Images"  placement="left">
+        <FloatButton
+          style={{
+            top: 170,
+            left: 25,
+          }}
+          type="primary"
+          onClick={() => seteditImage(true)}
+        />
+      </Tooltip>
+
+      {/* Statistics tooltip */}
+      <Tooltip title="Statistics"  placement="right">
+        <FloatButton
+          style={{
+            left: 25,
+            top: 120,
+          }}
+          type="primary"
+          icon={<InfoCircleOutlined />}
+          onClick={openstat}
+        />
+      </Tooltip>
+
       <Container>
         <div className="controls">
-          <Button
-            variant="contained"
-            size="small"
-            onClick={openstat}
-            style={{ marginLeft: 10 }}
-          >
-            Statistics
-          </Button>
-
           <Autocomplete
             // style={{
             //   position: "absolute",
@@ -532,7 +577,8 @@ const Admin = () => {
             onChange={(event, value: any) => {
               setsearch(value);
             }}
-          />
+          />{" "}
+          <br />
           <Button variant="contained" onClick={showDrawer} size="small">
             <PlusOutlined /> Add New Product
           </Button>
@@ -634,20 +680,20 @@ const Admin = () => {
                             // setshowupdate(true);
                             setid(details._id);
                             setupdateopen(true);
-                            setshownavbar(false);
                           }}
                         >
                           Edit <i className="fa-solid fa-pen-to-square"></i>
                         </button>
 
-                        <button
-                          className={deletecss.delete}
+                        <AntButton
+                          danger
+                          // className={deletecss.delete}
                           onClick={() =>
                             handledelete(details._id, details.title)
                           }
                         >
                           Delete <i className="fa-solid fa-trash"></i>
-                        </button>
+                        </AntButton>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -663,6 +709,7 @@ const Admin = () => {
           </Button>
         </div>
       )}
+      {/* Update Product Drawer */}
       <Drawer
         onClose={updateclose}
         open={updateopen}
@@ -778,7 +825,7 @@ const Admin = () => {
           </Row>
         </form>
       </Drawer>
-
+      {/* New product add drawer */}
       <Drawer
         title="Add New Product"
         width="auto"
@@ -961,13 +1008,20 @@ const Admin = () => {
           </Row>
         </form>
       </Drawer>
-
+      {/* Statistics Drawer */}
       <Drawer
         open={stat}
         onClose={closestat}
         placement="left"
         width={800}
         zIndex={9999}
+        extra={
+          <Space>
+            <AntButton onClick={() => setstat(false)} type="primary">
+              Close
+            </AntButton>
+          </Space>
+        }
       >
         <h4 style={{ color: "black" }}>Dashboard</h4>
         <h1 style={{ color: "black" }}>Products Statistics</h1>
@@ -1088,19 +1142,18 @@ const Admin = () => {
           type="primary"
           onClick={() => {
             setstat(false);
-            setshownavbar(true);
           }}
         >
           Close
         </AntButton>
       </Drawer>
-
+      {/* Queries Drawer */}
       <Drawer
         open={querybox}
         onClose={() => {
           setquerybox(false);
         }}
-        placement="right"
+        placement="left"
         width={700}
         extra={
           <Space>
@@ -1122,7 +1175,8 @@ const Admin = () => {
           description="Are you sure to delete these Queries?"
           okText="Yes"
           cancelText="No"
-          onConfirm={handleformat}
+          onConfirm={handleformatqueries}
+          zIndex={9999}
         >
           <AntButton danger>Delete All Queries</AntButton>
         </Popconfirm>
@@ -1153,6 +1207,7 @@ const Admin = () => {
                       okText="Yes"
                       cancelText="No"
                       onConfirm={handledeleteQuery}
+                      zIndex={9999}
                     >
                       {" "}
                       <AntButton
@@ -1174,12 +1229,13 @@ const Admin = () => {
             </React.Fragment>
           ))}
       </Drawer>
-
+      {/* Images Carousel Drawer */}
       <Drawer
         open={editImage}
         onClose={() => seteditImage(false)}
-        width={300}
+        width={350}
         zIndex={9999}
+        placement="left"
         extra={<AntButton onClick={handleimage}>Add Images</AntButton>}
       >
         {images &&
@@ -1188,7 +1244,7 @@ const Admin = () => {
               <Col span={24}>
                 <Card
                   key={data._id}
-                  style={{ width: 200 }}
+                  style={{ width: 300 }}
                   cover={<img alt="example" src={data.imgPath} />}
                   actions={[
                     <Popconfirm
@@ -1207,8 +1263,19 @@ const Admin = () => {
                         <DeleteOutlined />
                       </AntButton>
                     </Popconfirm>,
+                    <AntButton
+                      onClick={() => {
+                        setImageupdateDrawer(true);
+                        seteditImage(false);
+                        setImageupdateId(data._id);
+                      }}
+                    >
+                      <EditOutlined />
+                    </AntButton>,
                   ]}
-                ></Card>
+                >
+                  <Meta title={data.title} />
+                </Card>
                 <br />
                 <br />
               </Col>
@@ -1216,11 +1283,11 @@ const Admin = () => {
             </Row>
           ))}
       </Drawer>
-
+      {/* Add image in Carousel Drawer */}
       <Drawer
         open={imageadddrawer}
         onClose={() => setimageadddrawer(false)}
-        placement="right"
+        placement="left"
         width={300}
         zIndex={9999}
       >
@@ -1233,7 +1300,7 @@ const Admin = () => {
                 placeholder="Enter image url"
                 name="imgPath"
                 value={imgPath}
-                onChange={(e)=>setimgPath(e.target.value)}
+                onChange={(e) => setimgPath(e.target.value)}
                 style={{ padding: "6px", width: "100%" }}
               />
             </Col>
@@ -1246,7 +1313,7 @@ const Admin = () => {
                 placeholder="Enter image title"
                 name="title"
                 value={title}
-                onChange={(e)=>settitle(e.target.value)}
+                onChange={(e) => settitle(e.target.value)}
                 style={{ padding: "6px", width: "100%" }}
               />
             </Col>
@@ -1255,27 +1322,66 @@ const Admin = () => {
           <AntButton htmlType="submit">Submit</AntButton>
         </form>
       </Drawer>
-      <>
-        <Tooltip
-          title="Carousel Images"
-          color="rgb(25,118,210)"
-          placement="left"
-        >
-          <FloatButton
-            style={{
-              top: 600,
-              right: 30,
-            }}
-            type="primary"
-            onClick={() => seteditImage(true)}
-          />
-        </Tooltip>
-      </>
+      {/* Update Image Carousel Drawer */}
+      <Drawer
+        title="Update Image Title"
+        open={ImageupdateDrawer}
+        onClose={() => {
+          setImageupdateDrawer(false);
+          seteditImage(true);
+        }}
+        width={300}
+        zIndex={9999}
+        placement="left"
+      >
+        <h2>Update Image Title</h2>
+        <br />
+
+        <form action="" onSubmit={hanldeImageUpdate}>
+          <Row>
+            <Col span={24}>
+              <label htmlFor="Image Url">Image Url</label>
+              <br />
+              <input
+                type="text"
+                style={{ padding: "8px", width: "100%" }}
+                value={updateImage?.imgPath}
+                onChange={(e) =>
+                  setupdateImage((prevValue) => ({
+                    ...prevValue,
+                    imgPath: e.target.value,
+                  }))
+                }
+              />
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={24}>
+              <label htmlFor="Image Title">Image Title</label>
+              <br />
+              <input
+                type="text"
+                placeholder="Enter new Title"
+                style={{ padding: "8px", width: "100%" }}
+                value={updateImage?.title}
+                onChange={(e) =>
+                  setupdateImage((prevValue) => ({
+                    ...prevValue,
+                    title: e.target.value,
+                  }))
+                }
+              />
+            </Col>
+          </Row>
+          <br />
+          <AntButton htmlType="submit">Submit</AntButton>
+        </form>
+      </Drawer>
 
       <br />
       <br />
     </>
   );
 };
-
 export default Admin;

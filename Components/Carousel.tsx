@@ -7,10 +7,11 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+import { Container } from "@mui/material";
 // Libraries imports
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
-import { Container } from "@mui/material";
+// Redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { getImages } from "../Features/imageCarousel";
 import { AppDispatch, RootState } from "../store";
@@ -27,7 +28,7 @@ function Carousel() {
   },[])
 
   const img= useSelector((state:RootState)=>state.allimages.images)
-  console.log("img: ", img)
+  // console.log("img: ", img)
   const maxSteps = img.length;
 
   const handleNext = () => {
@@ -49,7 +50,7 @@ function Carousel() {
         axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={activeStep}
         onChangeIndex={handleStepChange}
-        enableMouseEvents
+      
       >
         {img.map((step, index) => (
           <div>
@@ -65,6 +66,7 @@ function Carousel() {
                 }}
                 src={step.imgPath}
                 alt="No image "
+             
               />
             ) : null}
           </div>
