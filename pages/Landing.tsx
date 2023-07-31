@@ -1,5 +1,5 @@
 // Next imports
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 // MUI Imports
 import { Container, Typography } from "@mui/material";
 // AntD imports
@@ -7,44 +7,44 @@ import { Card, Col, FloatButton, Row, Tooltip } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
 // Components imports
 import Carousel from "../Components/Carousel";
-import Navbar1 from "../Components/Navbar1";
-import Footer from "../Components/Footer";
+
 // Libraries imports
 import Aos from "aos";
+import Link from "next/link";
 
 const images = [
   {
     imgpath:
       "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-finish-unselect-gallery-1-202207_GEO_US?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1662129048006",
-    title: "iPhone",
+    title: "Mobiles",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   },
   {
     imgpath:
       "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/imac-24-touch-id-blue-gallery-2?wid=2000&hei=1536&fmt=jpeg&qlt=95&.v=1617741434000",
-    title: "Mac Book",
+    title: "Laptops",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   },
   {
     imgpath:
       "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MV7N2?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1551489688005",
-    title: "AirPods",
+    title: "Headphones",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   },
   {
     imgpath:
       "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/homepod-select-midnight-202210?wid=470&hei=556&fmt=png-alpha&.v=1670557210097",
-    title: "iSpeakers",
+    title: "Speakers",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   },
   {
     imgpath:
       "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-pro-model-select-gallery-2-202212?wid=2560&hei=1440&fmt=p-jpg&qlt=95&.v=1667594167534",
-    title: "iPad",
+    title: "Tablets",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   },
@@ -59,10 +59,11 @@ const images = [
 const { Meta } = Card;
 const Landing = () => {
 
-  
+  // AOS initialisation
   useEffect(() => {
     Aos.init();
   }, []);
+
   return (
     <>
       <style>
@@ -125,10 +126,8 @@ const Landing = () => {
       `}
       </style>
       <Tooltip title="Go To Top" color="green" placement="left">
-        <FloatButton.BackTop type="primary"/>
-         
+        <FloatButton.BackTop type="primary" />
       </Tooltip>
-   
 
       <div className="img" data-aos="zoom-in">
         <img
@@ -144,11 +143,22 @@ const Landing = () => {
         />
       </div>
       <Carousel />
-  
-      
+
       <div className="newproducts">
-        <h1 style={{ textAlign: "center", color: "orangered" ,fontFamily:"sans-serif",fontStyle:"italic"}}>
-          <img src="https://media.istockphoto.com/id/1197832105/vector/male-hand-holding-megaphone-with-new-product-speech-bubble-loudspeaker-banner-for-business.jpg?s=612x612&w=0&k=20&c=INIM5M-N2DZh6pS6DUBSGh7x9ItOBSC3atZOVJtQf7M=" alt="" height={200} width={350}/>
+        <h1
+          style={{
+            textAlign: "center",
+            color: "orangered",
+            fontFamily: "sans-serif",
+            fontStyle: "italic",
+          }}
+        >
+          <img
+            src="https://media.istockphoto.com/id/1197832105/vector/male-hand-holding-megaphone-with-new-product-speech-bubble-loudspeaker-banner-for-business.jpg?s=612x612&w=0&k=20&c=INIM5M-N2DZh6pS6DUBSGh7x9ItOBSC3atZOVJtQf7M="
+            alt=""
+            height={200}
+            width={350}
+          />
         </h1>
         <br />
         <br />
@@ -165,7 +175,8 @@ const Landing = () => {
           }}
           className="bannerimage"
         />{" "}
-        <br /><br />
+        <br />
+        <br />
         <img
           src="https://www.apple.com/newsroom/images/product/iphone/standard/Apple-iPhone-14-iPhone-14-Plus-5up-hero-220907_Full-Bleed-Image.jpg.large.jpg"
           alt=""
@@ -178,68 +189,84 @@ const Landing = () => {
           }}
           className="bannerimage"
         />
-      </div><br /><br /><br /><br />
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
 
-      <div className="service" style={{width:"100%",height:"auto",padding:"4px 0px 4px 0px"}}>
-        <h1>
-          Services Offered
-        </h1><br />
+      <div
+        className="service"
+        style={{ width: "100%", height: "auto", padding: "4px 0px 4px 0px" }}
+      >
+        <h1>Services Offered</h1>
+        <br />
         <img
           src="Services.jpg"
           alt=""
-          style={{ marginLeft: "300px", borderRadius:"12px", mixBlendMode:"darken"}}
-        height={750} width={1000}/>
-      </div><br />
+          style={{
+            marginLeft: "300px",
+            borderRadius: "12px",
+            mixBlendMode: "darken",
+          }}
+          height={750}
+          width={1000}
+        />
+      </div>
+      <br />
 
       <div className="store">
         <div className="store-text">
-        <h1>Visit Our Store</h1> <br />
-        <h4>For better experience</h4>
+          <h1>Visit Our Store</h1> <br />
+          <h4>For better experience</h4>
         </div>
-  
-      </div><br /><br /><br /><br />
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
 
       <div className="offers">
         <h1>Best Offers</h1>
         <Container fixed>
-        <Row data-aos="fade-right">
+          <Row data-aos="fade-right">
             <Col span={24}>
               <img src="Offer1.png" alt="" />
             </Col>
-          </Row><br />
+          </Row>
+          <br />
           <Row data-aos="fade-left">
             <Col span={24}>
               <img src="Offer2.png" alt="" />
             </Col>
-          </Row><br />
+          </Row>
+          <br />
           <Row data-aos="fade-right">
             <Col span={24}>
               <img src="Offer3.png" alt="" />
             </Col>
-          </Row><br />
+          </Row>
+          <br />
           <Row data-aos="fade-left">
             <Col span={24}>
               <img src="Offer4.png" alt="" />
             </Col>
-          </Row><br />
-
+          </Row>
+          <br />
         </Container>
-        
-        
       </div>
 
-
-      
       <div className="container" style={{ height: "auto", marginTop: "150px" }}>
         <Typography
           variant="h3"
-          sx={{ textAlign: "center",fontWeight:"bolder" }}
+          sx={{ textAlign: "center", fontWeight: "bolder" }}
           data-aos="fade-left"
           className="Category_Shopping"
         >
           Shop By Category <ShoppingOutlined style={{ color: "dodgerblue" }} />
         </Typography>
-        <br /><br />
+        <br />
+        <br />
         <div className="cards" data-aos="fade-right">
           <Container>
             <Row gutter={[12, 12]}>
@@ -249,7 +276,9 @@ const Landing = () => {
                     hoverable
                     style={{ width: 370 }}
                     cover={
-                      <img alt="example" src={data.imgpath} height={255} />
+                      <Link href="/Apiproducts" style={{ textAlign: "center" }}>
+                        <img alt="example" src={data.imgpath} height={255} />
+                      </Link>
                     }
                   >
                     <Meta
@@ -267,7 +296,6 @@ const Landing = () => {
           </Container>
         </div>
       </div>
-    
     </>
   );
 };

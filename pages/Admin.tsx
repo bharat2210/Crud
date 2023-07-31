@@ -36,7 +36,6 @@ import { readuser } from "../Features/register";
 // Styles imports
 import edit from "../styles/edit.module.css";
 
-
 // Ant Design Imports
 import {
   Col,
@@ -313,7 +312,6 @@ const Admin = () => {
   const handlecancelorders = () => {
     // localStorage.removeItem("cart"); // Remove cart data from localStorage
     // setCartData([]); // Update the state to reflect the empty cart
-
     dispatch(deleteallitems());
     setshowbutton(false);
   };
@@ -441,17 +439,16 @@ const Admin = () => {
           .form{
             width:500px;
           }
-          .formclass{
-            width: 100%;
-            padding:12px;
-            border-radius:12px;
-
-          }
+        .formclass{
+          padding-top:8px;
+          padding-bottom:8px;
+          border-radius:8px;
+        }
 
      
           .textarea{
             width:100%;
-            border-radius:12px;
+            border-radius:8px;
           }
         
           .buttons{
@@ -513,15 +510,15 @@ const Admin = () => {
       </Select>{" "} */}
 
       {/* Queries Tooltip */}
-      <Tooltip title="Queries"  placement="right">
+      <Tooltip title="Queries" placement="right">
         <div
           className="badge"
-          style={{ position: "fixed", left: "28px", top: "230px" }}
+          style={{ position: "fixed", left: "28px", top: "291px" }}
         >
           <Badge count={lengthofquery}>
             <i
               className="fa-solid fa-envelope"
-              style={{ fontSize: "28px",color:"rgb(22,119,254)" }}
+              style={{ fontSize: "28px", color: "rgb(22,119,254)" }}
               onClick={() => {
                 setquerybox(true);
               }}
@@ -531,29 +528,47 @@ const Admin = () => {
       </Tooltip>
 
       {/* Carousel Image Tooltip */}
-      <Tooltip title="Carousel Images"  placement="left">
+      <Tooltip title="Carousel Images" placement="left">
         <FloatButton
           style={{
-            top: 170,
-            left: 25,
+            left: 28,
+            top: 230,
+            
           }}
+          icon={<i className="fa-solid fa-image"></i>}
           type="primary"
           onClick={() => seteditImage(true)}
         />
       </Tooltip>
 
+         {/* New Product add toottip Button */}
+         <Tooltip title="Add New Product" placement="right">
+      <FloatButton
+          style={{
+            top: 170,
+            left: 25,
+         
+          }}
+          type="primary"
+          icon={<i className="fa-solid fa-plus"></i>}
+          onClick={showDrawer}
+        />
+      </Tooltip>
+
       {/* Statistics tooltip */}
-      <Tooltip title="Statistics"  placement="right">
+      <Tooltip title="Statistics" placement="right">
         <FloatButton
           style={{
             left: 25,
             top: 120,
           }}
           type="primary"
-          icon={<InfoCircleOutlined />}
+          icon={<i className="fa-solid fa-chart-simple"></i>}
           onClick={openstat}
         />
       </Tooltip>
+
+   
 
       <Container>
         <div className="controls">
@@ -578,10 +593,7 @@ const Admin = () => {
               setsearch(value);
             }}
           />{" "}
-          <br />
-          <Button variant="contained" onClick={showDrawer} size="small">
-            <PlusOutlined /> Add New Product
-          </Button>
+      
         </div>
 
         <br />
@@ -704,9 +716,9 @@ const Admin = () => {
       <br />
       {visibleItems < apiproducts.length && (
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="contained" onClick={handleLoadMore}>
+          <AntButton type="primary" onClick={handleLoadMore}>
             Load More Items
-          </Button>
+          </AntButton>
         </div>
       )}
       {/* Update Product Drawer */}
@@ -828,9 +840,10 @@ const Admin = () => {
       {/* New product add drawer */}
       <Drawer
         title="Add New Product"
-        width="auto"
+        width={600}
         onClose={onClose}
         open={open}
+        placement="left"
         bodyStyle={{ paddingBottom: 2 }}
         extra={
           <Space>
@@ -841,45 +854,50 @@ const Admin = () => {
       >
         <form action="#" onSubmit={handlesubmit} className="form">
           {/* 1st row */}
-          <Row gutter={12}>
+          <Row gutter={[12,12]}>
             <Col span={12}>
               <input
                 type="text"
                 name="title"
                 placeholder="Enter Title"
                 required
+                style={{width:"100%"}}
                 className="formclass"
+
+              
               />
-            </Col>
+            </Col><br />
             <Col span={12}>
               <input
                 type="number"
                 name="price"
                 placeholder="Enter Price"
                 required
-                className="formclass"
+                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
-          </Row>
+         
           <br />
 
           {/* 2nd row */}
-          <Row gutter={12}>
+        
             <Col span={24}>
               <textarea
                 rows={4}
-                cols={10}
+                cols={67}
                 name="img"
                 placeholder="Upload Image"
                 required
+                className="textarea"
                 value={imageurls.join(",")}
                 onChange={(e) => setimageurls(e.target.value.split(","))}
-                className="formclass"
+                
               ></textarea>
             </Col>
-          </Row>
+      
           <br />
-          <Row gutter={12}>
+   
             <Col span={24}>
               <input
                 type="number"
@@ -888,25 +906,26 @@ const Admin = () => {
                 value={1}
                 disabled
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
-          </Row>
+        
           <br />
           {/* 3rd row */}
-          <Row gutter={12}>
+       
             <Col span={24}>
               <textarea
                 name="description"
-                rows={8}
-                placeholder="Enter Description"
+                rows={4}
+                placeholder="Enter Headline"
                 className="textarea"
                 required
               ></textarea>
             </Col>
-          </Row>
+    
           <br />
           {/* 4th Row */}
-          <Row gutter={12}>
+    
             <Col span={12}>
               <input
                 type="number"
@@ -914,6 +933,7 @@ const Admin = () => {
                 placeholder="Enter a number between 0-5"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
             <Col span={12}>
@@ -923,12 +943,13 @@ const Admin = () => {
                 placeholder="Enter size"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
-          </Row>
+       
           <br />
           {/* 5th Row */}
-          <Row gutter={12}>
+         
             <Col span={24}>
               <textarea
                 name="full"
@@ -938,10 +959,10 @@ const Admin = () => {
                 required
               ></textarea>
             </Col>
-          </Row>
+        
           <br />
           {/* 6th row */}
-          <Row gutter={12}>
+        
             <Col span={12}>
               <input
                 type="text"
@@ -949,6 +970,7 @@ const Admin = () => {
                 placeholder="Define Color"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
             <Col span={12}>
@@ -958,13 +980,14 @@ const Admin = () => {
                 placeholder="Enter Storage"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
-          </Row>
+         
           <br />
 
           {/* 7th row */}
-          <Row gutter={12}>
+        
             <Col span={12}>
               <input
                 type="boolean"
@@ -972,6 +995,7 @@ const Admin = () => {
                 placeholder="New or not"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
             <Col span={12}>
@@ -981,12 +1005,13 @@ const Admin = () => {
                 placeholder="Enter Stock"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
-          </Row>
+
           <br />
           {/* 8th row */}
-          <Row>
+       
             <Col span={24}>
               <input
                 type="text"
@@ -994,9 +1019,10 @@ const Admin = () => {
                 placeholder="Enter Category"
                 required
                 className="formclass"
+                style={{width:"100%"}}
               />
             </Col>
-          </Row>
+         </Row>
           <br />
           {/* 9th row */}
           <Row>
@@ -1170,6 +1196,7 @@ const Admin = () => {
         zIndex={9999}
       >
         <h1>Queries</h1>
+        <br />
         <Popconfirm
           title="Delete Queries"
           description="Are you sure to delete these Queries?"
@@ -1185,7 +1212,7 @@ const Admin = () => {
         {messages &&
           messages.map((data) => (
             <React.Fragment key={data._id}>
-              <Descriptions layout="vertical">
+              <Descriptions layout="vertical" bordered={true}>
                 <Descriptions.Item label="UserName">
                   {data.firstname} {data.lastname}
                 </Descriptions.Item>
@@ -1221,11 +1248,22 @@ const Admin = () => {
                     </Popconfirm>
                   </div>
                 </Descriptions.Item>
-                <Descriptions.Item label="Message" span={2}>
+                <Descriptions.Item
+                  label="Message"
+                  span={2}
+                  style={{ fontWeight: "700" }}
+                >
                   {data.message}
                 </Descriptions.Item>
-              </Descriptions>
-              <hr />
+                <Descriptions.Item
+                  label="Received on"
+                  span={2}
+                contentStyle={{color:"red"}}
+                >
+                  {data.date ? data.date : "31/7/2023"}
+                </Descriptions.Item>
+              </Descriptions><br />
+             
             </React.Fragment>
           ))}
       </Drawer>

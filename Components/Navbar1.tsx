@@ -143,7 +143,7 @@ function Navbar1() {
       /> */}
       <AppBar
         position="fixed"
-        sx={{ height: 84, backgroundColor: "rgb(25,118,210)" }}
+        sx={{ height: 84, backgroundColor: "rgb(35,47,62)" }}
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -164,7 +164,7 @@ function Navbar1() {
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              href="/Landing"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },

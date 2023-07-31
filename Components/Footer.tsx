@@ -17,23 +17,24 @@ const Footer = () => {
       />
       <style>
         {`
-
+      
 
 .footer-section {
-  background:#232B2B;
+  background:rgb(35,47,62);
   color: white;
-  padding: 15px 15px 0px 15px;
-  width: 100%;
+  padding: 25px 15px 0px 15px;
+  width: 98%;
+  height:auto;
   margin-top:30px;
+  border-radius:100px 0px 0px 0px;
   
 }
 
 .footer-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content:space-around;
+  justify-content:space-between;
   align-items: center;
- 
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -44,6 +45,7 @@ const Footer = () => {
 
 .footer-text p {
   font-size: 14px;
+
   color: white;
   line-height: 28px;
 }
@@ -85,8 +87,8 @@ const Footer = () => {
 }
 
 .footer-menu li a {
-  font-size: 14px;
-  color: white;
+  font-size: 18px;
+  color: black;
   text-decoration: none;
 }
 
@@ -104,7 +106,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-logo">
             <SketchOutlined
-              style={{ fontSize: "80px", color:"rgb(25,118,210)" }}
+              style={{ fontSize: "80px", color:"white"}}
             />{" "}
             <br />
             <span style={{ textAlign: "center", fontSize: "24px" }}>
@@ -112,15 +114,16 @@ const Footer = () => {
             </span>
           </div>
           <div className="footer-text">
-            <p style={{ width: "500px", textAlign: "center" }}>
+            <p style={{ width: "450px", textAlign: "center" }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              type and scrambled it to make a type specimen book galley of
+              type and scrambled it.
             </p>
           </div>
           <div className="footer-social-icon">
-            <span>Social Links :</span>
+            <span>Social Links <i className="fa-solid fa-share-nodes"></i></span>
             <br />
             <br />
             <a href="#">
@@ -160,9 +163,9 @@ const Footer = () => {
               </i>
             </a>
           </div>
-        </div>
-        <div className="footer-menu" style={{ textAlign: "center" }}>
-          <ul>
+        </div><br />
+        <div className="footer-menu" style={{ textAlign: "center",color:"black" }}>
+          <ul style={{backgroundColor:"white",width:"30%",marginRight:"auto",marginLeft:"auto",padding:"8px",borderRadius:"50px"}}>
             <li>
               <a href="/Landing">Home</a>
             </li>

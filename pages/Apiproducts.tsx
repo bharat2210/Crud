@@ -53,6 +53,7 @@ const Apiproducts = () => {
   const [itemoutofstock, setitemoutofstock] = useState<boolean>(false);
   const [alreadywishlist, setalreadywishlist] = useState<boolean>(false);
   const [open, setopen] = useState<boolean>(false);
+  const[preDefinedCategory, setpreDefinedCategory] = useState("")
   
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
@@ -77,6 +78,14 @@ const Apiproducts = () => {
   useEffect(() => {
     dispatch(searchproductdata(search));
   }, [search]);
+
+  useEffect(() => {
+    const valueCat = JSON.parse(localStorage.getItem("Category"));
+    if (valueCat && valueCat.length > 0) {
+      setpreDefinedCategory(valueCat);
+      console.log("valueCat", valueCat);
+    }
+  }, []); 
 
   const handleaddtocart = (values: any) => {
     const existingitem = cart.find((item: any) => item._id === values._id);
@@ -369,6 +378,9 @@ const Apiproducts = () => {
         size="small"
         disablePortal
         id="combo-box-demo"
+       
+
+   
         options={
           apiproducts &&
           Array.from(new Set(apiproducts.map((data) => data.category)))
@@ -381,6 +393,7 @@ const Apiproducts = () => {
           setsearch(value);
         }}
       />
+     
 
       <br />
       <br />
@@ -421,7 +434,7 @@ const Apiproducts = () => {
             .slice(0, visibleItems)
             .map((product: any) => (
               <Card
-                sx={{ height: 540, width: 320 }}
+                sx={{ height: 542, width: 320 }}
                 key={product._id}
                 data-aos="fade-up"
                 className="card"
@@ -456,6 +469,7 @@ const Apiproducts = () => {
                           allowHalf
                           disabled
                           defaultValue={product.rating}
+                          style={{color:"rgb(255,164,28)"}}
                         />
                         <Typography
                           variant="body2"
@@ -497,7 +511,7 @@ const Apiproducts = () => {
                         ₹ {product.price}
                       </Typography>
 
-                      <Rate disabled defaultValue={product.rating} />
+                      <Rate disabled defaultValue={product.rating} style={{color:"rgb(255,164,28)"}} />
                       <Typography
                         variant="body2"
                         component="div"
@@ -525,27 +539,35 @@ const Apiproducts = () => {
                     <Button
                       size="small"
                       variant="contained"
+                      // sx={{
+                      //   backgroundColor:"rgb(255,164,28)",color:"black",borderRadius:"18px",width:"100%"
+                      // }}
                       onClick={() => handlestock(product._id)}
                     >
-                      Buy
+                      Buy Now
                     </Button>
 
                     <Tooltip
                       title="Add to Wishlist"
-                      color="green"
+                 
                       placement="top"
                     >
                       <Button
                         size="small"
-                        variant="outlined"
+                        variant="text"
                         onClick={() => handleaddtowish(product)}
+                        sx={{
+                          color:"red",
+                          fontSize:"15px"
+                        }}
                       >
                         &#10084;
                       </Button>
                     </Tooltip>
                     <Button
                       size="small"
-                      variant="outlined"
+                      variant="text"
+                      
                       onClick={() => {
                         setid(product._id);
                         // setshowdetails(true);
@@ -560,6 +582,11 @@ const Apiproducts = () => {
                   <Button
                     size="small"
                     variant="contained"
+                    sx={{
+                      backgroundColor:"rgb(35,47,62)",color:"white"
+                    
+                    }}
+                 
                     onClick={() => handleaddtocart(product)}
                   >
                     Add to Cart
@@ -570,9 +597,9 @@ const Apiproducts = () => {
       </Container>
       <br />
       <div ref={loadMoreButtonRef}></div>
-      {visibleItems < apiproducts.length && (
+      {visibleItems <= apiproducts.length && (
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="contained" onClick={handleLoadMore}>
+          <Button variant="contained" onClick={handleLoadMore} >
             Load More Items
           </Button>
         </div>

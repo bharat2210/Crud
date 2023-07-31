@@ -1,9 +1,16 @@
 @import 'aos/dist/aos.css';
 
-body{
+/* body{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: 400;
+} */
+
+  @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@700&family=Open+Sans:wght@500&family=Roboto&display=swap');
+
+
+
+*{
+    /* font-family: 'Heebo', sans-serif; */
+font-family: 'Open Sans', sans-serif;
+/* font-family: 'Roboto', sans-serif; */
 }
-
-
-

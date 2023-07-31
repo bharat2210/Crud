@@ -1,47 +1,76 @@
 // Next imports
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // Antd imports
-import { Col, Modal, Row } from "antd";
+import { Col, Drawer, FloatButton, Modal, Row, Space, Tooltip } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { Result } from "antd";
+import { Descriptions } from "antd";
+import { Button as AntButton } from "antd";
 // Redux imports
 import { useDispatch, useSelector } from "react-redux";
-import { createmessages } from "../Features/message";
+import {
+  createmessages,
+  getmessages,
+  updatemessage,
+} from "../Features/message";
 import { AppDispatch, RootState } from "../store";
 // Components imports
 import Loader from "./Loader";
-import { json } from "stream/consumers";
+// Libraries imports
+const moment = require('moment');
 
 const Contact = () => {
+  useEffect(() => {
+    dispatch(getmessages());
+  }, []);
   const dispatch: AppDispatch = useDispatch();
   const { isloading } = useSelector((state: RootState) => state.allmessages);
   const [firstname, setfirstName] = useState<string>("");
   const [lastname, setlastName] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const[requestbyname,setrequestbyname] = useState<string>("");
-  const[requestbyemail,setrequestbyemail] = useState<string>("");
+  const[date,setDate]=useState("");
+  const [requestbyname, setrequestbyname] = useState<string>("");
+  const [requestbyemail, setrequestbyemail] = useState<string>("");
   const [sendmessage, setsendmessage] = useState<boolean>(false);
+  const [openRecentQueryDrawer, setopenRecentQueryDrawer] =
+    useState<boolean>(false);
+  const [editQueryDrawer, seteditQueryDrawer] = useState<boolean>(false);
+  const [EditQueryId, setEditQueryId] = useState<number>();
+  const [QueryData, setQueryData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    message: "",
+    date:""
+  });
+  const currentDate = moment().format('DD-MM-YYYY');
+  useEffect(()=>{
+    setDate(currentDate)
+  },[currentDate])
 
-  // const userinfo={
-  //   fisrtname:firstname,
-  //   lastname:lastname,
-  //   email:email,
-  //   message:message
-  // }
-  const data= { firstname,email}
+  const data = { firstname, email };
+  const messages = useSelector(
+    (state: RootState) => state.allmessages.Messages
+  );
+  console.log("Messages", messages);
+  const singlemessage = messages.filter((data) => data._id === EditQueryId)[0];
+  console.log("singlemesage", singlemessage);
+  useEffect(() => {
+    setQueryData(singlemessage);
+  }, [singlemessage]);
+
   const handlesubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(createmessages({ firstname, lastname, email, message })).then(
+    dispatch(createmessages({ firstname, lastname, email, message,date})).then(
       () => {
-       
-        localStorage.setItem("createmessages",JSON.stringify(data))
-        const datagot= getStoredData();
-        console.log("localstorage",datagot)
-        const gotname=datagot.firstname;
-        const gotemail=datagot.email;
-        setrequestbyname(gotname)
-        setrequestbyemail(gotemail)
+        localStorage.setItem("createmessages", JSON.stringify(data));
+        const datagot = getStoredData();
+        console.log("localstorage", datagot);
+        const gotname = datagot.firstname;
+        const gotemail = datagot.email;
+        setrequestbyname(gotname);
+        setrequestbyemail(gotemail);
         setsendmessage(true);
         setfirstName("");
         setlastName("");
@@ -50,36 +79,47 @@ const Contact = () => {
       }
     ); // console.log(e)
   };
-  if (isloading) {
-    return <Loader />;
-  }
+
   const getStoredData = () => {
     const data = localStorage.getItem("createmessages");
     if (data) {
-      return (JSON.parse(data));
-      
+      return JSON.parse(data);
     }
     return null;
-  
   };
   const clearStoredData = () => {
-    localStorage.removeItem("createmessages")
+    localStorage.removeItem("createmessages");
+  };
+  const onok = () => {
+    setsendmessage(false);
+    clearStoredData();
+  };
+  const oncancel = () => {
+    setsendmessage(false);
+    clearStoredData();
+  };
+  const handleQueryEditSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(updatemessage({ id: singlemessage._id, ...QueryData })).then(
+      () => {
+        dispatch(getmessages());
+        seteditQueryDrawer(false);
+        setopenRecentQueryDrawer(true);
+      }
+    );
+  };
+  if (isloading) {
+    return <Loader />;
   }
-const onok=()=>{
-  setsendmessage(false);
-  clearStoredData();
-}
-const oncancel=()=>{
-  setsendmessage(false);
-  clearStoredData();
-}   
- 
 
   return (
-    <div>
+    <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@500&family=Roboto&display=swap" rel="stylesheet"/>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@500&family=Roboto&display=swap"
+        rel="stylesheet"
+      />
       <style>
         {`
         body{
@@ -162,15 +202,41 @@ const oncancel=()=>{
               color: #888; 
               font-size: 14px;
             }
+            .buttons{
+              display: flex;
+              flex-direction: row;
+              gap:10px;
+              
+            }
             `}
       </style>
+
+      <Tooltip title="See Recent Queries" placement="left">
+        <FloatButton
+          style={{
+            top: 110,
+            right: 10,
+            height:10,
+     
+          }}
+          shape="square"
+          onClick={() => setopenRecentQueryDrawer(true)}
+          icon={<i className="fa-solid fa-clock-rotate-left"></i>}
+          type="primary"
+        />
+      </Tooltip>
+      
       {sendmessage && (
         <Modal
           open={sendmessage}
           centered={true}
           cancelText="Close"
-          onOk={() => {onok()}}
-          onCancel={() => {oncancel()}}
+          onOk={() => {
+            onok();
+          }}
+          onCancel={() => {
+            oncancel();
+          }}
         >
           <Result
             icon={<SmileOutlined />}
@@ -178,14 +244,23 @@ const oncancel=()=>{
           />
         </Modal>
       )}
-      <div className="main-container" style={{width:"100%",height:"auto",backgroundColor:"transparent"}}>
-        <h1 style={{ textAlign: "center", color: "black" }}>Contact Us</h1><br />
+      <div
+        className="main-container"
+        style={{
+          width: "100%",
+          height: "auto",
+          backgroundColor: "transparent",
+        }}
+      >
+        <h1 style={{ textAlign: "center", color: "black" }}>Contact Us</h1>
+        <br />
         <div className="row">
           <div className="column1">
-            <h2 style={{ color: "rgb(25,118,210)" }}>
-              We would Love to hear from you
-            </h2>
-             <br />
+            <h1 style={{ color: "rgb(25,118,210)" }}>
+              We would love to work <br />
+              with you
+            </h1>
+            <br />
             <p style={{ width: "430px", textAlign: "left", color: "black" }}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
               vestibulum ipsum sed felis laoreet, ut luctus nulla pulvinar.
@@ -200,18 +275,20 @@ const oncancel=()=>{
               Nullam efficitur, risus lacinia bibendum posuere, nisl justo
               ultrices sapien, sed pharetra nisi elit eget ex. Mauris maximus
               lorem et leo sodales, in porttitor eros consectetur.
-            </p><br />
+            </p>
+            <br />
             <p style={{ fontWeight: "900", color: "green" }}>
               Available 24X7 Just for you <br />
               TollFree Number : 1800 180 3000
             </p>
-          </div><br />
+          </div>
+          <br />
           <div className="column2">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1587.958537621464!2d76.6978035315703!3d30.71333548648994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fefd89ee56eeb%3A0x489a927bc5c0de0a!2sWiznox%20Technologies!5e0!3m2!1sen!2sin!4v1690261761317!5m2!1sen!2sin"
               width="500"
               height="400"
-              style={{ border: "0",borderRadius:"12px" }}
+              style={{ border: "0", borderRadius: "12px" }}
               loading="lazy"
             ></iframe>
           </div>
@@ -224,18 +301,21 @@ const oncancel=()=>{
           height: "auto",
           width: "100%",
           borderRadius: "18px",
-          padding:"0px 0px 8px 0px",
-          marginTop:"50px"
+          padding: "0px 0px 8px 0px",
+          marginTop: "50px",
         }}
       >
-        <br /><br /><br />
+        <br />
+        <br />
+        <br />
         <h1 style={{ textAlign: "center", color: "black" }}>
-        Share your valuable feedback, suggestions !
+          Share your valuable feedback, suggestions !
         </h1>
         <h2 style={{ textAlign: "center", color: "black" }}>
           We Care about you ❤️
         </h2>
-        <br /><br />
+        <br />
+        <br />
         <div className="form">
           <form action="" onSubmit={handlesubmit}>
             <Row style={{ marginLeft: "350px" }}>
@@ -299,9 +379,14 @@ const oncancel=()=>{
                   required
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  cols={102}
+                  cols={112}
                   rows={16}
-                  style={{ borderRadius: "12px", border: "none",color:"black",fontWeight:"900" }}
+                  style={{
+                    borderRadius: "12px",
+                    border: "none",
+                    color: "black",
+                    fontWeight: "900",
+                  }}
                   placeholder="Your message"
                   className="custom-textarea"
                 ></textarea>
@@ -334,9 +419,158 @@ const oncancel=()=>{
           </form>
         </div>
       </div>
+
+      {/* Recent Query Open Drawer */}
+      <Drawer
+        open={openRecentQueryDrawer}
+        onClose={() => setopenRecentQueryDrawer(false)}
+        zIndex={9999}
+        width={550}
+        extra={
+          <Space>
+            <AntButton type="primary" onClick={()=>setopenRecentQueryDrawer(false)}>Close</AntButton>
+          </Space>
+        }
+      >
+        <h2>Recent Queries</h2>
+        <br />
+        {messages &&
+          messages?.map((data) => (
+            <React.Fragment key={data._id}>
+              <Descriptions bordered={true} layout="vertical">
+                <Descriptions.Item label="UserName">
+                  {data.firstname} {data.lastname}
+                </Descriptions.Item>
+                <Descriptions.Item label="Email">
+                  {data.email}
+                </Descriptions.Item>
+                <Descriptions.Item label="Actions">
+                  <div className="buttons">
+                    <AntButton
+                      type="primary"
+                      onClick={() => {
+                        seteditQueryDrawer(true);
+                        setEditQueryId(data._id);
+                        setopenRecentQueryDrawer(false);
+                      }}
+                    >
+                      Edit & Send Again
+                    </AntButton>
+                    {/* <AntButton danger>Delete</AntButton> */}
+                  </div>
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label="Message"
+                  span={2}
+                  style={{ fontWeight: "900" }}
+                >
+                  {data.message}
+                </Descriptions.Item>
+                <Descriptions.Item
+                  label="Sent on"
+                  span={2}
+                  contentStyle={{color:"red"}}
+                 
+                >
+                  {data.date ? data.date :"31/07/2023"}
+                </Descriptions.Item>
+
+              </Descriptions><br />
+
+         
+            </React.Fragment>
+          ))}
+      </Drawer>
+      {/* Edit Query Drawer */}
+      <Drawer
+        open={editQueryDrawer}
+        onClose={() => {
+          seteditQueryDrawer(false);
+          setopenRecentQueryDrawer(true);
+        }}
+        width={320}
+        zIndex={9999}
+        extra={
+          <Space>
+            <AntButton type="primary" onClick={()=>seteditQueryDrawer(false)}>Cancel</AntButton>
+          </Space>
+        }
+      >
+        <h2>Edit Query</h2>
+        <br />
+        <form action="" onSubmit={handleQueryEditSubmit}>
+          <Row>
+            <Col span={24}>
+              <input
+                type="text"
+                style={{ width: "100%", padding: "6px" }}
+                value={QueryData?.firstname}
+                onChange={(e) =>
+                  setQueryData((prevValue) => ({
+                    ...prevValue,
+                    firstname: e.target.value,
+                  }))
+                }
+              />
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={24}>
+              <input
+                type="text"
+                style={{ width: "100%", padding: "6px" }}
+                value={QueryData?.lastname}
+                onChange={(e) =>
+                  setQueryData((prevValue) => ({
+                    ...prevValue,
+                    lastname: e.target.value,
+                  }))
+                }
+              />
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={24}>
+              <input
+                type="text"
+                style={{ width: "100%", padding: "6px" }}
+                value={QueryData?.email}
+                onChange={(e) =>
+                  setQueryData((prevValue) => ({
+                    ...prevValue,
+                    email: e.target.value,
+                  }))
+                }
+              />
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col span={24}>
+              <textarea
+                name=""
+                id=""
+                cols={37}
+                rows={8}
+                value={QueryData?.message}
+                onChange={(e) =>
+                  setQueryData((prevValue) => ({
+                    ...prevValue,
+                    message: e.target.value,
+                  }))
+                }
+              ></textarea>
+            </Col>
+          </Row>
+          <br />
+          <AntButton htmlType="submit">Submit</AntButton>
+        </form>
+      </Drawer>
       <br />
       <br />
-    </div>
+    </>
   );
 };
 export default Contact;

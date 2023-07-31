@@ -1,12 +1,14 @@
 import { AnyAction, createAsyncThunk,createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { update } from "lodash";
 
 interface request{
     _id:number;
     firstname: string;
-    lastname?: string;
+    lastname: string;
     email:string;
     message:string;
+    date:string;
 
 }
 
@@ -80,6 +82,23 @@ export const formatmessages=createAsyncThunk("formatmessages",async(data)=>{
     }
 })
 
+// Update message from client side
+export const updatemessage=createAsyncThunk("updatemessage",async(data)=>{
+  const{id, ...updata}:any=data
+  try{
+    const response = await axios.put(`http://localhost:3000/api/editQuery?id=${id}`,updata,{
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
+    return response.data
+  }catch(error){
+    throw new Error("Error in updating")
+  }
+})
+
+
 
   const messageSlice=createSlice({
     name:"messageSlice",
@@ -134,6 +153,19 @@ export const formatmessages=createAsyncThunk("formatmessages",async(data)=>{
         state.isloading=false;
         state.error= null;
       })
+      // .addCase(updatemessage.pending,(state,action)=>{
+      //   state.isloading=true;
+      // })
+      // .addCase(updatemessage.fulfilled,(state,action)=>{
+      //   state.isloading=false;
+      //   const updateddata=action.payload
+      //   const index= state.Messages.findIndex((data)=>data._id=== updateddata._id);
+      //   state.Messages[index] = updateddata
+      // })
+      // .addCase(updatemessage.rejected,(state,action)=>{
+      //   state.isloading=false;
+      //   alert("Error in updating")
+      // })
     }
  });
  export default messageSlice.reducer;
