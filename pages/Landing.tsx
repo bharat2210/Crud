@@ -11,6 +11,11 @@ import Carousel from "../Components/Carousel";
 // Libraries imports
 import Aos from "aos";
 import Link from "next/link";
+// Redux imports
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { useDispatch } from "react-redux";
+import { getCategoryAction } from "../Features/Category";
 
 const images = [
   {
@@ -58,11 +63,17 @@ const images = [
 ];
 const { Meta } = Card;
 const Landing = () => {
+  const dispatch:AppDispatch=useDispatch()
+  const {categories}=useSelector((state:RootState)=>state.allcategories)
 
   // AOS initialisation
   useEffect(() => {
     Aos.init();
   }, []);
+
+  useEffect(()=>{
+    dispatch(getCategoryAction())
+  },[])
 
   return (
     <>
@@ -270,14 +281,14 @@ const Landing = () => {
         <div className="cards" data-aos="fade-right">
           <Container>
             <Row gutter={[12, 12]}>
-              {images.map((data) => (
-                <Col>
+              {categories && categories?.map((data) => (
+                <Col key={data._id}>
                   <Card
                     hoverable
                     style={{ width: 370 }}
                     cover={
                       <Link href="/Apiproducts" style={{ textAlign: "center" }}>
-                        <img alt="example" src={data.imgpath} height={255} />
+                        <img alt="example" src={data.imgPath} height={255} />
                       </Link>
                     }
                   >

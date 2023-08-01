@@ -1,4 +1,4 @@
-import { AnyAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { AnyAction, PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 
@@ -60,7 +60,7 @@ export const deleteDemo = createAsyncThunk("deleteDemo", async (id, data) => {
 });
 // Update action
 export const updateDemo = createAsyncThunk("updateDemo", async (data) => {
-  const { id, ...payloaddata } = data;
+  const { id, ...payloaddata }:any = data;
   try {
     let response = await axios.put(
       `http://localhost:3000/api/update1?id=${id}`,
@@ -129,7 +129,7 @@ const demoslice = createSlice({
       .addCase(updateDemo.fulfilled, (state, action) => {
         state.isloading = false;
       })
-      .addCase(updateDemo.rejected, (state, action: AnyAction) => {
+      .addCase(updateDemo.rejected, (state, action:AnyAction) => {
         state.isloading = false;
         state.error = action.payload.message || null;
       })

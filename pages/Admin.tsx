@@ -79,6 +79,12 @@ import {
   Paper,
 } from "@mui/material";
 import Button from "@mui/material/Button";
+import {
+  addCategoryAction,
+  deleteCategoryAction,
+  getCategoryAction,
+  updateCategoryAction,
+} from "../Features/Category";
 
 interface ProductData {
   title: string;
@@ -119,6 +125,19 @@ const Admin = () => {
   const [ImageUpdateId, setImageupdateId] = useState<number>();
   const [imgPath, setimgPath] = useState<string>("");
   const [title, settitle] = useState<string>("");
+  const [openCategoryDrawer, setopenCategoryDrawer] = useState<boolean>(false);
+  const [addCategoryDrawer, setaddCategoryDrawer] = useState<boolean>(false);
+  const [categoryImgpath, setcategoryImgpath] = useState<string>("");
+  const [categoryTitle, setcategoryTitle] = useState<string>("");
+  const [categoryDescription, setcategoryDescription] = useState<string>("");
+  const [categoryId, setcategoryId] = useState<number>();
+  const [updateCategoryDrawer, setupdateCategoryDrawer] =
+    useState<boolean>(false);
+  const [updatedCategory, setupdatedCategory] = useState({
+    imgPath: "",
+    title: "",
+    description: "",
+  });
   const allproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts
   );
@@ -158,12 +177,20 @@ const Admin = () => {
 
   // STAT END
 
+  const { categories } = useSelector((state: RootState) => state.allcategories);
+  const singleCategory= categories.filter((data)=>data._id === categoryId)[0];
+
+useEffect(()=>{
+  setupdatedCategory(singleCategory)
+},[singleCategory]);
+
   useEffect(() => {
     dispatch(getproducts());
     dispatch(getmessages());
     dispatch(showuser());
     dispatch(readuser());
     dispatch(getImages());
+    dispatch(getCategoryAction());
   }, []);
 
   const { images } = useSelector((state: RootState) => state.allimages);
@@ -383,6 +410,36 @@ const Admin = () => {
     );
   };
 
+  const handleCategorysubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(
+      addCategoryAction({
+        imgPath: categoryImgpath,
+        title: categoryTitle,
+        description: categoryDescription,
+      })
+    ).then(() => {
+      dispatch(getCategoryAction());
+      setaddCategoryDrawer(false);
+      setopenCategoryDrawer(true);
+    });
+  };
+
+  const handleconfirmCategoryDelete = () => {
+    dispatch(deleteCategoryAction(categoryId)).then(() => {
+      dispatch(getCategoryAction());
+    });
+  };
+
+  const handleUpdateCategory=(e:React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault();
+    dispatch(updateCategoryAction({id:singleCategory._id,...updatedCategory})).then(()=>{
+      dispatch(getCategoryAction());
+      setupdateCategoryDrawer(false)
+      setopenCategoryDrawer(true)
+    })
+  }
+
   const currenttime = new Date();
   const currentHour = currenttime.getHours();
   // console.log(currenttime);
@@ -436,16 +493,6 @@ const Admin = () => {
         .fa-bag-shopping{
             color:red;
           }
-          .form{
-            width:500px;
-          }
-        .formclass{
-          padding-top:8px;
-          padding-bottom:8px;
-          border-radius:8px;
-        }
-
-     
           .textarea{
             width:100%;
             border-radius:8px;
@@ -513,7 +560,7 @@ const Admin = () => {
       <Tooltip title="Queries" placement="right">
         <div
           className="badge"
-          style={{ position: "fixed", left: "28px", top: "291px" }}
+          style={{ position: "fixed", left: "29px", top: "291px" }}
         >
           <Badge count={lengthofquery}>
             <i
@@ -527,13 +574,28 @@ const Admin = () => {
         </div>
       </Tooltip>
 
+      {/* Category Tooltip */}
+      <Tooltip title="Categories" placement="right">
+        <div
+          className="badge"
+          style={{ position: "fixed", left: "25px", top: "340px" }}
+        >
+          <i
+            className="fa-solid fa-cart-shopping"
+            style={{ fontSize: "28px", color: "rgb(22,119,254)" }}
+            onClick={() => {
+              setopenCategoryDrawer(true);
+            }}
+          ></i>
+        </div>
+      </Tooltip>
+
       {/* Carousel Image Tooltip */}
       <Tooltip title="Carousel Images" placement="left">
         <FloatButton
           style={{
             left: 28,
             top: 230,
-            
           }}
           icon={<i className="fa-solid fa-image"></i>}
           type="primary"
@@ -541,13 +603,12 @@ const Admin = () => {
         />
       </Tooltip>
 
-         {/* New Product add toottip Button */}
-         <Tooltip title="Add New Product" placement="right">
-      <FloatButton
+      {/* New Product add toottip Button */}
+      <Tooltip title="Add New Product" placement="right">
+        <FloatButton
           style={{
             top: 170,
             left: 25,
-         
           }}
           type="primary"
           icon={<i className="fa-solid fa-plus"></i>}
@@ -567,8 +628,6 @@ const Admin = () => {
           onClick={openstat}
         />
       </Tooltip>
-
-   
 
       <Container>
         <div className="controls">
@@ -593,7 +652,6 @@ const Admin = () => {
               setsearch(value);
             }}
           />{" "}
-      
         </div>
 
         <br />
@@ -733,88 +791,85 @@ const Admin = () => {
         <form action="#" onSubmit={handleupdate}>
           <Row gutter={12}>
             <Col span={24}>
-              <label htmlFor="Title">Title</label>
-              <br />
-
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Title"
+                variant="outlined"
                 type="text"
                 value={updatedata?.title}
                 onChange={(e) =>
-                  setupdatedata((prevvalue) => ({
-                    ...prevvalue,
+                  setupdatedata((prevstate) => ({
+                    ...prevstate,
                     title: e.target.value,
                   }))
                 }
-                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row gutter={12}>
             <Col span={24}>
-              <label htmlFor="Price">Price</label>
-              <br />
-
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Price"
+                variant="outlined"
                 type="number"
                 value={updatedata?.price}
                 onChange={(e) =>
-                  setupdatedata((prevvalue) => ({
-                    ...prevvalue,
+                  setupdatedata((prevstate) => ({
+                    ...prevstate,
                     price: Number(e.target.value),
                   }))
                 }
-                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row gutter={12}>
             <Col span={24}>
-              <label htmlFor="Stock">Stock</label>
-              <br />
-
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Stock"
+                variant="outlined"
                 type="number"
                 value={updatedata?.stock}
                 onChange={(e) =>
-                  setupdatedata((prevvalue) => ({
-                    ...prevvalue,
+                  setupdatedata((prevstate) => ({
+                    ...prevstate,
                     stock: Number(e.target.value),
                   }))
                 }
-                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row gutter={12}>
             <Col span={24}>
-              <label htmlFor="Storage">Storage</label>
-              <br />
-
-              <input
-                type="string"
+              <TextField
+                id="outlined-basic"
+                label="Storage"
+                variant="outlined"
+                type="text"
                 value={updatedata?.storage}
                 onChange={(e) =>
-                  setupdatedata((prevvalue) => ({
-                    ...prevvalue,
+                  setupdatedata((prevstate) => ({
+                    ...prevstate,
                     storage: e.target.value,
                   }))
                 }
-                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row gutter={12}>
             <Col span={24}>
-              <label htmlFor="Image">Image</label>
-              <br />
-
               <textarea
                 rows={7}
-                cols={10}
+                cols={12}
                 value={updatedata?.img.join(",")}
                 onChange={(e) =>
                   setupdatedata((prevvalue) => ({
@@ -822,7 +877,7 @@ const Admin = () => {
                     img: e.target.value.split(","),
                   }))
                 }
-                style={{ width: "80%", padding: 8, borderRadius: 8 }}
+                style={{ width: "100%", padding: 8, borderRadius: 8 }}
               ></textarea>
             </Col>
           </Row>
@@ -837,6 +892,7 @@ const Admin = () => {
           </Row>
         </form>
       </Drawer>
+
       {/* New product add drawer */}
       <Drawer
         title="Add New Product"
@@ -852,36 +908,35 @@ const Admin = () => {
         }
         zIndex={9999}
       >
-        <form action="#" onSubmit={handlesubmit} className="form">
+        <form action="#" onSubmit={handlesubmit}>
           {/* 1st row */}
-          <Row gutter={[12,12]}>
+          <Row gutter={[12, 12]}>
             <Col span={12}>
-              <input
-                type="text"
+              <TextField
+                id="outlined-basic"
+                label="Title"
+                variant="outlined"
                 name="title"
-                placeholder="Enter Title"
-                required
-                style={{width:"100%"}}
-                className="formclass"
-
-              
-              />
-            </Col><br />
-            <Col span={12}>
-              <input
-                type="number"
-                name="price"
-                placeholder="Enter Price"
-                required
-                 className="formclass"
-                style={{width:"100%"}}
+                type="text"
+                sx={{ width: "100%" }}
               />
             </Col>
-         
-          <br />
+            <br />
+            <Col span={12}>
+              <TextField
+                id="outlined-basic"
+                label="Price"
+                variant="outlined"
+                name="price"
+                type="number"
+                sx={{ width: "100%" }}
+              />
+            </Col>
 
-          {/* 2nd row */}
-        
+            <br />
+
+            {/* 2nd row */}
+
             <Col span={24}>
               <textarea
                 rows={4}
@@ -892,27 +947,27 @@ const Admin = () => {
                 className="textarea"
                 value={imageurls.join(",")}
                 onChange={(e) => setimageurls(e.target.value.split(","))}
-                
               ></textarea>
             </Col>
-      
-          <br />
-   
+
+            <br />
+
             <Col span={24}>
-              <input
-                type="number"
+              <TextField
+                id="outlined-basic"
+                label="Quantity"
+                variant="outlined"
                 name="quantity"
-                placeholder="Enter Quantity"
-                value={1}
-                disabled
-                className="formclass"
-                style={{width:"100%"}}
+                type="number"
+                defaultValue={1}
+                disabled={true}
+                sx={{ width: "100%" }}
               />
             </Col>
-        
-          <br />
-          {/* 3rd row */}
-       
+
+            <br />
+            {/* 3rd row */}
+
             <Col span={24}>
               <textarea
                 name="description"
@@ -922,34 +977,49 @@ const Admin = () => {
                 required
               ></textarea>
             </Col>
-    
-          <br />
-          {/* 4th Row */}
-    
+
+            <br />
+            {/* 4th Row */}
+
             <Col span={12}>
-              <input
-                type="number"
+              <TextField
+                id="outlined-basic"
+                label="Ratings"
+                variant="outlined"
                 name="rating"
-                placeholder="Enter a number between 0-5"
-                required
-                className="formclass"
-                style={{width:"100%"}}
+                type="number"
+                InputProps={{
+                  inputProps: {
+                    min: 1,
+                    max: 5,
+                    step: 0.1, // To allow decimal numbers
+                  },
+                }}
+                sx={{ width: "100%" }}
               />
             </Col>
             <Col span={12}>
-              <input
+              {/* <input
                 type="text"
                 name="size"
                 placeholder="Enter size"
                 required
                 className="formclass"
-                style={{width:"100%"}}
+                style={{ width: "100%" }}
+              /> */}
+              <TextField
+                id="outlined-basic"
+                label="Resolution"
+                variant="outlined"
+                name="size"
+                type="text"
+                sx={{ width: "100%" }}
               />
             </Col>
-       
-          <br />
-          {/* 5th Row */}
-         
+
+            <br />
+            {/* 5th Row */}
+
             <Col span={24}>
               <textarea
                 name="full"
@@ -959,70 +1029,86 @@ const Admin = () => {
                 required
               ></textarea>
             </Col>
-        
-          <br />
-          {/* 6th row */}
-        
+
+            <br />
+            {/* 6th row */}
+
             <Col span={12}>
-              <input
+              {/*}  <input
                 type="text"
                 name="color"
                 placeholder="Define Color"
                 required
                 className="formclass"
-                style={{width:"100%"}}
-              />
-            </Col>
-            <Col span={12}>
-              <input
+                style={{ width: "100%" }}
+              /> */}
+              <TextField
+                id="outlined-basic"
+                label="Color"
+                variant="outlined"
+                name="color"
                 type="text"
+                sx={{ width: "100%" }}
+              />
+            </Col>
+            <Col span={12}>
+              <TextField
+                id="outlined-basic"
+                label="Storage"
+                variant="outlined"
                 name="storage"
-                placeholder="Enter Storage"
-                required
-                className="formclass"
-                style={{width:"100%"}}
+                type="text"
+                sx={{ width: "100%" }}
               />
             </Col>
-         
-          <br />
 
-          {/* 7th row */}
-        
+            <br />
+
+            {/* 7th row */}
+
             <Col span={12}>
-              <input
-                type="boolean"
+              <TextField
+                id="outlined-basic"
+                label="New or Not"
+                variant="outlined"
                 name="ribbon"
-                placeholder="New or not"
-                required
-                className="formclass"
-                style={{width:"100%"}}
+                type="boolean"
+                sx={{ width: "100%" }}
               />
             </Col>
             <Col span={12}>
-              <input
-                type="number"
+              <TextField
+                id="outlined-basic"
+                label="Stock"
+                variant="outlined"
                 name="stock"
-                placeholder="Enter Stock"
-                required
-                className="formclass"
-                style={{width:"100%"}}
+                type="number"
+                sx={{ width: "100%" }}
               />
             </Col>
 
-          <br />
-          {/* 8th row */}
-       
+            <br />
+            {/* 8th row */}
+
             <Col span={24}>
-              <input
+              {/* <input
                 type="text"
                 name="category"
                 placeholder="Enter Category"
                 required
                 className="formclass"
-                style={{width:"100%"}}
+                style={{ width: "100%" }}
+              /> */}
+              <TextField
+                id="outlined-basic"
+                label="Category"
+                variant="outlined"
+                name="category"
+                type="text"
+                sx={{ width: "100%" }}
               />
             </Col>
-         </Row>
+          </Row>
           <br />
           {/* 9th row */}
           <Row>
@@ -1034,6 +1120,7 @@ const Admin = () => {
           </Row>
         </form>
       </Drawer>
+
       {/* Statistics Drawer */}
       <Drawer
         open={stat}
@@ -1173,6 +1260,7 @@ const Admin = () => {
           Close
         </AntButton>
       </Drawer>
+
       {/* Queries Drawer */}
       <Drawer
         open={querybox}
@@ -1258,15 +1346,16 @@ const Admin = () => {
                 <Descriptions.Item
                   label="Received on"
                   span={2}
-                contentStyle={{color:"red"}}
+                  contentStyle={{ color: "red" }}
                 >
                   {data.date ? data.date : "31/7/2023"}
                 </Descriptions.Item>
-              </Descriptions><br />
-             
+              </Descriptions>
+              <br />
             </React.Fragment>
           ))}
       </Drawer>
+
       {/* Images Carousel Drawer */}
       <Drawer
         open={editImage}
@@ -1321,6 +1410,7 @@ const Admin = () => {
             </Row>
           ))}
       </Drawer>
+
       {/* Add image in Carousel Drawer */}
       <Drawer
         open={imageadddrawer}
@@ -1330,36 +1420,44 @@ const Admin = () => {
         zIndex={9999}
       >
         <h2>Add Image</h2>
+        <br />
         <form action="" onSubmit={handleimageSubmit}>
           <Row>
             <Col span={24}>
-              <input
-                type="text"
-                placeholder="Enter image url"
+              <TextField
+                id="outlined-basic"
+                label="Upload Image"
+                variant="outlined"
                 name="imgPath"
+                type="text"
                 value={imgPath}
                 onChange={(e) => setimgPath(e.target.value)}
-                style={{ padding: "6px", width: "100%" }}
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col span={24}>
-              <input
-                type="text"
-                placeholder="Enter image title"
+              <TextField
+                id="outlined-basic"
+                label="Title"
+                variant="outlined"
                 name="title"
+                type="text"
                 value={title}
                 onChange={(e) => settitle(e.target.value)}
-                style={{ padding: "6px", width: "100%" }}
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
-          <AntButton htmlType="submit">Submit</AntButton>
+          <AntButton htmlType="submit" type="primary">
+            Submit
+          </AntButton>
         </form>
       </Drawer>
+
       {/* Update Image Carousel Drawer */}
       <Drawer
         title="Update Image Title"
@@ -1378,42 +1476,202 @@ const Admin = () => {
         <form action="" onSubmit={hanldeImageUpdate}>
           <Row>
             <Col span={24}>
-              <label htmlFor="Image Url">Image Url</label>
-              <br />
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Uploaded Image"
+                variant="outlined"
                 type="text"
-                style={{ padding: "8px", width: "100%" }}
                 value={updateImage?.imgPath}
                 onChange={(e) =>
-                  setupdateImage((prevValue) => ({
-                    ...prevValue,
+                  setupdateImage((prevstate) => ({
+                    ...prevstate,
                     imgPath: e.target.value,
                   }))
                 }
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col span={24}>
-              <label htmlFor="Image Title">Image Title</label>
-              <br />
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Title"
+                variant="outlined"
                 type="text"
-                placeholder="Enter new Title"
-                style={{ padding: "8px", width: "100%" }}
                 value={updateImage?.title}
                 onChange={(e) =>
-                  setupdateImage((prevValue) => ({
-                    ...prevValue,
+                  setupdateImage((prevstate) => ({
+                    ...prevstate,
                     title: e.target.value,
                   }))
                 }
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
-          <AntButton htmlType="submit">Submit</AntButton>
+          <AntButton htmlType="submit" type="primary">
+            Submit
+          </AntButton>
+        </form>
+      </Drawer>
+
+      {/* Category open Drawer */}
+      <Drawer
+        open={openCategoryDrawer}
+        onClose={() => setopenCategoryDrawer(false)}
+        zIndex={9999}
+        placement="left"
+        width={450}
+        extra={
+          <Space>
+            <AntButton
+              type="primary"
+              onClick={() => setopenCategoryDrawer(false)}
+            >
+              Close
+            </AntButton>
+
+            <AntButton
+              onClick={() => {
+                setaddCategoryDrawer(true);
+                setopenCategoryDrawer(false);
+              }}
+            >
+              Add Category
+            </AntButton>
+          </Space>
+        }
+      >
+        <h2>Categories</h2>
+        <br />
+        {categories &&
+          categories.map((data) => (
+            <Card
+              style={{ width: 330 }}
+              key={data._id}
+              cover={<img alt="example" src={data.imgPath} />}
+              actions={[
+                <EditOutlined
+                  key="edit"
+                  onClick={() => {
+                    setcategoryId(data._id);
+                    setopenCategoryDrawer(false);
+                    setupdateCategoryDrawer(true);
+                  }}
+                />,
+                <Popconfirm
+                  title="Delete Category"
+                  description="Are you sure you want to delete this category"
+                  okText="Yes"
+                  cancelText="No"
+                  zIndex={9999}
+                  onConfirm={handleconfirmCategoryDelete}
+                >
+                  <DeleteOutlined onClick={() => setcategoryId(data._id)} />
+                </Popconfirm>
+              ]}
+            >
+              <Meta title={data.title} description={data.description} />
+            </Card>
+          ))}
+      </Drawer>
+
+      {/* Add new Category Drawer */}
+      <Drawer
+        open={addCategoryDrawer}
+        onClose={() => setaddCategoryDrawer(false)}
+        zIndex={9999}
+        placement="left"
+        width={350}
+        extra={
+          <Space>
+            <AntButton danger onClick={() => setaddCategoryDrawer(false)}>
+              Cancel
+            </AntButton>
+          </Space>
+        }
+      >
+        <h2>Add Category</h2>
+        <br />
+        <form action="#" onSubmit={handleCategorysubmit}>
+          <TextField
+            name="imgPath"
+            label="Image URL"
+            value={categoryImgpath}
+            onChange={(e) => setcategoryImgpath(e.target.value)}
+            sx={{ width: "100%" }}
+          />{" "}
+          <br />
+          <br />
+          <TextField
+            name="title"
+            label="Title"
+            value={categoryTitle}
+            onChange={(e) => setcategoryTitle(e.target.value)}
+            sx={{ width: "100%" }}
+          />{" "}
+          <br />
+          <br />
+          <TextField
+            name="description"
+            label="Description"
+            value={categoryDescription}
+            onChange={(e) => setcategoryDescription(e.target.value)}
+            sx={{ width: "100%" }}
+          />{" "}
+          <br />
+          <br />
+          <AntButton htmlType="submit" type="primary">
+            Submit
+          </AntButton>
+        </form>
+      </Drawer>
+
+      {/* Update Category Drawer */}
+      <Drawer
+        open={updateCategoryDrawer}
+        onClose={() => setupdateCategoryDrawer(false)}
+        zIndex={9999}
+        width={350}
+        placement="left"
+      >
+        <h2>Update Category</h2><br />
+        <form action="" onSubmit={handleUpdateCategory}>
+      <TextField
+      label="Image Url"
+      value={updatedCategory?.imgPath}
+      onChange={(e)=>setupdatedCategory((prevValue)=>({
+        ...prevValue,
+        imgPath:e.target.value
+      }))}
+      sx={{width:"100%"}}
+      
+      /> <br /><br />
+      <TextField
+      label="Title"
+      value={updatedCategory?.title}
+      onChange={(e)=>setupdatedCategory((prevValue)=>({
+        ...prevValue,
+        title:e.target.value
+      }))}
+      sx={{width:"100%"}}
+      /> <br /><br />
+      <TextField
+      label="Description"
+      value={updatedCategory?.description}
+      onChange={(e)=>setupdatedCategory((prevValue)=>({
+        ...prevValue,
+        description:e.target.value
+      }))}
+      sx={{width:"100%"}}
+      
+      /> <br /><br />
+      <AntButton htmlType="submit" type="primary">Update</AntButton>
+
+
         </form>
       </Drawer>
 

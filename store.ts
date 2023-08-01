@@ -7,6 +7,7 @@ import demoslice  from './Features/exp';
 import pinslice  from './Features/pin';
 import messageSlice from './Features/message'
 import imgSlice from './Features/imageCarousel'
+import categorySlice from './Features/Category'
 
 
 
@@ -19,7 +20,8 @@ export const store = configureStore({
     alldemo: demoslice,
     allcode:pinslice,
     allmessages:messageSlice,
-    allimages:imgSlice
+    allimages:imgSlice,
+    allcategories:categorySlice
  
     
 

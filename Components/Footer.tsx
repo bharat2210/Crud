@@ -20,13 +20,13 @@ const Footer = () => {
       
 
 .footer-section {
-  background:rgb(35,47,62);
+  background:rgb(55,71,90);
   color: white;
   padding: 25px 15px 0px 15px;
-  width: 98%;
+  width: auto;
   height:auto;
   margin-top:30px;
-  border-radius:100px 0px 0px 0px;
+  border-radius:95px 0px 0px 0px;
   
 }
 
@@ -106,10 +106,10 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-logo">
             <SketchOutlined
-              style={{ fontSize: "80px", color:"white"}}
+              style={{ fontSize: "50px", color:"white"}}
             />{" "}
             <br />
-            <span style={{ textAlign: "center", fontSize: "24px" }}>
+            <span style={{ textAlign: "center", fontSize: "18px" }}>
               Shopeee
             </span>
           </div>
@@ -173,7 +173,7 @@ const Footer = () => {
               <a href="/Apiproducts">Products</a>
             </li>
             <li>
-              <a href="/Uns">Gallery</a>
+              <a href="/Gallery">Gallery</a>
             </li>
             <li>
               <a href="/Contactus">Contact</a>

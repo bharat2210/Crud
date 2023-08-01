@@ -35,9 +35,10 @@ import {
   HeartOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import {Button as AntButton} from 'antd'
 // Styles imports
 import styles from "../styles/confirm.module.css";
-import Footer from "../Components/Footer";
+
 
 
 
@@ -399,7 +400,7 @@ const Apiproducts = () => {
       <br />
       <br />
 
-      <Tooltip title="See Wishlist" color="dodgerblue" placement="left">
+      <Tooltip title="Wishlist"  placement="left">
         <FloatButton
           badge={{ count: wishlist.length, color: "blue" }}
           icon={<HeartOutlined />}
@@ -536,16 +537,16 @@ const Apiproducts = () => {
                 </CardContent>
                 <CardActions>
                   <Stack spacing={2} direction="row">
-                    <Button
+                    <AntButton
                       size="small"
-                      variant="contained"
+                      type="primary"
                       // sx={{
                       //   backgroundColor:"rgb(255,164,28)",color:"black",borderRadius:"18px",width:"100%"
                       // }}
                       onClick={() => handlestock(product._id)}
                     >
                       Buy Now
-                    </Button>
+                    </AntButton>
 
                     <Tooltip
                       title="Add to Wishlist"
@@ -558,10 +559,10 @@ const Apiproducts = () => {
                         onClick={() => handleaddtowish(product)}
                         sx={{
                           color:"red",
-                          fontSize:"15px"
+                          fontSize:"18px"
                         }}
                       >
-                        &#10084;
+                      <i className="fa-solid fa-heart"></i>
                       </Button>
                     </Tooltip>
                     <Button
@@ -582,10 +583,13 @@ const Apiproducts = () => {
                   <Button
                     size="small"
                     variant="contained"
-                    sx={{
-                      backgroundColor:"rgb(35,47,62)",color:"white"
+                    // sx={{
+                    //   backgroundColor:"rgb(55,71,90)",color:"white",
                     
-                    }}
+                    // }}
+                    sx={{ "&:hover": { backgroundColor: "rgb(55,71,90)" },
+                  backgroundColor:"rgb(55,71,90)",color:"white",
+                  } }
                  
                     onClick={() => handleaddtocart(product)}
                   >
@@ -597,11 +601,11 @@ const Apiproducts = () => {
       </Container>
       <br />
       <div ref={loadMoreButtonRef}></div>
-      {visibleItems <= apiproducts.length && (
+      {visibleItems < apiproducts.length && (
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="contained" onClick={handleLoadMore} >
+          <AntButton type="primary" onClick={handleLoadMore} >
             Load More Items
-          </Button>
+          </AntButton>
         </div>
       )}
       <Tooltip title="Go to Top" color="black" placement="top">

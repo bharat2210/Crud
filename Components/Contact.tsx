@@ -16,8 +16,9 @@ import {
 import { AppDispatch, RootState } from "../store";
 // Components imports
 import Loader from "./Loader";
+import { TextField } from "@mui/material";
 // Libraries imports
-const moment = require('moment');
+const moment = require("moment");
 
 const Contact = () => {
   useEffect(() => {
@@ -29,7 +30,7 @@ const Contact = () => {
   const [lastname, setlastName] = useState<string>("");
   const [email, setemail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
-  const[date,setDate]=useState("");
+  const [date, setDate] = useState("");
   const [requestbyname, setrequestbyname] = useState<string>("");
   const [requestbyemail, setrequestbyemail] = useState<string>("");
   const [sendmessage, setsendmessage] = useState<boolean>(false);
@@ -42,12 +43,12 @@ const Contact = () => {
     lastname: "",
     email: "",
     message: "",
-    date:""
+    date: "",
   });
-  const currentDate = moment().format('DD-MM-YYYY');
-  useEffect(()=>{
-    setDate(currentDate)
-  },[currentDate])
+  const currentDate = moment().format("DD-MM-YYYY");
+  useEffect(() => {
+    setDate(currentDate);
+  }, [currentDate]);
 
   const data = { firstname, email };
   const messages = useSelector(
@@ -62,22 +63,22 @@ const Contact = () => {
 
   const handlesubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch(createmessages({ firstname, lastname, email, message,date})).then(
-      () => {
-        localStorage.setItem("createmessages", JSON.stringify(data));
-        const datagot = getStoredData();
-        console.log("localstorage", datagot);
-        const gotname = datagot.firstname;
-        const gotemail = datagot.email;
-        setrequestbyname(gotname);
-        setrequestbyemail(gotemail);
-        setsendmessage(true);
-        setfirstName("");
-        setlastName("");
-        setemail("");
-        setMessage("");
-      }
-    ); // console.log(e)
+    dispatch(
+      createmessages({ firstname, lastname, email, message, date })
+    ).then(() => {
+      localStorage.setItem("createmessages", JSON.stringify(data));
+      const datagot = getStoredData();
+      console.log("localstorage", datagot);
+      const gotname = datagot.firstname;
+      const gotemail = datagot.email;
+      setrequestbyname(gotname);
+      setrequestbyemail(gotemail);
+      setsendmessage(true);
+      setfirstName("");
+      setlastName("");
+      setemail("");
+      setMessage("");
+    }); // console.log(e)
   };
 
   const getStoredData = () => {
@@ -98,7 +99,7 @@ const Contact = () => {
     setsendmessage(false);
     clearStoredData();
   };
-  const handleQueryEditSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+  const handleQueryEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updatemessage({ id: singlemessage._id, ...QueryData })).then(
       () => {
@@ -124,7 +125,8 @@ const Contact = () => {
         {`
         body{
           font-family: 'Heebo', sans-serif;
-          background-image:url("https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80");
+          // background-image:url("https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80");
+          background-color:#edf2fb;
           background-attachment:fixed;
           background-size:cover;
           background-repeat:no-repeat;
@@ -211,13 +213,12 @@ const Contact = () => {
             `}
       </style>
 
-      <Tooltip title="See Recent Queries" placement="left">
+      <Tooltip title="Recent Queries" placement="left">
         <FloatButton
           style={{
             top: 110,
             right: 10,
-            height:10,
-     
+            height: 10,
           }}
           shape="square"
           onClick={() => setopenRecentQueryDrawer(true)}
@@ -225,7 +226,7 @@ const Contact = () => {
           type="primary"
         />
       </Tooltip>
-      
+
       {sendmessage && (
         <Modal
           open={sendmessage}
@@ -256,7 +257,7 @@ const Contact = () => {
         <br />
         <div className="row">
           <div className="column1">
-            <h1 style={{ color: "rgb(25,118,210)" }}>
+            <h1 style={{ color: "graytext" }}>
               We would love to work <br />
               with you
             </h1>
@@ -277,7 +278,7 @@ const Contact = () => {
               lorem et leo sodales, in porttitor eros consectetur.
             </p>
             <br />
-            <p style={{ fontWeight: "900", color: "green" }}>
+            <p style={{ fontWeight: "900", color: "graytext" }}>
               Available 24X7 Just for you <br />
               TollFree Number : 1800 180 3000
             </p>
@@ -308,10 +309,10 @@ const Contact = () => {
         <br />
         <br />
         <br />
-        <h1 style={{ textAlign: "center", color: "black" }}>
+        <h1 style={{ textAlign: "center", color: "graytext" }}>
           Share your valuable feedback, suggestions !
         </h1>
-        <h2 style={{ textAlign: "center", color: "black" }}>
+        <h2 style={{ textAlign: "center", color: "graytext" }}>
           We Care about you ❤️
         </h2>
         <br />
@@ -425,10 +426,15 @@ const Contact = () => {
         open={openRecentQueryDrawer}
         onClose={() => setopenRecentQueryDrawer(false)}
         zIndex={9999}
-        width={550}
+        width={570}
         extra={
           <Space>
-            <AntButton type="primary" onClick={()=>setopenRecentQueryDrawer(false)}>Close</AntButton>
+            <AntButton
+              type="primary"
+              onClick={() => setopenRecentQueryDrawer(false)}
+            >
+              Close
+            </AntButton>
           </Space>
         }
       >
@@ -469,15 +475,12 @@ const Contact = () => {
                 <Descriptions.Item
                   label="Sent on"
                   span={2}
-                  contentStyle={{color:"red"}}
-                 
+                  contentStyle={{ color: "red" }}
                 >
-                  {data.date ? data.date :"31/07/2023"}
+                  {data.date ? data.date : "31/07/2023"}
                 </Descriptions.Item>
-
-              </Descriptions><br />
-
-         
+              </Descriptions>
+              <br />
             </React.Fragment>
           ))}
       </Drawer>
@@ -488,11 +491,13 @@ const Contact = () => {
           seteditQueryDrawer(false);
           setopenRecentQueryDrawer(true);
         }}
-        width={320}
+        width={340}
         zIndex={9999}
         extra={
           <Space>
-            <AntButton type="primary" onClick={()=>seteditQueryDrawer(false)}>Cancel</AntButton>
+            <AntButton type="primary" onClick={() => seteditQueryDrawer(false)}>
+              Cancel
+            </AntButton>
           </Space>
         }
       >
@@ -501,48 +506,58 @@ const Contact = () => {
         <form action="" onSubmit={handleQueryEditSubmit}>
           <Row>
             <Col span={24}>
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Firstname"
+                variant="outlined"
                 type="text"
-                style={{ width: "100%", padding: "6px" }}
                 value={QueryData?.firstname}
                 onChange={(e) =>
-                  setQueryData((prevValue) => ({
-                    ...prevValue,
+                  setQueryData((prevstate) => ({
+                    ...prevstate,
                     firstname: e.target.value,
                   }))
                 }
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col span={24}>
-              <input
+              <TextField
+                id="outlined-basic"
+                label="Lastname"
+                variant="outlined"
                 type="text"
-                style={{ width: "100%", padding: "6px" }}
                 value={QueryData?.lastname}
                 onChange={(e) =>
-                  setQueryData((prevValue) => ({
-                    ...prevValue,
-                    lastname: e.target.value,
+                  setQueryData((prevstate) => ({
+                    ...prevstate,
+                    name: e.target.value,
                   }))
                 }
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col span={24}>
-              <input
-                type="text"
-                style={{ width: "100%", padding: "6px" }}
+              <TextField
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+              
+                type="email"
                 value={QueryData?.email}
                 onChange={(e) =>
-                  setQueryData((prevValue) => ({
-                    ...prevValue,
-                    email: e.target.value,
+                  setQueryData((prevstate) => ({
+                    ...prevstate,
+                    name: e.target.value,
                   }))
                 }
+                sx={{ width: "100%" }}
               />
             </Col>
           </Row>
@@ -552,8 +567,10 @@ const Contact = () => {
               <textarea
                 name=""
                 id=""
-                cols={37}
+                cols={38}
                 rows={8}
+                placeholder="Your Message"
+                style={{ borderRadius: "4px" }}
                 value={QueryData?.message}
                 onChange={(e) =>
                   setQueryData((prevValue) => ({
@@ -565,7 +582,9 @@ const Contact = () => {
             </Col>
           </Row>
           <br />
-          <AntButton htmlType="submit">Submit</AntButton>
+          <AntButton htmlType="submit" type="primary">
+            Submit
+          </AntButton>
         </form>
       </Drawer>
       <br />

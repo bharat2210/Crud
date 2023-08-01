@@ -103,7 +103,7 @@ function Navbar1() {
   };
 
   const handleimages = () => {
-    router.push("/Uns");
+    router.push("/Gallery");
   };
 
   const handleproduct = () => {
@@ -143,7 +143,7 @@ function Navbar1() {
       /> */}
       <AppBar
         position="fixed"
-        sx={{ height: 84, backgroundColor: "rgb(35,47,62)" }}
+        sx={{ height: 84, backgroundColor: "rgb(55,71,90)"}}
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -226,9 +226,9 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: router.pathname === "/Uns" ? "white" : "white",
+                      color: router.pathname === "/Gallery" ? "white" : "white",
                       borderBottom:
-                        router.pathname === "/Uns"
+                        router.pathname === "/Gallery"
                           ? "3px solid white "
                           : "none",
                       borderRadius:
@@ -237,10 +237,11 @@ function Navbar1() {
                       textTransform: "none",
                     }}
                   >
-                    Images
+                    Gallery
                   </Button>
                   <Button
                     onClick={handleproduct}
+               
                     sx={{
                       my: 2,
                       fontSize: 18,
@@ -275,7 +276,7 @@ function Navbar1() {
                       textTransform: "none",
                     }}
                   >
-                    Contactus
+                    Contact Us
                   </Button>
                   <Button
                     onClick={handleadmin}

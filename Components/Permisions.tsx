@@ -59,7 +59,7 @@ const Permissions = ({ children }: { children: React.ReactNode }) => {
       "/allpost",
       "/Apiproducts",
       "/Cart",
-      "/Uns",
+      "/Gallery",
       "/Login",
       "/Signup",
       "/New",
