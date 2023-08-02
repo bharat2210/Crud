@@ -41,7 +41,7 @@ const initialState: UserDetailstate = {
 
 export const createuser = createAsyncThunk<Createuserresponse, Data>(
   "createuser",
-  async (data, { rejectWithValue }) => {
+  async (data:{E_name:string,E_age:Number,E_email:string}, { rejectWithValue }) => {
     try {
       const response = await axios.post("http://localhost:3000/api/clientadd", data, {
         headers: {

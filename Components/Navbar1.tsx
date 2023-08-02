@@ -142,8 +142,8 @@ function Navbar1() {
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       /> */}
       <AppBar
-        position="fixed"
-        sx={{ height: 84, backgroundColor: "rgb(55,71,90)"}}
+        position="absolute"
+        sx={{ height: 84, backgroundColor: "rgb(19,26,34)"}}
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -190,7 +190,7 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: router.pathname === "/Landing" ? "white" : "white",
+                     color:"white",
                       borderBottom:
                         router.pathname === "/Landing"
                           ? "3px solid white "

@@ -27,7 +27,7 @@ export const getImages = createAsyncThunk("getImages", async (data) => {
   }
 });
 // Delete image
-export const deleteImage = createAsyncThunk("deleteImage", async (id, data) => {
+export const deleteImage = createAsyncThunk("deleteImage", async (id:number, data) => {
   try {
     const response = await axios.delete(
       `http://localhost:3000/api/imagedelete?id=${id}`
@@ -38,7 +38,7 @@ export const deleteImage = createAsyncThunk("deleteImage", async (id, data) => {
   }
 });
 // Add images
-export const addImages = createAsyncThunk("addImages", async(data) => {
+export const addImages = createAsyncThunk("addImages", async(data:{imgPath:string,title:string}) => {
     // console.log("data of image",data)
   try {
     const response = await axios.post(
@@ -77,7 +77,9 @@ export const updateImageapi = createAsyncThunk("updateImageapi", async(data)=>{
 const imgSlice = createSlice({
   name: "imgSlice",
   initialState,
-  reducers: {},
+  reducers: {
+
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getImages.pending, (state, action) => {
@@ -102,7 +104,7 @@ const imgSlice = createSlice({
       })
       .addCase(deleteImage.rejected, (state, action) => {
         state.isloading = false;
-        alert("Error in deleting image");
+        alert("Error in deleting Image");
       })
       .addCase(addImages.pending, (state, action) => {
         state.isloading = true;
@@ -121,7 +123,7 @@ const imgSlice = createSlice({
       .addCase(updateImageapi.fulfilled, (state, action) => {
         state.isloading = false;
         const updateimagedata=action.payload;
-      const index=state.images.findIndex((data:any)=>data._id===updateimagedata._id)
+      const index=state.images.findIndex((data:any)=>data._id === updateimagedata._id)
       state.images[index]=updateimagedata;
       
       })
@@ -132,5 +134,4 @@ const imgSlice = createSlice({
       
   },
 });
-
 export default imgSlice.reducer;

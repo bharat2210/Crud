@@ -50,7 +50,6 @@ const Contact = () => {
     setDate(currentDate);
   }, [currentDate]);
 
-  const data = { firstname, email };
   const messages = useSelector(
     (state: RootState) => state.allmessages.Messages
   );
@@ -65,39 +64,24 @@ const Contact = () => {
     e.preventDefault();
     dispatch(
       createmessages({ firstname, lastname, email, message, date })
-    ).then(() => {
-      localStorage.setItem("createmessages", JSON.stringify(data));
-      const datagot = getStoredData();
-      console.log("localstorage", datagot);
-      const gotname = datagot.firstname;
-      const gotemail = datagot.email;
-      setrequestbyname(gotname);
-      setrequestbyemail(gotemail);
+    ).then((response) => {
+      let responsedata = response.payload;
+      console.log(responsedata);
       setsendmessage(true);
       setfirstName("");
       setlastName("");
       setemail("");
       setMessage("");
-    }); // console.log(e)
+      setrequestbyname(responsedata.firstname);
+      setrequestbyemail(responsedata.email);
+    });
   };
 
-  const getStoredData = () => {
-    const data = localStorage.getItem("createmessages");
-    if (data) {
-      return JSON.parse(data);
-    }
-    return null;
-  };
-  const clearStoredData = () => {
-    localStorage.removeItem("createmessages");
-  };
   const onok = () => {
     setsendmessage(false);
-    clearStoredData();
   };
   const oncancel = () => {
     setsendmessage(false);
-    clearStoredData();
   };
   const handleQueryEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -310,7 +294,7 @@ const Contact = () => {
         <br />
         <br />
         <h1 style={{ textAlign: "center", color: "graytext" }}>
-          Share your valuable feedback, suggestions !
+          Share your valuable feedback, suggestions!
         </h1>
         <h2 style={{ textAlign: "center", color: "graytext" }}>
           We Care about you ❤️
@@ -548,7 +532,6 @@ const Contact = () => {
                 id="outlined-basic"
                 label="Email"
                 variant="outlined"
-              
                 type="email"
                 value={QueryData?.email}
                 onChange={(e) =>

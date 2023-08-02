@@ -20,7 +20,7 @@ const Footer = () => {
       
 
 .footer-section {
-  background:rgb(55,71,90);
+  background:rgb(19,26,34);
   color: white;
   padding: 25px 15px 0px 15px;
   width: auto;

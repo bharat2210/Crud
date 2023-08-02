@@ -85,6 +85,8 @@ import {
   getCategoryAction,
   updateCategoryAction,
 } from "../Features/Category";
+import { number } from "yup";
+import { min } from "lodash";
 
 interface ProductData {
   title: string;
@@ -97,8 +99,8 @@ interface ProductData {
 const { Meta } = Card;
 const Admin = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [id, setid] = useState<Number>();
-  const [messageid, setmessageid] = useState<number>();
+  const [id, setid] = useState<Number>(0);
+  const [messageid, setmessageid] = useState<number>(0);
   const [updatedata, setupdatedata] = useState<ProductData>({
     title: "",
     price: 0,
@@ -113,7 +115,7 @@ const Admin = () => {
   const [deleteproduct, setdeleteproduct] = useState<boolean>(false);
   const [search, setsearch] = useState();
   const [editImage, seteditImage] = useState<boolean>(false);
-  const [ImageId, setImageId] = useState<number>();
+  const [ImageId, setImageId] = useState<number>(0);
   const loadMoreButtonRef = React.useRef<HTMLInputElement>(null);
   const [updateopen, setupdateopen] = useState<boolean>(false);
   const [stat, setstat] = useState<boolean>(false);
@@ -130,7 +132,7 @@ const Admin = () => {
   const [categoryImgpath, setcategoryImgpath] = useState<string>("");
   const [categoryTitle, setcategoryTitle] = useState<string>("");
   const [categoryDescription, setcategoryDescription] = useState<string>("");
-  const [categoryId, setcategoryId] = useState<number>();
+  const [categoryId, setcategoryId] = useState<number>(0);
   const [updateCategoryDrawer, setupdateCategoryDrawer] =
     useState<boolean>(false);
   const [updatedCategory, setupdatedCategory] = useState({
@@ -177,6 +179,7 @@ const Admin = () => {
 
   // STAT END
 
+ 
   const { categories } = useSelector((state: RootState) => state.allcategories);
   const singleCategory= categories.filter((data)=>data._id === categoryId)[0];
 
@@ -382,7 +385,7 @@ useEffect(()=>{
     setimageadddrawer(true);
   };
 
-  const handleimageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleimageSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("setimgUrl", imgPath);
     console.log("setimgTitle", title);
@@ -395,7 +398,7 @@ useEffect(()=>{
 
   const hanldeImageUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateImageapi({ id: singleimage._id, ...updateImage })).then(
+    dispatch(updateImageapi({ id:singleimage._id, ...updateImage })).then(
       () => {
         dispatch(getImages());
         setImageupdateDrawer(false);
@@ -752,12 +755,11 @@ useEffect(()=>{
                             setupdateopen(true);
                           }}
                         >
-                          Edit <i className="fa-solid fa-pen-to-square"></i>
+                         Edit <i className="fa-solid fa-pen-to-square"></i>
                         </button>
 
                         <AntButton
                           danger
-                          // className={deletecss.delete}
                           onClick={() =>
                             handledelete(details._id, details.title)
                           }
@@ -917,6 +919,7 @@ useEffect(()=>{
                 label="Title"
                 variant="outlined"
                 name="title"
+                size="small"
                 type="text"
                 sx={{ width: "100%" }}
               />
@@ -929,6 +932,15 @@ useEffect(()=>{
                 variant="outlined"
                 name="price"
                 type="number"
+                size="small"
+                InputProps={{
+               inputProps:{
+                min:1
+
+               }
+               
+                  
+                }}
                 sx={{ width: "100%" }}
               />
             </Col>
@@ -959,6 +971,7 @@ useEffect(()=>{
                 variant="outlined"
                 name="quantity"
                 type="number"
+                size="small"
                 defaultValue={1}
                 disabled={true}
                 sx={{ width: "100%" }}
@@ -988,6 +1001,7 @@ useEffect(()=>{
                 variant="outlined"
                 name="rating"
                 type="number"
+                size="small"
                 InputProps={{
                   inputProps: {
                     min: 1,
@@ -1011,6 +1025,7 @@ useEffect(()=>{
                 id="outlined-basic"
                 label="Resolution"
                 variant="outlined"
+                size="small"
                 name="size"
                 type="text"
                 sx={{ width: "100%" }}
@@ -1047,6 +1062,7 @@ useEffect(()=>{
                 label="Color"
                 variant="outlined"
                 name="color"
+                size="small"
                 type="text"
                 sx={{ width: "100%" }}
               />
@@ -1058,6 +1074,7 @@ useEffect(()=>{
                 variant="outlined"
                 name="storage"
                 type="text"
+                size="small"
                 sx={{ width: "100%" }}
               />
             </Col>
@@ -1069,10 +1086,11 @@ useEffect(()=>{
             <Col span={12}>
               <TextField
                 id="outlined-basic"
-                label="New or Not"
+                label="Ribbon"
                 variant="outlined"
                 name="ribbon"
                 type="boolean"
+                size="small"
                 sx={{ width: "100%" }}
               />
             </Col>
@@ -1083,6 +1101,13 @@ useEffect(()=>{
                 variant="outlined"
                 name="stock"
                 type="number"
+                size="small"
+                InputProps={{
+                  inputProps:{
+                    min:1,
+                    max:100
+                  }
+                }}
                 sx={{ width: "100%" }}
               />
             </Col>
@@ -1104,6 +1129,7 @@ useEffect(()=>{
                 label="Category"
                 variant="outlined"
                 name="category"
+                size="small"
                 type="text"
                 sx={{ width: "100%" }}
               />
@@ -1552,7 +1578,7 @@ useEffect(()=>{
             <Card
               style={{ width: 330 }}
               key={data._id}
-              cover={<img alt="example" src={data.imgPath} />}
+              cover={<img alt="example" src={data.imgPath}  width={330} />}
               actions={[
                 <EditOutlined
                   key="edit"
@@ -1564,7 +1590,7 @@ useEffect(()=>{
                 />,
                 <Popconfirm
                   title="Delete Category"
-                  description="Are you sure you want to delete this category"
+                  description="Are you sure you want to delete this category ?"
                   okText="Yes"
                   cancelText="No"
                   zIndex={9999}

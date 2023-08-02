@@ -17,6 +17,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 interface CreateCredentials {
+  _id:number;
   E_name: string;
   E_age: number;
   E_email: string;
@@ -99,7 +100,7 @@ const Create = ({ setshowcreate }: any) => {
           className="animation"
         >
           <Formik
-            initialValues={{ E_name: "", E_age: 0, E_email: "" }}
+            initialValues={{_id:0, E_name: "", E_age: 0, E_email: "" }}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
