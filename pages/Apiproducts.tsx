@@ -435,7 +435,7 @@ const Apiproducts = () => {
             .slice(0, visibleItems)
             .map((product: any) => (
               <Card
-                sx={{ height: 542, width: 320 }}
+                sx={{ height: 532, width: 320 }}
                 key={product._id}
                 data-aos="fade-up"
                 className="card"
@@ -580,21 +580,13 @@ const Apiproducts = () => {
                   </Stack>
                 </CardActions>
                 <Stack spacing={2} direction="column">
-                  <Button
+                  <AntButton
                     size="small"
-                    variant="contained"
-                    // sx={{
-                    //   backgroundColor:"rgb(55,71,90)",color:"white",
-                    
-                    // }}
-                    sx={{ "&:hover": { backgroundColor: "rgb(55,71,90)" },
-                  backgroundColor:"rgb(55,71,90)",color:"white",
-                  } }
-                 
+                  type="primary"
                     onClick={() => handleaddtocart(product)}
                   >
                     Add to Cart
-                  </Button>
+                  </AntButton>
                 </Stack>
               </Card>
             ))}

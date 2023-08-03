@@ -110,7 +110,7 @@ const Contact = () => {
         body{
           font-family: 'Heebo', sans-serif;
           // background-image:url("https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80");
-          background-color:#edf2fb;
+        
           background-attachment:fixed;
           background-size:cover;
           background-repeat:no-repeat;
@@ -194,6 +194,7 @@ const Contact = () => {
               gap:10px;
               
             }
+       
             `}
       </style>
 
@@ -203,6 +204,7 @@ const Contact = () => {
             top: 110,
             right: 10,
             height: 10,
+            position:"absolute"
           }}
           shape="square"
           onClick={() => setopenRecentQueryDrawer(true)}
@@ -241,7 +243,7 @@ const Contact = () => {
         <br />
         <div className="row">
           <div className="column1">
-            <h1 style={{ color: "graytext" }}>
+            <h1 style={{ color: "black" }}>
               We would love to work <br />
               with you
             </h1>
@@ -282,7 +284,7 @@ const Contact = () => {
       <div
         className="main-container2"
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: "#edf2fb",
           height: "auto",
           width: "100%",
           borderRadius: "18px",
@@ -365,7 +367,7 @@ const Contact = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   cols={112}
-                  rows={16}
+                  rows={12}
                   style={{
                     borderRadius: "12px",
                     border: "none",

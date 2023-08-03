@@ -105,12 +105,10 @@ const Footer = () => {
       <footer className="footer-section">
         <div className="footer-content">
           <div className="footer-logo">
-            <SketchOutlined
-              style={{ fontSize: "50px", color:"white"}}
-            />{" "}
+          <i className="fa-solid fa-bag-shopping" style={{ fontSize: "50px", color:"white"}}></i>{" "}
             <br />
             <span style={{ textAlign: "center", fontSize: "18px" }}>
-              Shopeee
+              iStore
             </span>
           </div>
           <div className="footer-text">
@@ -187,8 +185,8 @@ const Footer = () => {
           className="copyright"
           style={{ textAlign: "center", color: "white" }}
         >
-          Copyright <CopyrightOutlined /> 2023 Shopeee{" "}
-          <SketchOutlined style={{ fontSize: "15px" }} /> All rights reserved.{" "}
+          Copyright <CopyrightOutlined /> 2023 iStore{" "}
+          <i className="fa-solid fa-bag-shopping" style={{ fontSize: "15px" }} ></i>  All rights reserved.{" "}
         </div>
         <br />
       </footer>

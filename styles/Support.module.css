@@ -1,0 +1,40 @@
+.dummy{
+  height:450px;
+  width:960px;
+  margin-top: 50px;
+  margin-left:auto;
+  margin-right:auto;
+  background-color:white;
+  border-radius:28px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.support{
+    display:flex;
+   flex-direction:row;
+   justify-content:center;
+  
+  }
+  .text_support p{
+   
+    width:340px;
+    line-height:25px;
+    color:rgb(109, 109, 109);
+   
+  }
+  .text_support{
+    display: grid;
+    place-items: center;
+    margin: auto;
+    padding:12px;
+    width:480px;
+    text-align:left;
+
+   
+  }
+  
+  .image_support{
+    width:480px;
+  }
+  .image_support img{
+    border-radius:0px 28px 28px 0px;
+  }

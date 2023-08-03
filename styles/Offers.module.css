@@ -1,0 +1,12 @@
+.offers h1{
+    font-size:50px;
+    text-align:center;
+    word-spacing:2px;
+    letter-spacing:3px;
+  }
+  .offers h1::first-letter{
+    color:rgb(25,118,210);
+  }
+  .offers{
+    margin-top: 30px;
+  }

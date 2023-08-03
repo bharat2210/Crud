@@ -1,0 +1,40 @@
+ 
+      .dummy2{
+        height:450px;
+        width:960px;
+        margin-top: 50px;
+        margin-left:auto;
+        margin-right:auto;
+        background-color:white;
+     
+        border-radius:28px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 38px;
+      }
+      .text_support2{
+        margin:auto;
+       display: grid;
+       place-items: center;
+        padding:12px;
+        width:480px;
+  
+       
+      }
+      .image_support2{
+        width:480px;
+      }
+      .image_support2 img{
+        border-radius:28px 0px 0px 28px;
+      }
+      .support2{
+        display:flex;
+       flex-direction:row;
+       justify-content:center;
+      
+      }
+      .text_support2 p{
+        width:320px;
+        line-height:25px;
+        float:right;
+        color:rgb(109, 109, 109);
+     
+      }

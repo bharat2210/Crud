@@ -283,6 +283,7 @@ const New = () => {
           position: fixed;
           margin-right:auto;
           margin-left:auto;
+          top:1%;
           width: 100%;
           height: 100%;
           display: flex;
@@ -336,7 +337,7 @@ const New = () => {
             <div className="invoice-header">
               <div className="title-date">
                 <h3 style={{ fontWeight: "bolder", color: "dodgerblue" }}>
-                  <SketchOutlined /> Shopeee
+                <i className="fa-solid fa-bag-shopping"></i> Shopeee
                 </h3>
                 <h6>INVOICE</h6>
                 <p className="date">{`${date}`}</p>
@@ -920,7 +921,7 @@ const New = () => {
       </div>
       <br /><br /><br />
     
-      <Footer/>
+     
     </>
   );
 };

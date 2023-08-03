@@ -128,28 +128,22 @@ function Navbar1() {
 
   return (
     <>
-      <style>
-        {`
-    
-      
-      
-      
-      
-      `}
-      </style>
       {/* <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       /> */}
       <AppBar
-        position="absolute"
-        sx={{ height: 84, backgroundColor: "rgb(19,26,34)"}}
+        position={router.pathname === "/Landing" ? "absolute" : "fixed"}
+        sx={{
+          height: 84,
+          backgroundColor: "rgb(245,245,247)",
+          boxShadow: "none",
+        }}
       >
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <IconButton
               edge="start"
-              color="inherit"
               aria-label="menu"
               onClick={handleMobileMenuOpen}
               sx={{
@@ -159,9 +153,13 @@ function Navbar1() {
             >
               <MenuIcon />
             </IconButton>
-            <SketchOutlined style={{ fontSize: "28px" }} />
+            <i
+              className="fa-solid fa-bag-shopping"
+              style={{ fontSize: "28px", color: "rgb(25,118,210)" }}
+            ></i>
+
             <Typography
-              variant="h6"
+              variant="h4"
               noWrap
               component="a"
               href="/Landing"
@@ -170,17 +168,17 @@ function Navbar1() {
                 display: { xs: "none", md: "flex" },
                 fontFamily: "sans-serif",
                 fontWeight: 700,
-                color: "inherit",
+                color: "black",
                 textDecoration: "none",
               }}
             >
-              Shopeee
+              iStore
             </Typography>
 
             <Box
               sx={{
                 flexGrow: 1,
-                display: { xs: "none", md: "flex", padding: 8 },
+                display: { xs: "none", md: "flex", padding: 6 },
               }}
             >
               {localstoragevalue ? (
@@ -190,10 +188,11 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                     color:"white",
+                      fontWeight: "500",
+                      color: "black",
                       borderBottom:
                         router.pathname === "/Landing"
-                          ? "3px solid white "
+                          ? "3px solid black "
                           : "none",
                       borderRadius:
                         router.pathname === "/Landing" ? "12px" : "none",
@@ -226,13 +225,13 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: router.pathname === "/Gallery" ? "white" : "white",
+                      color: "black",
                       borderBottom:
                         router.pathname === "/Gallery"
-                          ? "3px solid white "
+                          ? "3px solid black "
                           : "none",
                       borderRadius:
-                        router.pathname === "/Uns" ? "12px" : "none",
+                        router.pathname === "/Gallery" ? "12px" : "none",
                       display: "block",
                       textTransform: "none",
                     }}
@@ -241,15 +240,13 @@ function Navbar1() {
                   </Button>
                   <Button
                     onClick={handleproduct}
-               
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color:
-                        router.pathname === "/Apiproducts" ? "white" : "white",
+                      color: "black",
                       borderBottom:
                         router.pathname === "/Apiproducts"
-                          ? "3px solid white "
+                          ? "3px solid black "
                           : "none",
                       borderRadius:
                         router.pathname === "/Apiproducts" ? "12px" : "none",
@@ -264,11 +261,10 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color:
-                        router.pathname === "/Contactus" ? "white" : "white",
+                      color: "black",
                       borderBottom:
                         router.pathname === "/Contactus"
-                          ? "3px solid white "
+                          ? "3px solid black "
                           : "none",
                       borderRadius:
                         router.pathname === "/Contactus" ? "12px" : "none",
@@ -283,10 +279,10 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: router.pathname === "/Admin" ? "white" : "white",
+                      color: "black",
                       borderBottom:
                         router.pathname === "/Admin"
-                          ? "3px solid white "
+                          ? "3px solid black "
                           : "none",
                       borderRadius:
                         router.pathname === "/Admin" ? "12px" : "none",
@@ -308,7 +304,7 @@ function Navbar1() {
                   >
                     <IconButton
                       aria-label="cart"
-                      sx={{ my: 2, fontSize: 15, color: "white" }}
+                      sx={{ my: 2, fontSize: 15, color: "black" }}
                       onClick={handlecart}
                     >
                       <Badge
@@ -318,10 +314,10 @@ function Navbar1() {
                           vertical: "top",
                           horizontal: "right",
                         }}
-                        sx={{ color: "white" }}
+                        sx={{ color: "black" }}
                       >
                         <ShoppingCartIcon
-                          sx={{ color: "white", fontSize: 30 }}
+                          sx={{ color: "black", fontSize: 30 }}
                         />
                       </Badge>
                     </IconButton>
@@ -355,13 +351,13 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: router.pathname === "/Signup" ? "white" : "white",
+                      color: "black",
                       borderBottom:
-                        router.pathname === "/Signup"
+                        router.pathname === "/"
                           ? "3px solid white "
                           : "none",
                       borderRadius:
-                        router.pathname === "/Signup" ? "12px" : "none",
+                        router.pathname === "/" ? "12px" : "none",
                       display: "block",
                       textTransform: "none",
                     }}
@@ -374,7 +370,7 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: router.pathname === "/Login" ? "white" : "white",
+                      color: "black",
                       borderBottom:
                         router.pathname === "/Login"
                           ? "3px solid white "
@@ -405,20 +401,20 @@ function Navbar1() {
         onClose={handleMobileMenuClose}
       >
         <List>
-          <ListItem onClick={() => handlePageNavigation("/")}>
+          <ListItem onClick={() => handlePageNavigation("/Landing")}>
             <ListItemText primary="Home" />
           </ListItem>
-          <ListItem onClick={() => handlePageNavigation("/allregister")}>
-            <ListItemText primary="Users" />
+          <ListItem onClick={() => handlePageNavigation("/Gallery")}>
+            <ListItemText primary="Gallery" />
           </ListItem>
-          <ListItem onClick={() => handlePageNavigation("/allpost")}>
-            <ListItemText primary="Records" />
-          </ListItem>
-          <ListItem onClick={() => handlePageNavigation("/Uns")}>
-            <ListItemText primary="Images" />
-          </ListItem>
-          <ListItem onClick={() => handlePageNavigation("/Products")}>
+          <ListItem onClick={() => handlePageNavigation("/Apiproducts")}>
             <ListItemText primary="Products" />
+          </ListItem>
+          <ListItem onClick={() => handlePageNavigation("/Contactus")}>
+            <ListItemText primary="Contact Us" />
+          </ListItem>
+          <ListItem onClick={() => handlePageNavigation("/Admin")}>
+            <ListItemText primary="Admin" />
           </ListItem>
           <ListItem onClick={handleLogout}>
             <ListItemText primary="Logout" />
@@ -428,5 +424,4 @@ function Navbar1() {
     </>
   );
 }
-
 export default Navbar1;

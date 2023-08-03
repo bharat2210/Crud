@@ -150,7 +150,7 @@ const Admin = () => {
   // console.log("update id", id);
   const singleproduct = allproducts?.filter((data: any) => data._id === id)[0];
   console.log("singleproduct", singleproduct);
-  const { Option } = Select;
+  // const { Option } = Select;
 
   const apiproducts = useSelector(
     (state: RootState) => state.allcarts.apiproducts

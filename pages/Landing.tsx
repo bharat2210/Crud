@@ -7,7 +7,6 @@ import { Card, Col, FloatButton, Row, Tooltip } from "antd";
 import { ShoppingOutlined } from "@ant-design/icons";
 // Components imports
 import Carousel from "../Components/Carousel";
-
 // Libraries imports
 import Aos from "aos";
 import Link from "next/link";
@@ -16,11 +15,23 @@ import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch } from "react-redux";
 import { getCategoryAction } from "../Features/Category";
+// Styles imports
+import main from '../styles/Mainum_main.module.css'
+import banner from '../styles/bannerimage.module.css'
+import servicesstyling from '../styles/Services.module.css'
+import storeStyling from '../styles/Store.module.css'
+import Offerstyling from '../styles/Offers.module.css'
+import SupportStyling from '../styles/Support.module.css'
+import SupportStyling2 from '../styles/Support2.module.css'
+import Lady from '../styles/Lady.module.css'
+import Latest from '../styles/Latest.module.css'
+import Widget from '../styles/Widget.module.css'
+import Widget2 from '../styles/Widget2.module.css'
 
 const { Meta } = Card;
 const Landing = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { categories } = useSelector((state: RootState) => state.allcategories);
+  const { categories } = useSelector((state:RootState) => state.allcategories);
 
   // AOS initialisation
   useEffect(() => {
@@ -30,227 +41,18 @@ const Landing = () => {
   useEffect(() => {
     dispatch(getCategoryAction());
   }, []);
-
+          
   return (
     <>
       <style>
         {`
-      
-      .bannerimage:hover{
-        transform:scale(1.2);
-       
-      }
-      .mainum-main{
-        background-color:#edf2fb;
-        padding-bottom:30px;
-      }
-      .service h1{
-        text-align: center;
-        font-size:50px;
-      }
-      .service h1::first-letter{
-        color:rgb(25,118,210)
-      }
-      .store{
-        height:800px;
-        width:100%;
-        background-image:url("https://images.unsplash.com/photo-1631211541363-b79b94085c14?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
-        background-attachment:fixed;
-        background-size:cover;
-        background-repeat:no-repeat;
-        background-position:center;
-        position:relative;
-      }
-      .store-text{
-        position:absolute;
-        top:100px;
-        left:30%;
-      }
-      .store-text h1{
-        color:white;
-        font-size:110px;
-        letter-spacing:3px;
-      }
-      .store-text h1::first-letter{
-        color:rgb(25,118,210);
-      }
-      .store-text h4{
-        text-align:center;
-        color:rgb(25,118,210);
-        font-size:30px;
-   
-      }
-      .offers h1{
-        font-size:50px;
-        text-align:center;
-        word-spacing:2px;
-        letter-spacing:3px;
-      }
-      .offers h1::first-letter{
-        color:rgb(25,118,210);
-      }
     
       .Category_Shopping::first-letter{
         color:rgb(25,118,210);
       }
-      .service{
-        height:600px;
-        width:100%;
-        background-image:url("https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-split-getsupport.image.large_2x.png");
-      }
-      .support{
-        display:flex;
-       flex-direction:row;
-       justify-content:center;
-      
-      }
-      .text-support p{
-        alignItems:center;
-        width:340px;
-        line-height:25px;
-        color:graytext;
-       
-      }
-      .text-support{
-        margin-top:auto;
-        margin-bottom:auto;
-        padding:12px;
-        width:480px;
-        text-align:left;
-  
-       
-      }
-      .image-support{
-        width:480px;
-      }
-      .image-support img{
-        border-radius:0px 28px 28px 0px;
-      }
-      .dummy{
-        height:450px;
-        width:960px;
-        margin-left:auto;
-        margin-right:auto;
-        background-color:white;
-        // border:2px solid black;
-        border-radius:28px;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-      }
-      .dummy2{
-        height:450px;
-        width:960px;
-        margin-left:auto;
-        margin-right:auto;
-        background-color:white;
-        // border:2px solid black;
-        border-radius:28px;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 38px;
-      }
-      .text-support2{
-        margin-top:auto;
-        margin-bottom:auto;
-        padding:12px;
-        text-align:right;
-        width:480px;
-  
-       
-      }
-      .image-support2{
-        width:480px;
-      }
-      .image-support2 img{
-        border-radius:28px 0px 0px 28px;
-      }
-      .support2{
-        display:flex;
-       flex-direction:row;
-       justify-content:center;
-      
-      }
-      .text-support2 p{
-        width:340px;
-        line-height:25px;
-        float:right;
-        color:graytext;
-     
-      }
-      .lady{
-        height:600px;
-        width:960px;
-        margin:auto;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        background-color:white;
-        border-radius: 28px;
-      }
-      .lady-text{
-        height:200px;
-        width:100%;
-        text-align:center;
-   
-      }
-      .lady-text p{
-        margin-top:15px;
-        font-size:18px;
-        color:graytext;
-      }
-      .lady-text h1{
-        margin-top:30px;
-        font-size:42px;
-        color:rgb(29,29,31);
-      }
-      .lady-image{
-        height:400px;
-        width:100%;
-        background-image:url(https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-feature-privacy-skills.image.large_2x.png);
-        background-size:cover;
-        background-repeat:no-repeat;
-        background-position:center;
-        border-radius:0px 0px 28px 28px;
-      }
-
-      .latest{
-        height:600px;
-        width:960px;
-        margin:auto;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        background-color:white;
-        border-radius: 28px;
-      }
-      .latest-text{
-        height:200px;
-        width:100%;
-        text-align:center;
-   
-      }
-      .latest-text p{
-        margin-top:15px;
-        font-size:18px;
-        color:graytext;
-      }
-      .latest-text h1{
-        margin-top:30px;
-        font-size:42px;
-        color:rgb(29,29,31);
-      }
-      .latest-image{
-        height:400px;
-        width:100%;
-        background-image:url(https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-feature-ios16.image.large_2x.png);
-        background-size:cover;
-        background-repeat:no-repeat;
-        background-position:center;
-        border-radius:0px 0px 28px 28px;
-      }
-    
-     
-      
       `}
       </style>
-      <Tooltip title="Go To Top" color="green" placement="left">
+      <Tooltip title="Back To Top"  placement="left">
         <FloatButton.BackTop type="primary" />
       </Tooltip>
       <div className="img" data-aos="zoom-in">
@@ -266,6 +68,7 @@ const Landing = () => {
           width={300}
         />
       </div>
+
       <Carousel />
       <div className="newproducts">
         <h1
@@ -296,7 +99,7 @@ const Landing = () => {
             marginLeft: "200px",
             transition: ".5s",
           }}
-          className="bannerimage"
+          className={banner.bannerimage}
         />{" "}
         <br />
         <br />
@@ -310,103 +113,190 @@ const Landing = () => {
             marginLeft: "200px",
             transition: ".5s",
           }}
-          className="bannerimage"
+          className={banner.bannerimage}
         />
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <div className="mainum-main">
-      <div className="service">
-        <h1> Get Support</h1>
-      </div>
-      <br />
-      <br />
-      <br />
-      <div className="dummy">
-        <div className="support">
-          <div className="text-support">
-            <h1>Shopeee Care</h1>
-            <p>
-              Get unlimited repairs for accidental damage protection, 24/7
-              priority access to Apple experts, and more. <br />
-              <Link href="#" style={{ color: "rgb(0,102,204)",textDecoration:"none" }}>
-                Learn More <i className="fa-solid fa-chevron-right"></i>
-              </Link>
-            </p>
-          </div>
-          <div className="image-support">
-            <img
-              src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-feature-accidents-promo-iphone.image.large_2x.png"
-              alt=""
-              height={450}
-              width={480}
-            />
-          </div>
-        </div>
-      </div>{" "}
-      <br />
-      <br />
-      <br />
-      <div className="dummy2">
-        <div className="support2">
-          <div className="image-support2">
-            <img
-              src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-feature-appletradein-var1.image.large_2x.png"
-              alt=""
-              height={450}
-              width={480}
-            />
-          </div>
-          <div className="text-support2">
-            <h1>Shopeee Trade In</h1>
-            <p>
-              Turn an eligible device into credit towards a new one, or recycle
-              it for free and . <br />
-              <Link href="#" style={{ color: "rgb(0,102,204)",textDecoration:"none" }}>
-                Learn More <i className="fa-solid fa-chevron-right"></i>
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-      <br /><br />
 
-      <div className="lady">
-        <div className="lady-text">
-          <h1>Take Charge of your Privacy</h1>
-          <p>Join a 30-minute session at the Apple Store and learn how to protect your privacy on iPhone.</p><br />
-          <Link href="#" style={{textDecoration:"none",textAlign:"center",color:"rgb(0,102,204)"}}>Learn More <i className="fa-solid fa-chevron-right"></i></Link>
-        </div>
-        <div className="lady-image">
-         
-        </div>
-      </div><br />
       <br />
-      <div className="latest">
-        <div className="latest-text">
-        <h1>Get the latest</h1>
-          <p>Update your iPhone or iPad to the latest version of iOS or iPadOS.</p><br />
-          <Link href="#" style={{textDecoration:"none",textAlign:"center",color:"rgb(0,102,204)"}}>Learn How <i className="fa-solid fa-chevron-right"></i></Link>
-        </div>
-        <div className="latest-image">
+      <br /> <br /> <br />
+      <div className={main.mainum_main}>
 
+        <div className={servicesstyling.service}>
+          <h1> Get Support</h1>
+        </div>
+      
+ {/* Apple Care */}
+        <div className={SupportStyling.dummy}>
+   
+          <div className={SupportStyling.support}>
+       
+            <div className={SupportStyling.text_support}>
+           
+              <p>
+              <h1 style={{color:"black"}}>iStore Care</h1><br />
+                Get unlimited repairs for accidental damage protection, 24/7
+                priority access to Apple experts, and more. <br />
+                <Link
+                  href="#"
+                  style={{ color: "rgb(0,102,204)", textDecoration: "none" }}
+                >
+                  Learn More <i className="fa-solid fa-chevron-right"></i>
+                </Link>
+              </p>
+            </div>
+            <div className={SupportStyling.image_support}>
+              <img
+                src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-feature-accidents-promo-iphone.image.large_2x.png"
+                alt=""
+                height={450}
+                width={480}
+              />
+            </div>
+          </div>
+        </div>{" "}
+
+    {/* Trade in */}
+        <div className={SupportStyling2.dummy2}>
+          <div className={SupportStyling2.support2}>
+            <div className={SupportStyling2.image_support2}>
+              <img
+                src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp_content/tile-feature-appletradein-var1.image.large_2x.png"
+                alt=""
+                height={450}
+                width={480}
+              />
+            </div>
+            <div className={SupportStyling2.text_support2}>
+             
+              <p>
+              <h1 style={{color:"black"}}>iStore Trade In</h1> <br />
+                Turn an eligible device into credit towards a new one, or
+                recycle it for free and . <br />
+                <Link
+                  href="#"
+                  style={{ color: "rgb(0,102,204)", textDecoration: "none" }}
+                >
+                  Learn More <i className="fa-solid fa-chevron-right"></i>
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+       {/* Lady  */}
+        <div className={Lady.lady}>
+          <div className={Lady.lady_text}>
+            <h1>Take Charge of your Privacy</h1>
+            <p>
+              Join a 30-minute session at the Apple Store and learn how to
+              protect your privacy on iPhone.
+            </p>
+            <br />
+            <Link
+              href="#"
+              style={{
+                textDecoration: "none",
+                textAlign: "center",
+                color: "rgb(0,102,204)",
+              }}
+            >
+              Learn More <i className="fa-solid fa-chevron-right"></i>
+            </Link>
+          </div>
+          <div className={Lady.lady_image}></div>
+        </div>
+       
+{/* Get the latest */}
+        <div className={Latest.latest}>
+          <div className={Latest.latest_text}>
+            <h1>Get the latest</h1>
+            <p>
+              Update your iPhone or iPad to the latest version of iOS or iPadOS.
+            </p>
+            <br />
+            <Link
+              href="#"
+              style={{
+                textDecoration: "none",
+                textAlign: "center",
+                color: "rgb(0,102,204)",
+              }}
+            >
+              Learn How <i className="fa-solid fa-chevron-right"></i>
+            </Link>
+          </div>
+          <div className={Latest.latest_image}></div>
+        </div>
+    <br />
+        <h1 style={{ marginLeft: "120px" }}>
+          The latest.
+          <h1 style={{ color: "GrayText" }}>
+            Take a look at what’s new, right now.
+          </h1>
+        </h1>
+        <br />
+        {/* Iphone 14 pro beyond */}
+        <div className={Widget.widgets}>
+          <div className={Widget.beyond}>
+            <div className={Widget.beyond_text}>
+              <p>iPhone 14 Pro</p>
+              <h1>Pro. Beyond.</h1>
+              <p>
+                From $999 or $41.62/mo.per month for 24 mo.months before
+                trade‑inFootnote*
+              </p>
+            </div>
+            <div className={Widget.beyond_image}></div>
+          </div>
+
+          <div className={Widget.mac}>
+            <div className={Widget.mac_text}>
+              <p>Limited Time Offer</p>
+              <h1>Save on iPad or Mac for College.</h1>
+              <p style={{ color: "GrayText" }}>
+                Plus get a gift card up to $150, 20% off AppleCare+, and
+                more.Footnote◊◊
+              </p>
+            </div>
+            <div className={Widget.mac_image}></div>
+          </div>
+        </div>
+        <br />
+       <br />
+       {/* Man and Shopping on video */}
+        <h1 style={{ marginLeft: "120px" }}>
+          Help is here.{" "}
+          <h1 style={{ color: "GrayText" }}>
+            Whenever and however you need it.
+          </h1>
+        </h1>
+        <br />
+        <div className={Widget2.widget1}>
+          <div className={Widget2.man}>
+            <div className={Widget2.man_text}>
+              <p>Our Specialist</p>
+              <h1>Shop one on one with a Specialist.</h1>
+            </div>
+          </div>
+
+          <div className={Widget2.video}>
+            <div className={Widget2.video_text}>
+              <p style={{ color: "red" }}>New</p>
+              <h1>Shop with a Specialist over video.</h1>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-    
-      <div className="store">
-        <div className="store-text">
+
+     {/* Store Background image Visit to our Store */}
+      <div className={storeStyling.store}>
+        <div className={storeStyling.store_text}>
           <h1>Visit Our Store</h1> <br />
           <h4>For better experience</h4>
         </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <div className="offers">
+
+     {/* Offers */}
+      <div className={Offerstyling.offers}>
         <h1>Best Offers</h1>
         <Container fixed>
           <Row data-aos="fade-right">
@@ -435,7 +325,9 @@ const Landing = () => {
           <br />
         </Container>
       </div>
-      <div className="container" style={{ height: "auto", marginTop: "150px" }}>
+
+{/* Shop By Category */}
+      <div className="container" style={{ height: "auto", marginTop: "130px" }}>
         <Typography
           variant="h3"
           sx={{ textAlign: "center", fontWeight: "bolder" }}
@@ -460,7 +352,12 @@ const Landing = () => {
                           href="/Apiproducts"
                           style={{ textAlign: "center" }}
                         >
-                          <img alt="example" src={data.imgPath} height={265} width={370} />
+                          <img
+                            alt="example"
+                            src={data.imgPath}
+                            height={265}
+                            width={370}
+                          />
                         </Link>
                       }
                     >

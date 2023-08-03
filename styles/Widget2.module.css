@@ -1,0 +1,45 @@
+
+.widget1{
+    display:flex;
+    flex-direction:row;
+    gap:50px;
+    margin-left:580px;
+
+  }
+
+  .man{
+    height:450px;
+    width:350px;
+    padding:18px;
+    border-radius:28px;
+    background-color:white;
+    background-image:url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-50-specialist-help-202305?wid=480&hei=500&fmt=p-jpg&qlt=95&.v=1684946879038);
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+  }
+  .man_text{
+    height:120px;
+    width:100%;
+    text-align:left;
+    margin-left:8px;
+  }
+
+  .video{
+    height:450px;
+    width:350px;
+    padding:12px;
+    border-radius:28px;
+    background-color:white;
+    background-image:url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-card-50-specialist-help-202303?wid=480&hei=500&fmt=p-jpg&qlt=95&.v=1678742761914);
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+  }
+  .video_text{
+    height:120px;
+    width:100%;
+    text-align:left;
+    margin-left:8px;
+    color:white;
+  }

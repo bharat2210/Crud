@@ -1,0 +1,57 @@
+
+.widgets{
+    display:flex;
+    flex-direction:row;
+    gap:50px;
+    margin-left:140px;
+  }
+
+  .beyond{
+    height:450px;
+    width:350px;
+    padding:18px;
+    border-radius:28px;
+    background-color:black;
+  }
+  .beyond_text{
+    height:120px;
+    width:100%;
+    color:white;
+    text-align:left;
+    margin-left:8px;
+  }
+  .beyond_image{
+    height:325px;
+    width:100%;
+    background-image:url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-iphone-14-pro-202303?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1677311465897);
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+    border-radius:0px 0px 28px 28px;
+   
+  }
+
+  
+  .mac{
+    height:450px;
+    width:350px;
+    padding:18px;
+    border-radius:28px;
+    background-color:white;
+  }
+  .mac_text{
+    height:120px;
+    width:100%;
+    text-align:left;
+    margin-left:8px;
+  }
+  .mac_image{
+    height:325px;
+    width:100%;
+    background-image:url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-bts-202306?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1685655505966);
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+    border-radius:0px 0px 28px 28px;
+   
+  }

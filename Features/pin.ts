@@ -7,7 +7,7 @@ const initialState={
   
 }
 
-export const pinapi=createAsyncThunk("pinapi",async(pincode)=>{
+export const pinapi=createAsyncThunk("pinapi",async(pincode:number)=>{
     try{
         const response= await axios.get(`https://api.postalpincode.in/pincode/${pincode}`,{
             method:"GET",
