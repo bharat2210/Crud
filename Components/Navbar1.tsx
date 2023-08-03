@@ -20,8 +20,8 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 // Antd imports
-import { SketchOutlined, UserOutlined } from "@ant-design/icons";
-import { Tooltip, Avatar } from "antd";
+
+import { Tooltip } from "antd";
 // Var imports
 import { Current_User_Type } from "./Permisions";
 

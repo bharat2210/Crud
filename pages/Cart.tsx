@@ -80,7 +80,7 @@ const Cart = () => {
     } else if (cart.length === 0) {
       setempty(true);
     } else {
-      router.push("/New");
+      router.push("/Checkout");
     }
   };
   const handleincrease = (value: any) => {

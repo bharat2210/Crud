@@ -110,7 +110,7 @@ const Landing = () => {
           width={1100}
           style={{
             borderRadius: "12px",
-            marginLeft: "200px",
+            marginLeft: "250px",
             transition: ".5s",
           }}
           className={banner.bannerimage}
@@ -230,7 +230,7 @@ const Landing = () => {
         <h1 style={{ marginLeft: "120px" }}>
           The latest.
           <h1 style={{ color: "GrayText" }}>
-            Take a look at what’s new, right now.
+            Take a look at what&#39;s new, right now.
           </h1>
         </h1>
         <br />
@@ -242,7 +242,7 @@ const Landing = () => {
               <h1>Pro. Beyond.</h1>
               <p>
                 From $999 or $41.62/mo.per month for 24 mo.months before
-                trade‑inFootnote*
+                trade&ndash;inFootnote*
               </p>
             </div>
             <div className={Widget.beyond_image}></div>
@@ -250,7 +250,7 @@ const Landing = () => {
 
           <div className={Widget.mac}>
             <div className={Widget.mac_text}>
-              <p>Limited Time Offer</p>
+              <p style={{color:"GrayText"}}>Limited Time Offer</p>
               <h1>Save on iPad or Mac for College.</h1>
               <p style={{ color: "GrayText" }}>
                 Plus get a gift card up to $150, 20% off AppleCare+, and
@@ -273,7 +273,7 @@ const Landing = () => {
         <div className={Widget2.widget1}>
           <div className={Widget2.man}>
             <div className={Widget2.man_text}>
-              <p>Our Specialist</p>
+              <p style={{color:"GrayText"}}>Our Specialist</p>
               <h1>Shop one on one with a Specialist.</h1>
             </div>
           </div>

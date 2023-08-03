@@ -24,15 +24,14 @@ import { Country, State, City } from "country-state-city";
 import { ICountry, IState, ICity } from "country-state-city";
 import { toast } from "react-toastify";
 // Components imports
-import Navbar1 from "../Components/Navbar1";
-import Footer from "../Components/Footer";
+
 // Num-words imports
 import numWords from "num-words";
 
 
 const { Text } = Typography;
 
-const New = () => {
+const Checkout = () => {
   const router = useRouter();
   const dispatch: AppDispatch = useDispatch();
   const [countries, setcountries] = useState<ICountry[]>([]);
@@ -83,7 +82,12 @@ const New = () => {
 
   const handlesubmit = (e: any) => {
     e.preventDefault();
-    setordersuccess(true);
+    if(cart.length===0){
+      alert("Please add Items to Cart");
+    }else{
+      setordersuccess(true);
+    }
+    
   };
 
   const date = new Date();
@@ -733,7 +737,7 @@ const New = () => {
                     type="radio"
                     value="Credit"
                     className="custom-control-input"
-                    checked={paymentMethod === "Credit"}
+                    checked={paymentMethod === "Credit" }
                     required
                     onChange={paymethodchange}
                   />
@@ -747,7 +751,7 @@ const New = () => {
                     name="paymentMethod"
                     type="radio"
                     value="Debit"
-                    checked={paymentMethod === "Debit"}
+                    checked={paymentMethod === "Debit" }
                     className="custom-control-input"
                     required
                     onChange={paymethodchange}
@@ -800,7 +804,7 @@ const New = () => {
                     placeholder={
                       paymentMethod === "UPI" ? " Name" : "Name on Card"
                     }
-                    required
+                    required={paymentMethod==="Credit" || paymentMethod==="Debit" || paymentMethod==="UPI" }
                   />
                   <small className="text-muted">
                     {paymentMethod === "UPI" ? "" : "Full Name as on Card"}
@@ -824,7 +828,7 @@ const New = () => {
                     pattern="[0-9]{16}"
                     maxLength={Number("16")}
                     placeholder="Enter Card Number"
-                    required={paymentMethod === "Credit"}
+                    required={paymentMethod === "Credit" ? true : false}
                   />
                   <div className="invalid-feedback">
                     Credit card number is required
@@ -848,7 +852,7 @@ const New = () => {
                     pattern="[0-9]{16}"
                     maxLength={Number("16")}
                     placeholder="Enter Card Number"
-                    required={paymentMethod === "Debit"}
+                    required={paymentMethod === "Debit" ? true : false}
                   />
                   <div className="invalid-feedback">
                     Debit card number is required
@@ -866,7 +870,7 @@ const New = () => {
                     className="form-control"
                     id="number"
                     placeholder="Enter Upi-id/G-Pay Number"
-                    required={paymentMethod === "UPI"}
+                    required={paymentMethod === "UPI" ? true : false}
                   />
                   <div className="invalid-feedback">Upi id is required</div>
                 </div>
@@ -925,4 +929,4 @@ const New = () => {
     </>
   );
 };
-export default New;
+export default Checkout;

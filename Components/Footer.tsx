@@ -33,8 +33,9 @@ const Footer = () => {
 .footer-content {
   display: flex;
   flex-wrap: wrap;
-  justify-content:space-between;
+ justify-content:flex-start;
   align-items: center;
+  gap:470px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -43,9 +44,9 @@ const Footer = () => {
   max-width: 190px;
 }
 
-.footer-text p {
+.footer-text p{
   font-size: 14px;
-
+   width:450px;
   color: white;
   line-height: 28px;
 }
@@ -79,6 +80,7 @@ const Footer = () => {
 .footer-menu {
   margin-top: 20px;
   text-align: center;
+  
 }
 
 .footer-menu li {
@@ -107,19 +109,19 @@ const Footer = () => {
           <div className="footer-logo">
           <i className="fa-solid fa-bag-shopping" style={{ fontSize: "50px", color:"white"}}></i>{" "}
             <br />
-            <span style={{ textAlign: "center", fontSize: "18px" }}>
+            <span style={{ textAlign: "center", fontSize: "22px" }}>
               iStore
             </span>
           </div>
-          <div className="footer-text">
-            <p style={{ width: "450px", textAlign: "center" }}>
+          {/* <div className="footer-text">
+            <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book galley of
-              type and scrambled it.
+              type and scrambled it. Lorem ipsum dolor, sit amet consectetur amet.
             </p>
-          </div>
+          </div> */}
           <div className="footer-social-icon">
             <span>Social Links <i className="fa-solid fa-share-nodes"></i></span>
             <br />
