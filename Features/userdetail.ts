@@ -78,7 +78,7 @@ export const showuser=createAsyncThunk<Createuserresponse>("showuser",async(data
 );
 
 // delete action
- export const deleteuser=createAsyncThunk("deleteuser",async(id,data)=>{
+ export const deleteuser=createAsyncThunk("deleteuser",async(id:number | undefined,data)=>{
   
     try{
       const response= await axios.delete(`http://localhost:3000/api/clientdelete?id=${id}`,{

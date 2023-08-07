@@ -49,8 +49,7 @@ const Signup = () => {
   const [showpassword, setshowpassword] = useState<boolean>(false);
 
   const dispatch:AppDispatch = useDispatch();
-
-  const handlesubmit = async (values:SignupCredentials) => {
+  const handlesubmit = async(values:SignupCredentials) => {
     try {
       await dispatch(registerUser(values)).unwrap();
       localStorage.setItem("user", JSON.stringify(values));

@@ -53,8 +53,6 @@ import {
   DeleteOutlined,
   EditOutlined,
   FileDoneOutlined,
-  InfoCircleOutlined,
-  PlusOutlined,
   ShoppingCartOutlined,
   ShoppingOutlined,
 } from "@ant-design/icons";
@@ -85,8 +83,7 @@ import {
   getCategoryAction,
   updateCategoryAction,
 } from "../Features/Category";
-import { number } from "yup";
-import { min } from "lodash";
+import { getoffers } from "../Features/Offers";
 
 interface ProductData {
   title: string;
@@ -133,6 +130,7 @@ const Admin = () => {
   const [categoryTitle, setcategoryTitle] = useState<string>("");
   const [categoryDescription, setcategoryDescription] = useState<string>("");
   const [categoryId, setcategoryId] = useState<number>(0);
+  const [OfferDrawer, setOfferDrawer] = useState<boolean>(false);
   const [updateCategoryDrawer, setupdateCategoryDrawer] =
     useState<boolean>(false);
   const [updatedCategory, setupdatedCategory] = useState({
@@ -175,17 +173,20 @@ const Admin = () => {
   apiproducts.forEach((item) => {
     totalstock += item.stock;
   });
-  // console.log("Total stock: " + typeof(totalstock) + totalstock);
+  //console.log("Total stock: " + typeof(totalstock) + totalstock);
 
   // STAT END
 
- 
   const { categories } = useSelector((state: RootState) => state.allcategories);
-  const singleCategory= categories.filter((data)=>data._id === categoryId)[0];
+  const singleCategory = categories.filter(
+    (data) => data._id === categoryId
+  )[0];
 
-useEffect(()=>{
-  setupdatedCategory(singleCategory)
-},[singleCategory]);
+  useEffect(() => {
+    setupdatedCategory(singleCategory);
+  }, [singleCategory]);
+
+  const {offers}=useSelector((state:RootState)=>state.alloffers)
 
   useEffect(() => {
     dispatch(getproducts());
@@ -194,6 +195,7 @@ useEffect(()=>{
     dispatch(readuser());
     dispatch(getImages());
     dispatch(getCategoryAction());
+    dispatch(getoffers());
   }, []);
 
   const { images } = useSelector((state: RootState) => state.allimages);
@@ -225,14 +227,14 @@ useEffect(()=>{
   useEffect(() => {
     setupdatedata(singleproduct);
   }, [singleproduct]);
-  console.log("updatedata", updatedata);
+  // console.log("updatedata", updatedata);
 
   // Admin actions
   const handledelete = (userId: number, username: string) => {
     setid(userId);
     setdeleteproduct(true);
     setusername(username);
-    console.log("userId", userId);
+    // console.log("userId", userId);
   };
   const confirmdelete = () => {
     dispatch(deleteitem(id)).then(() => {
@@ -385,7 +387,7 @@ useEffect(()=>{
     setimageadddrawer(true);
   };
 
-  const handleimageSubmit = (e:React.FormEvent<HTMLFormElement>) => {
+  const handleimageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("setimgUrl", imgPath);
     console.log("setimgTitle", title);
@@ -398,7 +400,7 @@ useEffect(()=>{
 
   const hanldeImageUpdate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateImageapi({ id:singleimage._id, ...updateImage })).then(
+    dispatch(updateImageapi({ id: singleimage._id, ...updateImage })).then(
       () => {
         dispatch(getImages());
         setImageupdateDrawer(false);
@@ -434,14 +436,16 @@ useEffect(()=>{
     });
   };
 
-  const handleUpdateCategory=(e:React.FormEvent<HTMLFormElement>)=>{
+  const handleUpdateCategory = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateCategoryAction({id:singleCategory._id,...updatedCategory})).then(()=>{
+    dispatch(
+      updateCategoryAction({ id: singleCategory._id, ...updatedCategory })
+    ).then(() => {
       dispatch(getCategoryAction());
-      setupdateCategoryDrawer(false)
-      setopenCategoryDrawer(true)
-    })
-  }
+      setupdateCategoryDrawer(false);
+      setopenCategoryDrawer(true);
+    });
+  };
 
   const currenttime = new Date();
   const currentHour = currenttime.getHours();
@@ -493,9 +497,7 @@ useEffect(()=>{
         .custom-icon{
           color:green;
         }
-        .fa-bag-shopping{
-            color:red;
-          }
+       
           .textarea{
             width:100%;
             border-radius:8px;
@@ -631,6 +633,18 @@ useEffect(()=>{
           onClick={openstat}
         />
       </Tooltip>
+      {/* Offers Tooltip */}
+      <Tooltip title="Offers" placement="right">
+        <FloatButton
+          style={{
+            left: 23,
+            top: 380,
+          }}
+          type="primary"
+          icon={<i className="fa-solid fa-tag"></i>}
+          onClick={() => setOfferDrawer(true)}
+        />
+      </Tooltip>
 
       <Container>
         <div className="controls">
@@ -656,9 +670,7 @@ useEffect(()=>{
             }}
           />{" "}
         </div>
-
         <br />
-
         <TableContainer component={Paper} sx={{ width: 1100 }}>
           <Table>
             <TableHead>
@@ -755,7 +767,7 @@ useEffect(()=>{
                             setupdateopen(true);
                           }}
                         >
-                         Edit <i className="fa-solid fa-pen-to-square"></i>
+                          Edit <i className="fa-solid fa-pen-to-square"></i>
                         </button>
 
                         <AntButton
@@ -934,12 +946,9 @@ useEffect(()=>{
                 type="number"
                 size="small"
                 InputProps={{
-               inputProps:{
-                min:1
-
-               }
-               
-                  
+                  inputProps: {
+                    min: 1,
+                  },
                 }}
                 sx={{ width: "100%" }}
               />
@@ -1103,10 +1112,10 @@ useEffect(()=>{
                 type="number"
                 size="small"
                 InputProps={{
-                  inputProps:{
-                    min:1,
-                    max:100
-                  }
+                  inputProps: {
+                    min: 1,
+                    max: 100,
+                  },
                 }}
                 sx={{ width: "100%" }}
               />
@@ -1393,7 +1402,7 @@ useEffect(()=>{
       >
         {images &&
           images?.map((data) => (
-            <Row>
+            <Row key={data._id}>
               <Col span={24}>
                 <Card
                   key={data._id}
@@ -1578,7 +1587,7 @@ useEffect(()=>{
             <Card
               style={{ width: 330 }}
               key={data._id}
-              cover={<img alt="example" src={data.imgPath}  width={330} />}
+              cover={<img alt="example" src={data.imgPath} width={330} />}
               actions={[
                 <EditOutlined
                   key="edit"
@@ -1597,7 +1606,7 @@ useEffect(()=>{
                   onConfirm={handleconfirmCategoryDelete}
                 >
                   <DeleteOutlined onClick={() => setcategoryId(data._id)} />
-                </Popconfirm>
+                </Popconfirm>,
               ]}
             >
               <Meta title={data.title} description={data.description} />
@@ -1664,43 +1673,87 @@ useEffect(()=>{
         width={350}
         placement="left"
       >
-        <h2>Update Category</h2><br />
+        <h2>Update Category</h2>
+        <br />
         <form action="" onSubmit={handleUpdateCategory}>
-      <TextField
-      label="Image Url"
-      value={updatedCategory?.imgPath}
-      onChange={(e)=>setupdatedCategory((prevValue)=>({
-        ...prevValue,
-        imgPath:e.target.value
-      }))}
-      sx={{width:"100%"}}
-      
-      /> <br /><br />
-      <TextField
-      label="Title"
-      value={updatedCategory?.title}
-      onChange={(e)=>setupdatedCategory((prevValue)=>({
-        ...prevValue,
-        title:e.target.value
-      }))}
-      sx={{width:"100%"}}
-      /> <br /><br />
-      <TextField
-      label="Description"
-      value={updatedCategory?.description}
-      onChange={(e)=>setupdatedCategory((prevValue)=>({
-        ...prevValue,
-        description:e.target.value
-      }))}
-      sx={{width:"100%"}}
-      
-      /> <br /><br />
-      <AntButton htmlType="submit" type="primary">Update</AntButton>
-
-
+          <TextField
+            label="Image Url"
+            value={updatedCategory?.imgPath}
+            onChange={(e) =>
+              setupdatedCategory((prevValue) => ({
+                ...prevValue,
+                imgPath: e.target.value,
+              }))
+            }
+            sx={{ width: "100%" }}
+          />{" "}
+          <br />
+          <br />
+          <TextField
+            label="Title"
+            value={updatedCategory?.title}
+            onChange={(e) =>
+              setupdatedCategory((prevValue) => ({
+                ...prevValue,
+                title: e.target.value,
+              }))
+            }
+            sx={{ width: "100%" }}
+          />{" "}
+          <br />
+          <br />
+          <TextField
+            label="Description"
+            value={updatedCategory?.description}
+            onChange={(e) =>
+              setupdatedCategory((prevValue) => ({
+                ...prevValue,
+                description: e.target.value,
+              }))
+            }
+            sx={{ width: "100%" }}
+          />{" "}
+          <br />
+          <br />
+          <AntButton htmlType="submit" type="primary">
+            Update
+          </AntButton>
         </form>
       </Drawer>
 
+      {/* Open Offer Drawer */}
+      <Drawer
+        open={OfferDrawer}
+        onClose={() => setOfferDrawer(false)}
+        zIndex={9999}
+        width={400}
+        title="Offers"
+        placement="left"  
+        extra={
+          <AntButton onClick={() => setOfferDrawer(false)}>Close</AntButton>
+        }
+      >
+     { offers && offers.map((data)=>(
+      <Card
+     
+      key={data._id}
+      cover={<img alt="example" src={data.imgPath}  />}
+      actions={[
+        <EditOutlined key="edit" />,
+        <Popconfirm
+          title="Delete Category"
+          description="Are you sure you want to delete this category ?"
+          okText="Yes"
+          cancelText="No"
+          zIndex={9999}
+        >
+          <DeleteOutlined />
+        </Popconfirm>,
+      ]}
+    ></Card>
+
+     ))  }
+      </Drawer>
       <br />
       <br />
     </>

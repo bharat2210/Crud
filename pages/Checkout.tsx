@@ -10,10 +10,7 @@ import { pinapi } from "../Features/pin";
 import { DatePicker } from "antd";
 import { Button, Result } from "antd";
 import { Modal } from "antd";
-import {
-  CloseOutlined,
-  SketchOutlined,
-} from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 import { Spin } from "antd";
 // Font Awesome imports
@@ -27,7 +24,7 @@ import { toast } from "react-toastify";
 
 // Num-words imports
 import numWords from "num-words";
-
+import Loader from "../Components/Loader";
 
 const { Text } = Typography;
 
@@ -53,7 +50,7 @@ const Checkout = () => {
   const [paymentMethod, setpaymentMethod] = useState<string>("credit");
   const [ccNumber, setccNumber] = useState<string>("");
   const [dcNumber, setdcNumber] = useState<string>("");
-  const { cart, totalQuantity, totalPrice } = useSelector(
+  const { cart, totalQuantity, totalPrice,isloading } = useSelector(
     (state: RootState) => state.allcarts
   );
   const word = numWords(totalPrice).toUpperCase();
@@ -82,12 +79,11 @@ const Checkout = () => {
 
   const handlesubmit = (e: any) => {
     e.preventDefault();
-    if(cart.length===0){
+    if (cart.length === 0) {
       alert("Please add Items to Cart");
-    }else{
+    } else {
       setordersuccess(true);
     }
-    
   };
 
   const date = new Date();
@@ -107,13 +103,13 @@ const Checkout = () => {
         setloading(true);
         const response = await dispatch(pinapi(value));
         const result = response.payload[0];
-        console.log("Result", result);
+        // console.log("Result", result);
         if (result.Status === "Error") {
           setisvalidPincode(false);
           toast.error("Invalid pincode", {
             position: "top-left",
             style: {
-              top:"78px",
+              top: "78px",
             },
           });
           setpinCode("");
@@ -161,6 +157,9 @@ const Checkout = () => {
   //     return error;
   //   }
   // }
+  if(isloading){
+    return <Loader/>
+  }
 
   return (
     <>
@@ -324,7 +323,7 @@ const Checkout = () => {
       </style>
 
       {loading && (
-        <Spin style={{ position: "absolute", top: "708px", left: "300px" }} />
+        <Spin style={{ position: "absolute", top: "712px", left: "300px" }} />
       )}
 
       {/* Billing (Invoice) */}
@@ -341,7 +340,7 @@ const Checkout = () => {
             <div className="invoice-header">
               <div className="title-date">
                 <h3 style={{ fontWeight: "bolder", color: "dodgerblue" }}>
-                <i className="fa-solid fa-bag-shopping"></i> Shopeee
+                  <i className="fa-solid fa-bag-shopping"></i> iStore
                 </h3>
                 <h6>INVOICE</h6>
                 <p className="date">{`${date}`}</p>
@@ -483,7 +482,6 @@ const Checkout = () => {
         </Modal>
       )}
 
-     
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"
@@ -737,7 +735,7 @@ const Checkout = () => {
                     type="radio"
                     value="Credit"
                     className="custom-control-input"
-                    checked={paymentMethod === "Credit" }
+                    checked={paymentMethod === "Credit"}
                     required
                     onChange={paymethodchange}
                   />
@@ -751,7 +749,7 @@ const Checkout = () => {
                     name="paymentMethod"
                     type="radio"
                     value="Debit"
-                    checked={paymentMethod === "Debit" }
+                    checked={paymentMethod === "Debit"}
                     className="custom-control-input"
                     required
                     onChange={paymethodchange}
@@ -804,7 +802,11 @@ const Checkout = () => {
                     placeholder={
                       paymentMethod === "UPI" ? " Name" : "Name on Card"
                     }
-                    required={paymentMethod==="Credit" || paymentMethod==="Debit" || paymentMethod==="UPI" }
+                    required={
+                      paymentMethod === "Credit" ||
+                      paymentMethod === "Debit" ||
+                      paymentMethod === "UPI"
+                    }
                   />
                   <small className="text-muted">
                     {paymentMethod === "UPI" ? "" : "Full Name as on Card"}
@@ -886,7 +888,11 @@ const Checkout = () => {
                   }}
                 >
                   <label htmlFor="cc-expiration">Expiration</label>
-                  <DatePicker picker="month" placeholder="MM/YYYY" format="MM/YY" />
+                  <DatePicker
+                    picker="month"
+                    placeholder="MM/YYYY"
+                    format="MM/YY"
+                  />
                   <div className="invalid-feedback">
                     Expiration date required
                   </div>
@@ -923,9 +929,9 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <br /><br /><br />
-    
-     
+      <br />
+      <br />
+      <br />
     </>
   );
 };

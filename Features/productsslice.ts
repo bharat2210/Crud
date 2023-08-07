@@ -230,7 +230,7 @@ const productsslice = createSlice({
         (identity) => identity._id !== action.payload
       );
     },
-    deletewishcart: (state, action) => {
+    deletewishcart: (state) => {
       state.wishlist = [];
     },
   },

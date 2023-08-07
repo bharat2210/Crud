@@ -11,7 +11,7 @@ const handler = async (req:NextApiRequest, res:NextApiResponse) => {
       result = result.toObject();
       res.status(200).send(result);
     } catch (error) {
-      res.status(500).json({ message: "Error creating user" });
+      res.status(500).json({ message: "Error creating user",name:users.name });
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });

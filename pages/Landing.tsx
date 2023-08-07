@@ -27,11 +27,13 @@ import Lady from '../styles/Lady.module.css'
 import Latest from '../styles/Latest.module.css'
 import Widget from '../styles/Widget.module.css'
 import Widget2 from '../styles/Widget2.module.css'
+import { getoffers } from "../Features/Offers";
 
 const { Meta } = Card;
 const Landing = () => {
   const dispatch: AppDispatch = useDispatch();
   const { categories } = useSelector((state:RootState) => state.allcategories);
+  const{offers}=useSelector((state:RootState)=>state.alloffers)
 
   // AOS initialisation
   useEffect(() => {
@@ -40,10 +42,12 @@ const Landing = () => {
 
   useEffect(() => {
     dispatch(getCategoryAction());
+    dispatch(getoffers());
   }, []);
           
   return (
     <>
+     <div>
       <style>
         {`
     
@@ -132,17 +136,18 @@ const Landing = () => {
        
             <div className={SupportStyling.text_support}>
            
-              <p>
+              
               <h1 style={{color:"black"}}>iStore Care</h1><br />
-                Get unlimited repairs for accidental damage protection, 24/7
-                priority access to Apple experts, and more. <br />
+              <p> Get unlimited repairs for accidental damage protection, 24/7
+                priority access to Apple experts, and more.</p>
+              <br />
                 <Link
                   href="#"
                   style={{ color: "rgb(0,102,204)", textDecoration: "none" }}
                 >
                   Learn More <i className="fa-solid fa-chevron-right"></i>
                 </Link>
-              </p>
+              
             </div>
             <div className={SupportStyling.image_support}>
               <img
@@ -168,17 +173,18 @@ const Landing = () => {
             </div>
             <div className={SupportStyling2.text_support2}>
              
-              <p>
+             
               <h1 style={{color:"black"}}>iStore Trade In</h1> <br />
-                Turn an eligible device into credit towards a new one, or
-                recycle it for free and . <br />
+              <p>   Turn an eligible device into credit towards a new one, or
+                recycle it for free and .</p>
+              <br />
                 <Link
                   href="#"
                   style={{ color: "rgb(0,102,204)", textDecoration: "none" }}
                 >
                   Learn More <i className="fa-solid fa-chevron-right"></i>
                 </Link>
-              </p>
+             
             </div>
           </div>
         </div>
@@ -227,12 +233,12 @@ const Landing = () => {
           <div className={Latest.latest_image}></div>
         </div>
     <br />
-        <h1 style={{ marginLeft: "120px" }}>
+        <h2 style={{ marginLeft: "120px" }}>
           The latest.
-          <h1 style={{ color: "GrayText" }}>
+        </h2>
+        <h1 style={{ color: "GrayText",marginLeft: "120px" ,fontSize:"50px" }}>
             Take a look at what&#39;s new, right now.
           </h1>
-        </h1>
         <br />
         {/* Iphone 14 pro beyond */}
         <div className={Widget.widgets}>
@@ -265,10 +271,10 @@ const Landing = () => {
        {/* Man and Shopping on video */}
         <h1 style={{ marginLeft: "120px" }}>
           Help is here.{" "}
-          <h1 style={{ color: "GrayText" }}>
+        </h1>
+        <h1 style={{ color: "GrayText",marginLeft: "120px",fontSize:"50px" }}>
             Whenever and however you need it.
           </h1>
-        </h1>
         <br />
         <div className={Widget2.widget1}>
           <div className={Widget2.man}>
@@ -298,43 +304,33 @@ const Landing = () => {
      {/* Offers */}
       <div className={Offerstyling.offers}>
         <h1>Best Offers</h1>
-        <Container fixed>
-          <Row data-aos="fade-right">
-            <Col span={24}>
-              <img src="Offer1.png" alt="" />
-            </Col>
-          </Row>
-          <br />
-          <Row data-aos="fade-left">
-            <Col span={24}>
-              <img src="Offer2.png" alt="" />
-            </Col>
-          </Row>
-          <br />
-          <Row data-aos="fade-right">
-            <Col span={24}>
-              <img src="Offer3.png" alt="" />
-            </Col>
-          </Row>
-          <br />
-          <Row data-aos="fade-left">
-            <Col span={24}>
-              <img src="Offer4.png" alt="" />
-            </Col>
-          </Row>
-          <br />
-        </Container>
+     { offers && offers.map((data)=>(
+      <Container fixed>
+      <Row data-aos="fade-right" key={data._id}>
+        <Col span={24}>
+          <img src={data.imgPath} alt="Image Not Found" />
+        </Col>
+      </Row>
+      <br />
+  
+    </Container>
+
+     ))  }
       </div>
 
-{/* Shop By Category */}
+
       <div className="container" style={{ height: "auto", marginTop: "130px" }}>
         <Typography
           variant="h3"
-          sx={{ textAlign: "center", fontWeight: "bolder" }}
+          sx={{ textAlign: "center", fontWeight: "600" }}
           data-aos="fade-left"
           className="Category_Shopping"
         >
-          Shop By Category <ShoppingOutlined style={{ color: "dodgerblue" }} />
+          Shop By Category <i
+              className="fa-solid fa-bag-shopping"
+              style={{ fontSize: "38px", color: "rgb(25,118,210)" }}
+            ></i>
+           {/* <ShoppingOutlined style={{ color: "dodgerblue" }} /> */}
         </Typography>
         <br />
         <br />
@@ -346,7 +342,7 @@ const Landing = () => {
                   <Col key={data._id}>
                     <Card
                       hoverable
-                      style={{ width: 370 }}
+                      style={{ width: 375 }}
                       cover={
                         <Link
                           href="/Apiproducts"
@@ -356,7 +352,7 @@ const Landing = () => {
                             alt="example"
                             src={data.imgPath}
                             height={265}
-                            width={370}
+                            width={375}
                           />
                         </Link>
                       }
@@ -376,7 +372,9 @@ const Landing = () => {
           </Container>
         </div>
       </div>
+    </div>
     </>
+   
   );
 };
 

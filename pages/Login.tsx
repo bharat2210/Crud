@@ -1,5 +1,5 @@
 // Next imports
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Head from "next/head";
@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 // Components imports
-import Navbar from "../Components/Navbar";
+
 // Formik and Yup imports
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -31,26 +31,25 @@ const validateschema = Yup.object().shape({
   password: Yup.string().required("Password is Required"),
 });
 
-
 const Login = () => {
   useEffect(() => {
     Aos.init();
   }, []);
-  const[username,setusername]=useState("")
+  const [username, setusername] = useState("");
   const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
- 
+
   const handlelogin = async (Loginvalues: LoginCredentials) => {
     try {
       const response = await dispatch(loginuser(Loginvalues));
 
       // Check if login was successful
       const user = response.payload;
-      console.log("payload",user)
-   
+      console.log("payload", user);
+
       if (user) {
         // Store user information in local storage
-        localStorage.setItem("user", JSON.stringify({Loginvalues,user}));
+        localStorage.setItem("user", JSON.stringify({ Loginvalues, user }));
         // localStorage.setItem("email", Loginvalues.email);
         // localStorage.setItem("password", Loginvalues.password);
 
@@ -79,7 +78,7 @@ const Login = () => {
   
   `}
       </style>
-   
+
       <Box
         sx={{
           display: "flex",
@@ -100,7 +99,8 @@ const Login = () => {
               onSubmit={handlelogin}
             >
               <Form>
-                <h2>Login</h2><br />
+                <h2>Login</h2>
+                <br />
                 <Field
                   as={TextField}
                   label="Email"

@@ -4,11 +4,14 @@ import React from "react";
 import {
   CopyrightOutlined,
   GooglePlusOutlined,
-  SketchOutlined,
   TwitterOutlined,
 } from "@ant-design/icons";
 
 const Footer = () => {
+
+  const date = new Date();
+  const Current_Year= date.getFullYear();
+  // console.log("Current Year: " , Current_Year)
   return (
     <>
       <link
@@ -22,7 +25,7 @@ const Footer = () => {
 .footer-section {
   background:rgb(19,26,34);
   color: white;
-  padding: 25px 15px 0px 15px;
+   padding: 30px 0px 12px 0px;
   width: auto;
   height:auto;
   margin-top:30px;
@@ -33,9 +36,9 @@ const Footer = () => {
 .footer-content {
   display: flex;
   flex-wrap: wrap;
- justify-content:flex-start;
+ justify-content:center;
   align-items: center;
-  gap:470px;
+  // gap:470px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -106,13 +109,13 @@ const Footer = () => {
       </style>
       <footer className="footer-section">
         <div className="footer-content">
-          <div className="footer-logo">
-          <i className="fa-solid fa-bag-shopping" style={{ fontSize: "50px", color:"white"}}></i>{" "}
-            <br />
+          {/* <div className="footer-logo">
+          <i className="fa-solid fa-bag-shopping" style={{ fontSize: "50px", color:"white"}}></i> 
+           
             <span style={{ textAlign: "center", fontSize: "22px" }}>
               iStore
             </span>
-          </div>
+          </div> */}
           {/* <div className="footer-text">
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -123,7 +126,7 @@ const Footer = () => {
             </p>
           </div> */}
           <div className="footer-social-icon">
-            <span>Social Links <i className="fa-solid fa-share-nodes"></i></span>
+            {/* <span>Social Links <i className="fa-solid fa-share-nodes"></i></span> */}
             <br />
             <br />
             <a href="#">
@@ -182,12 +185,12 @@ const Footer = () => {
         </div>
         <br />
         <br />
-        <hr />
+        {/* <hr /> */}
         <div
           className="copyright"
           style={{ textAlign: "center", color: "white" }}
         >
-          Copyright <CopyrightOutlined /> 2023 iStore{" "}
+          Copyright <CopyrightOutlined /> {Current_Year} iStore{" "}
           <i className="fa-solid fa-bag-shopping" style={{ fontSize: "15px" }} ></i>  All rights reserved.{" "}
         </div>
         <br />

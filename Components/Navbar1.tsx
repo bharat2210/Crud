@@ -35,7 +35,7 @@ function Navbar1() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [keyValue, setKeyValue] = useState("");
   const [localstoragevalue, setLocalStorageValue] = useState(false);
-  console.log("Current user type ", Current_User_Type);
+  // console.log("Current user type ", Current_User_Type);
 
   React.useEffect(() => {
     const isloggedInUser = !!localStorage.getItem("user");
@@ -66,50 +66,39 @@ function Navbar1() {
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleOpenUserMenu = (event: any) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const handleMobileMenuOpen = () => {
+  const handleMobileMenuOpen=()=> {
     setIsMobileMenuOpen(true);
-  };
-
+  }
   const handleMobileMenuClose = () => {
     setIsMobileMenuOpen(false);
   };
-
   const handlePageNavigation = (path: any) => {
     handleCloseNavMenu();
     router.push(path);
   };
-
   const handleLogout = () => {
     localStorage.clear();
     setLocalStorageValue(false);
     router.push("/Signup");
   };
-
   const handlepost = () => {
     router.push("/Landing");
   };
-
   const handleimages = () => {
     router.push("/Gallery");
   };
-
   const handleproduct = () => {
     router.push("/Apiproducts");
   };
-
   const handlecart = () => {
     router.push("/Cart");
   };
@@ -140,7 +129,7 @@ function Navbar1() {
           boxShadow: "none",
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="xl"> 
           <Toolbar disableGutters>
             <IconButton
               edge="start"
@@ -157,6 +146,7 @@ function Navbar1() {
               className="fa-solid fa-bag-shopping"
               style={{ fontSize: "28px", color: "rgb(25,118,210)" }}
             ></i>
+          
 
             <Typography
               variant="h4"
@@ -339,7 +329,7 @@ function Navbar1() {
                           right: 1,
                         }}
                       >
-                        <img src="Client.png" alt="" height={60} width={60} />
+                        <img src="Client.png" alt="" height={50} width={50} />
                       </Button>
                     </Tooltip>
                   </div>

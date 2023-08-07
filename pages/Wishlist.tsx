@@ -19,6 +19,12 @@ import { Stack } from "@mui/material";
 // Antd imports
 import { Tooltip } from "antd";
 import { DeleteFilled, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import { Avatar, Card as AntCard } from "antd";
 // Components imports
 import Navbar1 from "../Components/Navbar1";
 // Styles imports
@@ -27,17 +33,18 @@ import styles from "../styles/confirm.module.css";
 // Libraries imports
 import Aos from "aos";
 
+const { Meta } = AntCard;
 
 const Wishlist = () => {
   React.useEffect(() => {
     Aos.init({ duration: 800 });
   });
-  const dispatch:AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [showwishlist, setshowwishlist] = useState<boolean>(false);
   const [alreadyAdded, setalreadyAdded] = useState<boolean>(false);
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [showpopup, setshowpopup] = useState<boolean>(false);
-  const { wishlist, cart } = useSelector((state:RootState) => state.allcarts);
+  const { wishlist, cart } = useSelector((state: RootState) => state.allcarts);
   // console.log("wishlist", wishlist);
 
   const wishremove = (id: number) => {
@@ -46,7 +53,6 @@ const Wishlist = () => {
 
   const wishdelete = () => {
     if (wishlist.length === 0) {
-  
       setshowwishlist(true);
     } else {
       setshowdelete(true);
@@ -55,11 +61,9 @@ const Wishlist = () => {
   const confirmdelete = () => {
     dispatch(deletewishcart());
     setshowdelete(false);
-
-    
   };
   const handleaddtocart = (values: any) => {
-    const existingItem = cart.find((item: any) => item.id === values.id);
+    const existingItem = cart.find((item: any) => item._id === values._id);
 
     if (existingItem) {
       setalreadyAdded(true);
@@ -77,35 +81,21 @@ const Wishlist = () => {
     <>
       <style>
         {`
-        *{
-            margin:0;
-        }
+    
         .container{
             height:150px;
             width:100%;
             background-color:white;
             text-align:center;
             margin-top:0 ;
-         
+            margin-bottom:10px;
             display:flex;
             justify-content:center;
             align-items:center; 
 
         }
-        // .card{
-        //     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-        // }
-        h1{
-          color: #444;
-          text-shadow: 
-    1px 0px 1px #ccc, 0px 1px 1px #eee, 
-    2px 1px 1px #ccc, 1px 2px 1px #eee,
-    3px 2px 1px #ccc, 2px 3px 1px #eee,
-    4px 3px 1px #ccc, 3px 4px 1px #eee,
-    5px 4px 1px #ccc, 4px 5px 1px #eee,
-    6px 5px 1px #ccc, 5px 6px 1px #eee,
-    7px 6px 1px #ccc;
-        }
+       
+    
         .popup {
           position: fixed;
           top: 10%;
@@ -136,35 +126,43 @@ const Wishlist = () => {
 
       <div className="container">
         <div className="heading">
-          <h1> Wishlist - {wishlist.length} {wishlist.length===1 ? "item" :"items"}</h1>
+          <h1>
+            {" "}
+            Wishlist - {wishlist.length}{" "}
+            {wishlist.length === 1 ? "item" : "items"}
+          </h1>
         </div>
       </div>
       <br />
       {showwishlist && (
         <div className={styles.prompt}>
-       <div className={styles.main}>
-       <InfoCircleOutlined style={{fontSize:"22px",fontWeight:"900",color:"green"}}/>
-       <p className={styles.message}>Wishlist is already empty !</p>
-          <button
-            className={styles.okButton}
-            onClick={() => setshowwishlist(false)}
-          >
-            OK
-          </button>
-       </div>
+          <div className={styles.main}>
+            <InfoCircleOutlined
+              style={{ fontSize: "22px", fontWeight: "900", color: "green" }}
+            />
+            <p className={styles.message}>Wishlist is already empty !</p>
+            <button
+              className={styles.okButton}
+              onClick={() => setshowwishlist(false)}
+            >
+              OK
+            </button>
+          </div>
         </div>
       )}
       {alreadyAdded && (
         <div className={styles.prompt}>
           <div className={styles.main}>
-          <InfoCircleOutlined style={{fontSize:"22px",fontWeight:"900",color:"green"}}/>
-          <p className={styles.message}>Item is already in cart!</p>
-          <button
-            className={styles.okButton}
-            onClick={() => setalreadyAdded(false)}
-          >
-            OK
-          </button>
+            <InfoCircleOutlined
+              style={{ fontSize: "22px", fontWeight: "900", color: "green" }}
+            />
+            <p className={styles.message}>Item is already in cart!</p>
+            <button
+              className={styles.okButton}
+              onClick={() => setalreadyAdded(false)}
+            >
+              OK
+            </button>
           </div>
         </div>
       )}
@@ -187,7 +185,7 @@ const Wishlist = () => {
       )}
       {showpopup && (
         <div className="popup">
-          <p style={{color:"white"}}>Item has been added to Cart</p>
+          <p style={{ color: "white" }}>Item has been added to Cart</p>
         </div>
       )}
 
@@ -202,52 +200,35 @@ const Wishlist = () => {
           alignItems: "center",
         }}
       >
-        {wishlist.map((data: any) =>(
-          <Card
-            sx={{ height: 390, width: 450 }}
-            className="card"
-            data-aos="fade-up"
-            key={data._id}
-          >
-            <CardMedia>
-              <img src={data.img} alt="Image" height={250} width={450} />
-            </CardMedia>
-            <CardContent>
-              <Typography
-                variant="body1"
-                component="p"
-                style={{ textAlign: "center" }}
-              >
-                {data.title} {data.storage}
-              </Typography>
-              <hr />
-            </CardContent>
-            <Stack spacing={2} direction="row" justifyContent="center">
-              <Button variant="contained" size="small">
-                Buy
-              </Button>
-             <Tooltip title="Add to Cart" color="black">
-             <Button
-                variant="contained"
-                size="small"
-                onClick={() => handleaddtocart(data)}
-              >
-             
-                <i className="fa-solid fa-cart-shopping"></i> +
-              </Button>
-             </Tooltip>
-             <Tooltip title="Remove item" color="red">
-             <Button
-                variant="outlined"
-                size="small"
-                onClick={() => wishremove(data.id)}
-              >
-                <DeleteFilled  style={{ fontSize: "18px" }}/>
-              </Button>
-             </Tooltip>
-            </Stack>
-          </Card>
-        ))}
+        {wishlist &&
+          wishlist.map((data) => (
+            <AntCard
+            hoverable
+              style={{ width: 300 }}
+              cover={<img alt="Image not found" src={data.img[0]} loading="lazy"/>}
+              actions={[
+                <Stack spacing={2}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => handleaddtocart(data)}
+                  >
+                    <i className="fa-solid fa-cart-shopping"></i> +
+                  </Button>
+
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => wishremove(data._id)}
+                  >
+                    <DeleteFilled style={{ fontSize: "18px" }} />
+                  </Button>
+                </Stack>,
+              ]}
+            >
+              <Meta title={data.title} description={`Rs. ${data.price}`} />
+            </AntCard>
+          ))}
       </Container>
       <br />
       <Stack spacing={2} direction="row" justifyContent="center">
@@ -255,6 +236,17 @@ const Wishlist = () => {
           Delete All
         </Button>
       </Stack>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
     </>
   );
 };

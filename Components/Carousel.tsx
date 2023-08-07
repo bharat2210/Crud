@@ -52,8 +52,8 @@ function Carousel() {
         onChangeIndex={handleStepChange}
       
       >
-        {img.map((step, index) => (
-          <div>
+        {img && img.map((step, index) => (
+          <div key={step._id}>
             {Math.abs(activeStep - index) <= 2 ? (
               <Box
                 component="img"
