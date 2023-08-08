@@ -33,6 +33,13 @@ import {
 } from "../Features/imageCarousel";
 import { showuser } from "../Features/userdetail";
 import { readuser } from "../Features/register";
+import {
+  addCategoryAction,
+  deleteCategoryAction,
+  getCategoryAction,
+  updateCategoryAction,
+} from "../Features/Category";
+import { addoffers, deleteoffer, getoffers, updateoffer } from "../Features/Offers";
 // Styles imports
 import edit from "../styles/edit.module.css";
 
@@ -77,13 +84,8 @@ import {
   Paper,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import {
-  addCategoryAction,
-  deleteCategoryAction,
-  getCategoryAction,
-  updateCategoryAction,
-} from "../Features/Category";
-import { getoffers } from "../Features/Offers";
+
+
 
 interface ProductData {
   title: string;
@@ -91,6 +93,12 @@ interface ProductData {
   stock: number;
   storage: string | number;
   img: string[]; // Array of image URLs
+}
+interface ImageData {
+  imgPath: string;
+  title: string;
+  description: string;
+
 }
 
 const { Meta } = Card;
@@ -131,9 +139,15 @@ const Admin = () => {
   const [categoryDescription, setcategoryDescription] = useState<string>("");
   const [categoryId, setcategoryId] = useState<number>(0);
   const [OfferDrawer, setOfferDrawer] = useState<boolean>(false);
+  const [AddOfferDrawer, setAddOfferDrawer] = useState<boolean>(false);
+  const [offerState, setofferState] = useState<string>("");
+  const [idDeleteoffer, setidDeleteoffer] = useState<number>(0);
+  const [idUpdateoffer, setidUpdateoffer] = useState<number>(0);
+  const [updateStateOffer, setupdateStateOffer] = useState({ imgPath: "" });
+  const [updateofferDrawer, setupdateofferDrawer] = useState<boolean>(false);
   const [updateCategoryDrawer, setupdateCategoryDrawer] =
     useState<boolean>(false);
-  const [updatedCategory, setupdatedCategory] = useState({
+  const [updatedCategory, setupdatedCategory] = useState<ImageData>({
     imgPath: "",
     title: "",
     description: "",
@@ -147,7 +161,7 @@ const Admin = () => {
   );
   // console.log("update id", id);
   const singleproduct = allproducts?.filter((data: any) => data._id === id)[0];
-  console.log("singleproduct", singleproduct);
+  // console.log("singleproduct", singleproduct);
   // const { Option } = Select;
 
   const apiproducts = useSelector(
@@ -159,8 +173,9 @@ const Admin = () => {
   );
   const lengthofquery = messages.length;
   console.log("messages", messages);
-  // STATISTICS
 
+
+  // STATISTICS
   const { rusers } = useSelector((state: RootState) => state.grand);
   const { users } = useSelector((state: RootState) => state.app);
   let totalprice = 0;
@@ -186,7 +201,12 @@ const Admin = () => {
     setupdatedCategory(singleCategory);
   }, [singleCategory]);
 
-  const {offers}=useSelector((state:RootState)=>state.alloffers)
+  const  {offers } = useSelector((state: RootState) => state.alloffers);
+  const singleOffer = offers?.filter((data) => data._id === idUpdateoffer)[0];
+  console.log("singleoffer", singleOffer);
+  useEffect(() => {
+    setupdateStateOffer(singleOffer);
+  }, [singleOffer]);
 
   useEffect(() => {
     dispatch(getproducts());
@@ -199,13 +219,13 @@ const Admin = () => {
   }, []);
 
   const { images } = useSelector((state: RootState) => state.allimages);
-  const singleimage = images.filter((data) => data._id === ImageUpdateId)[0];
-  console.log("Single image: ", singleimage);
+  const singleimage = images.filter((data) => data._id === ImageUpdateId)[0]
+  // console.log("Single image: ", singleimage);
 
   useEffect(() => {
     setupdateImage(singleimage);
   }, [singleimage]);
-  console.log("upadate image: ", updateImage);
+  // console.log("upadate image: ", updateImage);
 
   // useEffect(() => {
   //   const cart = localStorage.getItem("cart");
@@ -446,6 +466,51 @@ const Admin = () => {
       setopenCategoryDrawer(true);
     });
   };
+
+  const handleaddOffersubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(addoffers({ imgPath: offerState })).then(() => {
+      dispatch(getoffers());
+      toast.success("Offers added successfully", {
+        style: {
+          top: "78px",
+        },
+        position: "top-right",
+      });
+      setofferState("")
+      setAddOfferDrawer(false);
+      setOfferDrawer(true);
+    });
+  };
+
+  const handledeleteOffer = () => {
+    dispatch(deleteoffer(idDeleteoffer)).then(() => {
+      dispatch(getoffers());
+      toast.success("Offer Delete Successfully", {
+        style: {
+          top: "78px",
+        },
+        position: "top-right",
+      });
+    });
+  };
+
+  const handleOfferUpdateSubmit=(e:React.FormEvent<HTMLFormElement>)=>{
+  e.preventDefault();
+  dispatch(updateoffer({id:singleOffer._id,...updateStateOffer})).then(()=>{
+    dispatch(getoffers())
+      setupdateofferDrawer(false);
+      toast.success("Offer Update Successfully", {
+        style:{
+          top:"78px"
+        },
+        position:"top-right"
+      })
+    
+      setOfferDrawer(true)
+   
+  })
+  }
 
   const currenttime = new Date();
   const currentHour = currenttime.getHours();
@@ -1728,34 +1793,124 @@ const Admin = () => {
         zIndex={9999}
         width={400}
         title="Offers"
-        placement="left"  
+        placement="left"
         extra={
-          <AntButton onClick={() => setOfferDrawer(false)}>Close</AntButton>
+          <>
+            <Space>
+              <AntButton
+                onClick={() => {
+                  setOfferDrawer(false);
+                  setAddOfferDrawer(true);
+                }}
+              >
+                Add Offers
+              </AntButton>
+              <AntButton onClick={() => setOfferDrawer(false)} type="primary">
+                Close
+              </AntButton>
+            </Space>
+          </>
         }
       >
-     { offers && offers.map((data)=>(
-      <Card
-     
-      key={data._id}
-      cover={<img alt="example" src={data.imgPath}  />}
-      actions={[
-        <EditOutlined key="edit" />,
-        <Popconfirm
-          title="Delete Category"
-          description="Are you sure you want to delete this category ?"
-          okText="Yes"
-          cancelText="No"
-          zIndex={9999}
-        >
-          <DeleteOutlined />
-        </Popconfirm>,
-      ]}
-    ></Card>
+        {offers &&
+          offers.map((data) => (
+            <Card
+              key={data._id}
+              cover={<img alt="example" src={data.imgPath} />}
+              actions={[
+                <EditOutlined
+                  key="edit"
+                  onClick={() => {
+                    setidUpdateoffer(data._id);
+                    setOfferDrawer(false);
+                    setupdateofferDrawer(true);
+                  }}
+                />,
+                <Popconfirm
+                  title="Delete Category"
+                  description="Are you sure you want to delete this offer ?"
+                  okText="Yes"
+                  cancelText="No"
+                  onConfirm={handledeleteOffer}
+                  zIndex={9999}
+                >
+                  <DeleteOutlined onClick={() => setidDeleteoffer(data._id)} />
+                </Popconfirm>,
+              ]}
+            ></Card>
+          ))}
+      </Drawer>
 
-     ))  }
+      {/* Add offer Drawer */}
+      <Drawer
+        title="Add Offers"
+        placement="left"
+        zIndex={9999}
+        width={350}
+        open={AddOfferDrawer}
+        onClose={() => setAddOfferDrawer(false)}
+        extra={
+          <AntButton type="primary" onClick={() => setAddOfferDrawer(false)}>
+            Cancel
+          </AntButton>
+        }
+      >
+        <h1>Add New Offer</h1>
+        <br />
+        <form action="#" onSubmit={handleaddOffersubmit}>
+          <TextField
+            label="Offer Url"
+            type="string"
+            value={offerState}
+            size="small"
+            style={{ width: "100%" }}
+            onChange={(e) => setofferState(e.target.value)}
+          />{" "}
+          <br />
+          <br />
+          <AntButton type="primary" htmlType="submit">
+            Submit
+          </AntButton>
+        </form>
+      </Drawer>
+
+      {/* Update offer Drawer */}
+      <Drawer
+        open={updateofferDrawer}
+        placement="left"
+        zIndex={9999}
+        onClose={() => setupdateofferDrawer(false)}
+        extra={
+          <AntButton type="primary" onClick={()=>setupdateofferDrawer(false)}>Cancel</AntButton>
+        }
+      >
+        <h2>Update Offer </h2>
+        <br />
+        <form action="#" onSubmit={handleOfferUpdateSubmit}>
+          <TextField
+            label="Offer Url"
+            size="small"
+            style={{
+              width: "100%",
+            }}
+            value={updateStateOffer?.imgPath}
+            onChange={(e) =>
+              setupdateStateOffer((prevValue) => ({
+                ...prevValue,
+                imgPath: e.target.value,
+              }))
+            }
+          />{" "}
+          <br />
+          <br />
+          <AntButton type="primary" htmlType="submit">
+            Submit
+          </AntButton>
+        </form>
       </Drawer>
       <br />
       <br />
+     
     </>
   );
 };

@@ -91,7 +91,7 @@ const imgSlice = createSlice({
       })
       .addCase(getImages.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+       alert("Error in Getting Images");
       })
       .addCase(deleteImage.pending, (state, action) => {
         state.isloading = true;

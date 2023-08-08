@@ -110,13 +110,12 @@ const Contact = () => {
         body{
           font-family: 'Heebo', sans-serif;
           // background-image:url("https://images.unsplash.com/photo-1495195129352-aeb325a55b65?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1176&q=80");
-        
-          background-attachment:fixed;
-          background-size:cover;
-          background-repeat:no-repeat;
-          background-position:center;
+          // background-attachment:fixed;
+          // background-size:cover;
+          // background-repeat:no-repeat;
+          // background-position:center;
         }
-            .row{
+        .row{
                 display:flex;
                 flex-direction:row;
                 justify-content:center;

@@ -129,7 +129,7 @@ const Footer = () => {
             {/* <span>Social Links <i className="fa-solid fa-share-nodes"></i></span> */}
             <br />
             <br />
-            <a href="#">
+            <a href="https://twitter.com/WiznoxTech">
               <TwitterOutlined
                 style={{
                   fontSize: "26px",
@@ -140,7 +140,7 @@ const Footer = () => {
                 }}
               />
             </a>
-            <a href="#">
+            <a href="https://wiznox.com/">
               <GooglePlusOutlined
                 style={{
                   fontSize: "26px",
@@ -151,7 +151,7 @@ const Footer = () => {
                 }}
               />
             </a>
-            <a href="#">
+            <a href="https://www.facebook.com/wiznox/">
               <i
                 className="fa-brands fa-facebook"
                 style={{
@@ -167,7 +167,7 @@ const Footer = () => {
             </a>
           </div>
         </div><br />
-        <div className="footer-menu" style={{ textAlign: "center",color:"black" }}>
+        <div className="footer-menu" style={{ textAlign: "center",color:"black"}}>
           <ul style={{backgroundColor:"white",width:"30%",marginRight:"auto",marginLeft:"auto",padding:"8px",borderRadius:"50px"}}>
             <li>
               <a href="/Landing">Home</a>

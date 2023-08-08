@@ -277,7 +277,7 @@ const Loader = () => {
         </svg>
        
       </div>
-      <h3 style={{color:"black",textAlign:"center",marginTop:"30%"}}>One Moment Please</h3>
+      <h3 style={{color:"black",textAlign:"center",marginTop:"30%",zIndex:"9999",opacity:"1.0"}}>One Moment Please</h3>
      
     </div>
   );
