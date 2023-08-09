@@ -103,8 +103,8 @@ export const formatmessages = createAsyncThunk(
 // Update message from client side
 export const updatemessage = createAsyncThunk(
   "updatemessage",
-  async (data: {
-    id: number;
+  async (data: {id:{_id:number}
+  
     QueryData: {
       firstname: string;
       lastname: string;
@@ -135,7 +135,9 @@ export const updatemessage = createAsyncThunk(
 const messageSlice = createSlice({
   name: "messageSlice",
   initialState,
-  reducers: {},
+  reducers: {
+
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getmessages.pending, (state, action) => {
@@ -147,7 +149,7 @@ const messageSlice = createSlice({
       })
       .addCase(getmessages.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || "Unknown Error";
+       alert("Error in getting messages");
       })
       .addCase(createmessages.pending, (state, action) => {
         state.isloading = true;
@@ -158,7 +160,7 @@ const messageSlice = createSlice({
       })
       .addCase(createmessages.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+        alert("Error in sending message")
       })
       .addCase(formatmessages.pending, (state, action) => {
         state.isloading = true;
@@ -167,9 +169,9 @@ const messageSlice = createSlice({
         state.isloading = false;
         state.Messages = [];
       })
-      .addCase(formatmessages.rejected, (state, action: AnyAction) => {
+      .addCase(formatmessages.rejected, (state) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+        alert("Error in formatting messages")
       })
       .addCase(deletemessage.pending, (state, action) => {
         state.isloading = true;
@@ -180,23 +182,23 @@ const messageSlice = createSlice({
           (data) => data._id !== action.payload
         );
       })
-      .addCase(deletemessage.rejected, (state, action: AnyAction) => {
+      .addCase(deletemessage.rejected, (state) => {
         state.isloading = false;
-        state.error = null;
-      });
-    // .addCase(updatemessage.pending,(state,action)=>{
-    //   state.isloading=true;
-    // })
-    // .addCase(updatemessage.fulfilled,(state,action)=>{
-    //   state.isloading=false;
-    //   const updateddata=action.payload
-    //   const index= state.Messages.findIndex((data)=>data._id=== updateddata._id);
-    //   state.Messages[index] = updateddata
-    // })
-    // .addCase(updatemessage.rejected,(state,action)=>{
-    //   state.isloading=false;
-    //   alert("Error in updating")
-    // })
+       alert("Error in deleting message")
+      })
+    .addCase(updatemessage.pending,(state,action)=>{
+      state.isloading=true;
+    })
+    .addCase(updatemessage.fulfilled,(state,action)=>{
+      state.isloading=false;
+      const updateddata=action.payload
+      const index= state.Messages.findIndex((data)=>data._id === updateddata._id);
+      state.Messages[index] = updateddata
+    })
+    .addCase(updatemessage.rejected,(state,action)=>{
+      state.isloading=false;
+      alert("Error in updating message");
+    })
   },
 });
 export default messageSlice.reducer;

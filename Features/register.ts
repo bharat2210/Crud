@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk,AnyAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface User {
-
+ _id:number
   name: string;
   email: string;
   password: string;
@@ -93,7 +93,7 @@ const ruserdetail = createSlice({
       })
       .addCase(readuser.rejected, (state, action) => {
         state.isloading = false;
-        state.error = action.payload.message || "Can't find users";
+        alert("Error in Getting Users");
       })
       .addCase(deleteuser.pending, (state) => {
         state.isloading = true;
@@ -108,7 +108,7 @@ const ruserdetail = createSlice({
       })
       .addCase(deleteuser.rejected, (state, action) => {
         state.isloading = false;
-        state.error = action.payload;
+        alert("Error in Deleting User")
       })
       .addCase(updateuser.pending, (state) => {
         state.isloading = true;
@@ -125,7 +125,7 @@ const ruserdetail = createSlice({
       })
       .addCase(updateuser.rejected, (state, action) => {
         state.isloading = false;
-        state.error = action.payload.message || "Error";
+       alert("Error in Updating User")
       });
   },
 });

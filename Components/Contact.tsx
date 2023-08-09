@@ -85,7 +85,7 @@ const Contact = () => {
   };
   const handleQueryEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updatemessage({ id: singlemessage._id, ...QueryData })).then(
+    dispatch(updatemessage({ id:singlemessage._id, ...QueryData })).then(
       () => {
         dispatch(getmessages());
         seteditQueryDrawer(false);
@@ -274,7 +274,7 @@ const Contact = () => {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1587.958537621464!2d76.6978035315703!3d30.71333548648994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fefd89ee56eeb%3A0x489a927bc5c0de0a!2sWiznox%20Technologies!5e0!3m2!1sen!2sin!4v1690261761317!5m2!1sen!2sin"
               width="500"
               height="400"
-              style={{ border: "0", borderRadius: "12px" }}
+              style={{ border: "0", borderRadius: "18px" }}
               loading="lazy"
             ></iframe>
           </div>

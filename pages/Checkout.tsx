@@ -50,6 +50,7 @@ const Checkout = () => {
   const [paymentMethod, setpaymentMethod] = useState<string>("credit");
   const [ccNumber, setccNumber] = useState<string>("");
   const [dcNumber, setdcNumber] = useState<string>("");
+  const[expiryYear,setexpiryYear] = useState();
   const { cart, totalQuantity, totalPrice,isloading } = useSelector(
     (state: RootState) => state.allcarts
   );
@@ -79,10 +80,18 @@ const Checkout = () => {
 
   const handlesubmit = (e: any) => {
     e.preventDefault();
+     const Cardyear=expiryYear.$y;
+     console.log("Cardyear", Cardyear);
+     const date= new Date();
+     const currentYear= date.getFullYear();
+     console.log("Current year",currentYear)
+    
     if (cart.length === 0) {
       alert("Please add Items to Cart");
-    } else {
-      setordersuccess(true);
+    } else if(Cardyear<currentYear) {
+      alert("Card is expired")
+    }else{
+      setordersuccess(true)
     }
   };
 
@@ -891,7 +900,9 @@ const Checkout = () => {
                   <DatePicker
                     picker="month"
                     placeholder="MM/YYYY"
-                    format="MM/YY"
+                    format="MM/YYYY"
+                    value={expiryYear}
+                    onChange={(value)=>setexpiryYear(value)}
                   />
                   <div className="invalid-feedback">
                     Expiration date required

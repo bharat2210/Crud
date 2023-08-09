@@ -1,0 +1,37 @@
+.main_college{
+    height: 350px;
+    width: 850px;
+   background-color: white;
+   border-radius: 28px;
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    padding: 12px 28px 12px 28px;
+
+}
+.text{
+    line-height: 40px;
+  
+}
+.text p{
+    color:rgb(109,109, 109);
+}
+.college_text{
+    display: grid;
+    place-items: center;
+    height: 350px;
+    width: 425px;
+
+
+}
+.college_image{
+    height: 350px;
+    width: 425px;
+    display: grid;
+    place-items: center;
+   
+    
+
+}

@@ -67,6 +67,7 @@ import { Card, Statistic, notification } from "antd";
 import { Badge } from "antd";
 import { Descriptions } from "antd";
 import { FloatButton } from "antd";
+import { Layout} from 'antd';
 
 // Num-words imports
 import numWords from "num-words";
@@ -201,7 +202,7 @@ const Admin = () => {
     setupdatedCategory(singleCategory);
   }, [singleCategory]);
 
-  const  {offers } = useSelector((state: RootState) => state.alloffers);
+  const  {offers} = useSelector((state: RootState) => state.alloffers);
   const singleOffer = offers?.filter((data) => data._id === idUpdateoffer)[0];
   console.log("singleoffer", singleOffer);
   useEffect(() => {
@@ -218,7 +219,7 @@ const Admin = () => {
     dispatch(getoffers());
   }, []);
 
-  const { images } = useSelector((state: RootState) => state.allimages);
+  const { images } = useSelector((state:RootState) => state.allimages);
   const singleimage = images.filter((data) => data._id === ImageUpdateId)[0]
   // console.log("Single image: ", singleimage);
 
@@ -326,7 +327,7 @@ const Admin = () => {
       category: e.target.elements.category.value,
     };
 
-    // Call the addproducts action or perform API request
+  
     dispatch(addproducts(formData)).then(() => {
       onClose();
       notification.success({
@@ -625,6 +626,10 @@ const Admin = () => {
         <Option value="Macs">Macs</Option>
         <Option value="Displays">Displays</Option>
       </Select>{" "} */}
+   
+
+ 
+
 
       {/* Queries Tooltip */}
       <Tooltip title="Queries" placement="right">

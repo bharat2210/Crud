@@ -147,6 +147,7 @@ const Apiproducts = () => {
 
   const drawerclose = () => {
     setopen(false);
+    setimageindex(0)
   };
 
   const nextimage = () => {
@@ -435,7 +436,7 @@ const Apiproducts = () => {
             .slice(0, visibleItems)
             .map((product: any) => (
               <Card
-                sx={{ height: 532, width: 320 }}
+                sx={{ height:"auto", width: 320 }}
                 key={product._id}
                 data-aos="fade-up"
                 className="card"
@@ -538,7 +539,7 @@ const Apiproducts = () => {
                 <CardActions>
                   <Stack spacing={2} direction="row">
                     <AntButton
-                      size="small"
+                 
                       type="primary"
                       // sx={{
                       //   backgroundColor:"rgb(255,164,28)",color:"black",borderRadius:"18px",width:"100%"
@@ -547,7 +548,23 @@ const Apiproducts = () => {
                     >
                       Buy Now
                     </AntButton>
-
+                    <Button
+                      size="small"
+                      variant="text"
+                      sx={{
+                        color:"rgb(22,119,255)",
+                        fontWeight:600
+                      }}
+                      onClick={() => {
+                        setid(product._id);
+                        // setshowdetails(true);
+                        setopen(true);
+                        setimageindex(0)
+                      }}
+                    >
+                      Details
+                    </Button>
+                    
                     <Tooltip
                       title="Add to Wishlist"
                  
@@ -565,23 +582,11 @@ const Apiproducts = () => {
                       <i className="fa-solid fa-heart"></i>
                       </Button>
                     </Tooltip>
-                    <Button
-                      size="small"
-                      variant="text"
-                      
-                      onClick={() => {
-                        setid(product._id);
-                        // setshowdetails(true);
-                        setopen(true);
-                      }}
-                    >
-                      Details
-                    </Button>
                   </Stack>
                 </CardActions>
                 <Stack spacing={2} direction="column">
                   <AntButton
-                    size="small"
+                 
                   type="primary"
                     onClick={() => handleaddtocart(product)}
                   >
@@ -600,9 +605,11 @@ const Apiproducts = () => {
           </AntButton>
         </div>
       )}
+      
       <Tooltip title="Go to Top" color="black" placement="top">
         <FloatButton.BackTop type="primary" />
       </Tooltip>
+
       <Drawer open={open} onClose={drawerclose} placement="bottom" height={600}>
         <div className="main">
           <div className="image" style={{position:"relative"}}>
@@ -653,7 +660,7 @@ const Apiproducts = () => {
               <Rate allowHalf disabled defaultValue={singleitem?.rating} />
             </p>
             <br />
-            <Button variant="contained" onClick={() => setopen(false)}>
+            <Button variant="contained" onClick={() => {setopen(false);setimageindex(0)}}>
               Close
             </Button>
           </div>

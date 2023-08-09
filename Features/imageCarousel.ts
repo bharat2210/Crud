@@ -72,7 +72,7 @@ export const updateImageapi = createAsyncThunk("updateImageapi", async(data)=>{
   }catch(error){
     throw new Error("Error in updating")
   }
-})
+});
 
 const imgSlice = createSlice({
   name: "imgSlice",
@@ -115,7 +115,7 @@ const imgSlice = createSlice({
       })
       .addCase(addImages.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+       alert("Error in deleting Images");
       })
       .addCase(updateImageapi.pending, (state, action) => {
         state.isloading = true;
@@ -127,10 +127,10 @@ const imgSlice = createSlice({
       state.images[index]=updateimagedata;
       
       })
-      .addCase(updateImageapi.rejected, (state, action: AnyAction) => {
+      .addCase(updateImageapi.rejected, (state) => {
         state.isloading = false;
-        alert("Error updating image")
-      })
+        alert("Error updating image");
+      });
       
   },
 });

@@ -40,7 +40,7 @@ function Navbar1() {
   React.useEffect(() => {
     const isloggedInUser = !!localStorage.getItem("user");
     setLocalStorageValue(isloggedInUser);
-    console.log("Is logged in", isloggedInUser);
+    // console.log("Is logged in", isloggedInUser);
   });
 
   React.useEffect(() => {
@@ -125,7 +125,7 @@ function Navbar1() {
         position={router.pathname === "/Landing" ? "absolute" : "fixed"}
         sx={{
           height: 84,
-          backgroundColor: "rgb(245,245,247)",
+          backgroundColor: "white",
           boxShadow: "none",
         }}
       >
@@ -178,8 +178,8 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      fontWeight: "500",
-                      color: "black",
+                      fontWeight:"400",
+                      color: "rgb(0,102,247)",
                       borderBottom:
                         router.pathname === "/Landing"
                           ? "3px solid black "
@@ -215,7 +215,8 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: "black",
+                      fontWeight:"400",
+                      color: "rgb(0,102,247)",
                       borderBottom:
                         router.pathname === "/Gallery"
                           ? "3px solid black "
@@ -233,7 +234,8 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: "black",
+                      fontWeight:"400",
+                      color: "rgb(0,102,247)",
                       borderBottom:
                         router.pathname === "/Apiproducts"
                           ? "3px solid black "
@@ -251,7 +253,8 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: "black",
+                      fontWeight:"400",
+                      color: "rgb(0,102,247)",
                       borderBottom:
                         router.pathname === "/Contactus"
                           ? "3px solid black "
@@ -269,7 +272,8 @@ function Navbar1() {
                     sx={{
                       my: 2,
                       fontSize: 18,
-                      color: "black",
+                      fontWeight:"400",
+                      color: "rgb(0,102,247)",
                       borderBottom:
                         router.pathname === "/Admin"
                           ? "3px solid black "

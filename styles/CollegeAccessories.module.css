@@ -1,0 +1,33 @@
+.main_college_accessories{
+    height: 380px;
+    width: 1050px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+     display: grid;
+     place-items: center;
+    border-radius: 28px;
+    background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/bts-choose-electives-202306?wid=1960&hei=664&fmt=png-alpha&.v=1684255810851);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 30px;
+}
+.college_accessories_text{
+   height: 200px;
+   width: 320px;
+}
+.text_college{
+    line-height: 38px;
+    text-align: center;
+    margin-top: 45px;
+}
+.college_image_mac{
+   height: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+     display: grid;
+     place-items: center;
+    border-radius: 28px;
+}

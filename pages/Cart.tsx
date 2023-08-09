@@ -1,5 +1,5 @@
 // Next imports
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 // Redux imports
@@ -8,7 +8,6 @@ import {
   decreaseitem,
   deleteallitems,
   getCartTotal,
-  getproducts,
   increaseitem,
   removeitem,
 } from "../Features/productsslice";
@@ -22,19 +21,19 @@ import prompt from "../styles/prompt.module.css";
 import styles from "../styles/confirm.module.css";
 // Font Awesome imports
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";     
+import "@fortawesome/fontawesome-free/css/all.min.css";
 // Components imports
-import Navbar1 from "../Components/Navbar1";
+
 
 const Cart = () => {
-  const dispatch:AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const router = useRouter();
   const [stock, setstock] = useState(false);
   const [outofstocktitle, setoutofstocktitle] = useState<any[]>([]);
   const [showdelete, setshowdelete] = useState<boolean>(false);
   const [empty, setempty] = useState<boolean>(false);
   const { cart, totalQuantity, totalPrice, apiproducts } = useSelector(
-    (state:RootState) => state.allcarts
+    (state: RootState) => state.allcarts
   );
 
   // console.log("cart", cart);
@@ -69,7 +68,7 @@ const Cart = () => {
       const matchingItem = apiproducts.find(
         (item: any) => item._id === cartItem._id
       );
-      if (matchingItem && cartItem.quantity > matchingItem.stock) {
+      if(matchingItem && cartItem.quantity > matchingItem.stock) {
         outOfStockItemsArray.push(cartItem.title);
         //  alert(`${cartItem.title} is out of stock`);
       }
@@ -79,6 +78,8 @@ const Cart = () => {
       setstock(true);
     } else if (cart.length === 0) {
       setempty(true);
+    } else if (cart.some((item) => item.quantity === 0 || item.quantity < 0)) {
+      alert("Quantity must be greater than zero for all items before checkout");
     } else {
       router.push("/Checkout");
     }
@@ -201,7 +202,6 @@ const Cart = () => {
         </div>
       )}
 
-    
       <section className="h-100 gradient-custom">
         <div className="container py-5">
           <div className="row d-flex justify-content-center align-items-center my-4">

@@ -66,8 +66,8 @@ export const getproducts = createAsyncThunk("getproducts", async () => {
       },
     });
     return response.data;
-  } catch (error: any) {
-    return error;
+  } catch (error) {
+    throw new Error("Error getting products")
   }
 });
 
@@ -125,7 +125,7 @@ export const deleteitem = createAsyncThunk(
 export const updateitem = createAsyncThunk(
   "updateitem",
   async (data: {
-    id: Number;
+    id: {_id:number},
     productdata: { title: string; price: number; stock: number; img: string[] };
   }) => {
     const { id, ...productdata }: any = data;
@@ -245,7 +245,7 @@ const productsslice = createSlice({
       })
       .addCase(getproducts.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+        alert("Error in Getting Products")
       })
       .addCase(addproducts.pending, (state, action) => {
         state.isloading = true;
@@ -256,7 +256,7 @@ const productsslice = createSlice({
       })
       .addCase(addproducts.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+        alert("Error in Adding Products")
       })
       .addCase(deleteitem.pending, (state) => {
         state.isloading = true;
@@ -269,7 +269,7 @@ const productsslice = createSlice({
       })
       .addCase(deleteitem.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+        alert("Error in Deleting Products")
       })
       .addCase(updateitem.pending, (state, action) => {
         state.isloading = true;
@@ -284,7 +284,7 @@ const productsslice = createSlice({
       })
       .addCase(updateitem.rejected, (state, action) => {
         state.isloading = false;
-        state.error = action.error.message || null;
+        alert("Error in Updating Products")
       })
       .addCase(updatestock.pending, (state, action) => {
         state.isloading = true;
@@ -294,7 +294,7 @@ const productsslice = createSlice({
       })
       .addCase(updatestock.rejected, (state, action: AnyAction) => {
         state.isloading = false;
-        state.error = action.payload.message || null;
+      alert("Error in Updating Stock");
       });
   },
 });
