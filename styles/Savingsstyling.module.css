@@ -1,0 +1,87 @@
+.saving_container{
+    height: 480px;
+    width: 1200px;
+    gap: 20px;
+    display: flex;
+    flex-direction:row;
+    margin-left: 120px;
+
+}
+.saving_Comp1{
+    height: 480px;
+    width: 400px;
+    border-radius: 28px;
+   background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-card-40-education-202108?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1627664746000);
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   position: relative;
+   transition: transform .5s ease-in-out;
+
+}
+.saving_Comp1:hover{
+    transform: scale(1.02);
+}
+.saving_Comp2:hover{
+    transform: scale(1.02);
+}
+.saving_Comp3:hover{
+    transform: scale(1.02);
+}
+.heading1{
+    position: absolute;
+    left: 25px;
+    top: 25px;
+}
+.text1{
+    position: absolute;
+    left: 25px;
+    top: 50px;
+
+}
+.saving_Comp2{
+    height: 480px;
+    width: 400px;
+    border-radius: 28px;
+   background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-business-202209?wid=400&hei=500&fmt=jpeg&qlt=95&.v=1660927783133);
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   position: relative;
+   transition: transform .5s ease-in-out;
+}
+.heading2{
+    position: absolute;
+    left: 25px;
+    top: 25px;
+}
+.text2{
+    position: absolute;
+    left: 25px;
+    top: 50px;
+    color: white;
+
+}
+.saving_Comp3{
+    height: 480px;
+    width: 400px;
+   border-radius: 28px;
+   background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-gov-202301?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1670437406729);
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   position: relative;
+   transition: transform .5s ease-in-out;
+}
+.heading3{
+    position: absolute;
+    left: 25px;
+    top: 25px;
+}
+.text3{
+    position: absolute;
+    left: 25px;
+    top: 50px;
+    color: white;
+
+}

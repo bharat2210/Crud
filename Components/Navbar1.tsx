@@ -126,7 +126,7 @@ function Navbar1() {
         sx={{
           height: 84,
           backgroundColor: "white",
-          boxShadow: "none",
+          boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 4px"
         }}
       >
         <Container maxWidth="xl"> 
@@ -144,7 +144,7 @@ function Navbar1() {
             </IconButton>
             <i
               className="fa-solid fa-bag-shopping"
-              style={{ fontSize: "28px", color: "rgb(25,118,210)" }}
+              style={{ fontSize: "28px", color: "rgb(22,119,255)" }}
             ></i>
           
 
@@ -333,7 +333,7 @@ function Navbar1() {
                           right: 1,
                         }}
                       >
-                        <img src="Client.png" alt="" height={50} width={50} />
+                        <img src="User.png" alt="" height={55} width={58} />
                       </Button>
                     </Tooltip>
                   </div>

@@ -12,6 +12,10 @@
     padding:18px;
     border-radius:28px;
     background-color:black;
+    transition: transform .5s ease-in-out;
+  }
+  .beyond:hover{
+    transform: scale(1.02);
   }
   .beyond_text{
     height:120px;
@@ -38,6 +42,10 @@
     padding:18px;
     border-radius:28px;
     background-color:white;
+    transition: transform .5s ease-in-out;
+  }
+  .mac:hover{
+    transform: scale(1.02);
   }
   .mac_text{
     height:120px;
@@ -50,6 +58,33 @@
     width:100%;
     background-image:url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-bts-202306?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1685655505966);
     background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center;
+    border-radius:0px 0px 28px 28px;
+   
+  }
+  .laptop{
+    height:450px;
+    width:350px;
+    padding:18px;
+    border-radius:28px;
+    background-color:white;
+    transition: transform .5s ease-in-out;
+  }
+  .laptop:hover{
+    transform: scale(1.02);
+  }
+  .laptop_text{
+    height:120px;
+    width:100%;
+    text-align:left;
+    margin-left:8px;
+  }
+  .laptop_image{
+    height:350px;
+    width:100%;
+    background-image:url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-macbook-air-202306?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1683844828182);
+    
     background-repeat:no-repeat;
     background-position:center;
     border-radius:0px 0px 28px 28px;

@@ -126,7 +126,7 @@ export const updateitem = createAsyncThunk(
   "updateitem",
   async (data: {
     id: {_id:number},
-    productdata: { title: string; price: number; stock: number; img: string[] };
+    productdata: {title:string; price:number; stock:number; img:string[]};
   }) => {
     const { id, ...productdata }: any = data;
     try {

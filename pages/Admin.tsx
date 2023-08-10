@@ -67,8 +67,6 @@ import { Card, Statistic, notification } from "antd";
 import { Badge } from "antd";
 import { Descriptions } from "antd";
 import { FloatButton } from "antd";
-import { Layout} from 'antd';
-
 // Num-words imports
 import numWords from "num-words";
 
@@ -157,6 +155,7 @@ const Admin = () => {
     (state: RootState) => state.allcarts.apiproducts
   );
   console.log("allproducts", allproducts);
+
   const { isloading, searchdata, cart } = useSelector(
     (state: RootState) => state.allcarts
   );
@@ -220,7 +219,7 @@ const Admin = () => {
   }, []);
 
   const { images } = useSelector((state:RootState) => state.allimages);
-  const singleimage = images.filter((data) => data._id === ImageUpdateId)[0]
+  const singleimage = images?.filter((data) => data._id === ImageUpdateId)[0]
   // console.log("Single image: ", singleimage);
 
   useEffect(() => {
@@ -344,7 +343,7 @@ const Admin = () => {
   const updateclose = () => {
     setupdateopen(false);
   };
-  const handleupdate = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleupdate = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateitem({ id: singleproduct._id, ...updatedata })).then(() => {
       toast.success("Item updated successfully", {
@@ -395,7 +394,7 @@ const Admin = () => {
     dispatch(deleteImage(ImageId)).then(() => {
       dispatch(getImages());
       toast.success("Image Deleted Successfully", {
-        position: "top-left",
+        position: "top-right",
         style: {
           top: "78px",
         },
@@ -410,8 +409,8 @@ const Admin = () => {
 
   const handleimageSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("setimgUrl", imgPath);
-    console.log("setimgTitle", title);
+    // console.log("setimgUrl", imgPath);
+    // console.log("setimgTitle", title);
     dispatch(addImages({ imgPath, title })).then(() => {
       dispatch(getImages());
       setimageadddrawer(false);
@@ -419,7 +418,7 @@ const Admin = () => {
     });
   };
 
-  const hanldeImageUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+  const hanldeImageUpdate = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateImageapi({ id: singleimage._id, ...updateImage })).then(
       () => {
@@ -631,22 +630,18 @@ const Admin = () => {
  
 
 
-      {/* Queries Tooltip */}
-      <Tooltip title="Queries" placement="right">
-        <div
-          className="badge"
-          style={{ position: "fixed", left: "29px", top: "291px" }}
-        >
-          <Badge count={lengthofquery}>
-            <i
-              className="fa-solid fa-envelope"
-              style={{ fontSize: "28px", color: "rgb(22,119,254)" }}
-              onClick={() => {
-                setquerybox(true);
-              }}
-            ></i>
-          </Badge>
-        </div>
+  
+       {/* Offers Tooltip */}
+       <Tooltip title="Offers" placement="right">
+        <FloatButton
+          style={{
+            left: 26,
+            top: 285,
+          }}
+          type="primary"
+          icon={<i className="fa-solid fa-tag"></i>}
+          onClick={() => setOfferDrawer(true)}
+        />
       </Tooltip>
 
       {/* Category Tooltip */}
@@ -703,18 +698,24 @@ const Admin = () => {
           onClick={openstat}
         />
       </Tooltip>
-      {/* Offers Tooltip */}
-      <Tooltip title="Offers" placement="right">
-        <FloatButton
-          style={{
-            left: 23,
-            top: 380,
-          }}
-          type="primary"
-          icon={<i className="fa-solid fa-tag"></i>}
-          onClick={() => setOfferDrawer(true)}
-        />
+          {/* Queries Tooltip */}
+          <Tooltip title="Queries" placement="right">
+        <div
+          className="badge"
+          style={{ position: "fixed", left: "29px", top: "384px" }}
+        >
+          <Badge count={lengthofquery}>
+            <i
+              className="fa-solid fa-envelope"
+              style={{ fontSize: "28px", color: "rgb(22,119,254)" }}
+              onClick={() => {
+                setquerybox(true);
+              }}
+            ></i>
+          </Badge>
+        </div>
       </Tooltip>
+     
 
       <Container>
         <div className="controls">
@@ -1251,7 +1252,10 @@ const Admin = () => {
                 value={apiproducts.length}
                 valueStyle={{ color: "graytext" }}
                 suffix="Items"
-                prefix={<ShoppingOutlined style={{ color: "red" }} />}
+                prefix={<i
+                  className="fa-solid fa-bag-shopping"
+                  style={{ fontSize: "28px", color: "rgb(22,119,255)" }}
+                ></i>}
               />
             </Card>
           </Col>
@@ -1276,7 +1280,7 @@ const Admin = () => {
                 valueStyle={{ color: "graytext" }}
                 suffix="Units"
                 prefix={
-                  <ShoppingCartOutlined style={{ color: "dodgerblue" }} />
+                  <ShoppingCartOutlined style={{ color: "rgb(22,119,255)" }} />
                 }
               />
             </Card>
@@ -1316,13 +1320,13 @@ const Admin = () => {
                 title="Total Users Records"
                 value={users.length}
                 valueStyle={{ color: "graytext" }}
-                prefix={<FileDoneOutlined style={{ color: "red" }} />}
+                prefix={<FileDoneOutlined style={{ color:"red"}} />}
               />
             </Card>
           </Col>
         </Row>
         <h1 style={{ color: "black" }}>
-          Recent Orders <i className="fa-solid fa-bag-shopping"></i>
+          Recent Orders <i className="fa-solid fa-bag-shopping" style={{color:"rgb(22,119,255)"}}></i>
         </h1>
         {showbutton && (
           <span style={{ float: "right" }}>
@@ -1468,7 +1472,15 @@ const Admin = () => {
         width={350}
         zIndex={9999}
         placement="left"
-        extra={<AntButton onClick={handleimage}>Add Images</AntButton>}
+        extra={
+          <>
+          <Space>
+          <AntButton onClick={handleimage}>Add Images</AntButton>
+           <AntButton onClick={()=>seteditImage(false)} type="primary">Close</AntButton>
+          </Space>
+          
+          </>
+      }
       >
         {images &&
           images?.map((data) => (

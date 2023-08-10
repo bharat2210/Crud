@@ -618,7 +618,7 @@ const Apiproducts = () => {
                 position: "absolute",
                 top: "205px",
              
-                fontSize: "30px",
+                fontSize: "20px",
                 backgroundColor: "graytext",
                 color: "white",
                 borderRadius: "100%",
@@ -639,8 +639,8 @@ const Apiproducts = () => {
               style={{
                 position: "absolute",
                 top: "205px",
-                left: "610px",
-                fontSize: "30px",
+                left: "618px",
+                fontSize: "20px",
                 backgroundColor: "graytext",
                 color: "white",
                 borderRadius: "100%",

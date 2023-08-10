@@ -3,7 +3,7 @@
     display:flex;
     flex-direction:row;
     gap:50px;
-    margin-left:580px;
+    margin-left:130px;
 
   }
 
@@ -17,6 +17,10 @@
     background-size:cover;
     background-repeat:no-repeat;
     background-position:center;
+    transition: transform .5s ease-in-out;
+  }
+  .man:hover{
+    transform: scale(1.02);
   }
   .man_text{
     height:120px;
@@ -35,6 +39,10 @@
     background-size:cover;
     background-repeat:no-repeat;
     background-position:center;
+    transition: transform .5s ease-in-out;
+  }
+  .video:hover{
+    transform: scale(1.02);
   }
   .video_text{
     height:120px;

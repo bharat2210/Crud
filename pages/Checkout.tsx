@@ -80,7 +80,7 @@ const Checkout = () => {
 
   const handlesubmit = (e: any) => {
     e.preventDefault();
-     const Cardyear=expiryYear.$y;
+     const Cardyear=expiryYear?.$y;
      console.log("Cardyear", Cardyear);
      const date= new Date();
      const currentYear= date.getFullYear();
@@ -88,7 +88,7 @@ const Checkout = () => {
     
     if (cart.length === 0) {
       alert("Please add Items to Cart");
-    } else if(Cardyear<currentYear) {
+    } else if(Cardyear < currentYear) {
       alert("Card is expired")
     }else{
       setordersuccess(true)

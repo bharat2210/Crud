@@ -22,13 +22,17 @@ import LatestHeading from "../Landing_Components/LatestHeading";
 import CollegeHeading from "../Landing_Components/CollegeHeading";
 import OffersComp from "../Landing_Components/OffersComp";
 import ShopbyCat_Comp from "../Landing_Components/ShopbyCat_Comp";
+import ApplePass from "../Landing_Components/ApplePass";
+import ApplepassHeading from "../Landing_Components/ApplepassHeading";
+import Savings from "../Landing_Components/Savings";
+import SavingHeading from "../Landing_Components/SavingHeading";
+import Accessories from "../Landing_Components/Accessories";
+import AccHeading from "../Landing_Components/AccHeading";
 // Libraries imports
 import Aos from "aos";
 // Styles imports
 import main from "../styles/Mainum_main.module.css";
 import servicesstyling from "../styles/Services.module.css";
-
-
 
 
 
@@ -94,12 +98,18 @@ const Landing = () => {
             <h1>Get Support</h1>
           </div>
     
-       <AppleCare />
+          <AppleCare />
           <Tradein />
           <LadyComp />
           <LatestComp /><br /><br /><br />
           <LatestHeading /><br />
           <ProBeyond /><br /><br /><br />
+          <AccHeading/><br />
+          <Accessories/><br /><br /><br />
+          <ApplepassHeading/><br />
+          <ApplePass/><br /><br /><br />
+          <SavingHeading/><br />
+          <Savings/><br /><br /><br />
           <ManHeading /><br />
           <Man /><br /><br /><br />
           <CollegeHeading/>

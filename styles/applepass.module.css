@@ -1,0 +1,41 @@
+.applepass_container{
+    display: flex;
+    flex-direction: row;
+    margin-left: 580px;
+    height: 420px;
+    width:850px;
+     gap: 50px;
+    
+}
+.pass{
+    height: 420px;
+    width: 425px;
+    border-radius: 28px;
+    background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-50-tv-services-mls-202307?wid=480&hei=500&fmt=p-jpg&qlt=95&.v=1690223894831);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: transform .5s ease-in-out;
+   
+}
+.pass:hover{
+    transform: scale(1.02);
+}
+
+.six_services{
+    height: 420px;
+    width: 425px;
+    border-radius: 28px;
+    background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-50-subscriptions-202108_GEO_US?wid=480&hei=500&fmt=p-jpg&qlt=95&.v=1626375546000);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: transform .5s ease-in-out;
+}
+.six_services:hover{
+    transform: scale(1.02);
+}
+.textHeading{
+    margin: 15px 0px 0px 15px;
+    padding: 8px;
+}
