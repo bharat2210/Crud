@@ -33,6 +33,9 @@ import Aos from "aos";
 // Styles imports
 import main from "../styles/Mainum_main.module.css";
 import servicesstyling from "../styles/Services.module.css";
+import Student from "../Landing_Components/Student";
+import StudentHeading from "../Landing_Components/StudentHeading";
+import Student2 from "../Landing_Components/Student2";
 
 
 
@@ -113,7 +116,10 @@ const Landing = () => {
           <ManHeading /><br />
           <Man /><br /><br /><br />
           <CollegeHeading/>
-          <BacktoCollege />
+          <BacktoCollege /><br /><br /><br />
+          <StudentHeading/><br />
+          <Student/>
+          <Student2/><br />
           <CollegeAccessories />
           <MacImage />
     

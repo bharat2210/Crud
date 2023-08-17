@@ -20,7 +20,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 // Antd imports
-
 import { Tooltip } from "antd";
 // Var imports
 import { Current_User_Type } from "./Permisions";
@@ -88,7 +87,7 @@ function Navbar1() {
   const handleLogout = () => {
     localStorage.clear();
     setLocalStorageValue(false);
-    router.push("/Signup");
+    router.push("/Login");
   };
   const handlepost = () => {
     router.push("/Landing");

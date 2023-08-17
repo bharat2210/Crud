@@ -1,0 +1,41 @@
+.main_Student{
+    height: 402px;
+    width: 900px;
+ 
+    display: flex;
+    flex-direction: row;
+    margin-left: 350px;
+    gap: 10px;
+
+}
+.student_col1{
+    height: 400px;
+    width: 600px;
+    border-radius: 28px;
+    background-image: url(https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/bts-student-aid-tradein-202306?wid=230&hei=400&fmt=png-alpha&.v=1684521933598);
+    background-repeat: no-repeat;
+   background-position: 90%;
+   background-color: white;
+   line-height: 28px;
+   padding: 8px;
+
+}
+.text_student_col1{
+    height: 200px;
+    width: 300px;
+    margin-top: 12%;
+    margin-left: 5%;
+  
+}
+.student_col2{
+    height: 400px;
+    width: 300px;
+    border-radius: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center ;
+    line-height: 28px;
+    background-color: white;
+    padding: 8px;
+}

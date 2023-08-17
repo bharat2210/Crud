@@ -3,12 +3,13 @@ import userdetail from "./Features/userdetail";
 import authSlice from "./Features/demo";
 import ruserdetail from "./Features/register";
 import productsslice from "./Features/productsslice";
-import demoslice  from './Features/exp';
+
 import pinslice  from './Features/pin';
 import messageSlice from './Features/message'
 import imgSlice from './Features/imageCarousel'
 import categorySlice from './Features/Category'
 import OfferSlice from './Features/Offers'
+import PeopleSlice from './Features/crud'
 
 
 
@@ -18,12 +19,12 @@ export const store = configureStore({
     auth: authSlice,
     grand: ruserdetail,
     allcarts: productsslice,
-    alldemo: demoslice,
     allcode:pinslice,
     allmessages:messageSlice,
     allimages:imgSlice,
     allcategories:categorySlice,
-    alloffers:OfferSlice
+    alloffers:OfferSlice,
+    allpeople:PeopleSlice
  
     
 

@@ -28,7 +28,7 @@ const Footer = () => {
    padding: 30px 0px 12px 0px;
   width: auto;
   height:auto;
-  margin-top:30px;
+  margin-top:275px;
   border-radius:95px 0px 0px 0px;
   
 }
