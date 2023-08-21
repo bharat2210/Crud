@@ -14,7 +14,7 @@ const handler=async(req:NextApiRequest,res:NextApiResponse)=>{
                 {name,age,email},
                 {new:true}
                 )
-             res.status(202).send(data)
+             res.status(200).send(data)
         }catch(error){
             res.status(500).json({message:"Internal Server Error"})
         }
